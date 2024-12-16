@@ -29,9 +29,25 @@
 		F4F874AA2D0D0E56000B1E12 /* TapRushUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TapRushUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F4F874D72D0D1EE0000B1E12 /* Exceptions for "TapRush" folder in "TapRushTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Presentation/Campaign/CampaignView.swift,
+				Presentation/Dashboard/DashboardView.swift,
+				Presentation/Dashboard/DashboardViewModel.swift,
+				Presentation/Reusable/ButtonCountView.swift,
+			);
+			target = F4F8749F2D0D0E56000B1E12 /* TapRushTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F4F874912D0D0E54000B1E12 /* TapRush */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F4F874D72D0D1EE0000B1E12 /* Exceptions for "TapRush" folder in "TapRushTests" target */,
+			);
 			path = TapRush;
 			sourceTree = "<group>";
 		};
