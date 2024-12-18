@@ -29,9 +29,34 @@
 		F4F874AA2D0D0E56000B1E12 /* TapRushUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TapRushUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F4F874D72D0D1EE0000B1E12 /* Exceptions for "TapRush" folder in "TapRushTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Presentation/Campaign/CampaignView.swift,
+				Presentation/Dashboard/DashboardView.swift,
+				Presentation/Dashboard/DashboardViewModel.swift,
+				Presentation/Reusable/ButtonCountView.swift,
+				"Shared/Project Fonts/Audiowide-Regular.ttf",
+			);
+			target = F4F8749F2D0D0E56000B1E12 /* TapRushTests */;
+		};
+		F4F875192D10CB95000B1E12 /* Exceptions for "TapRush" folder in "TapRush" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F4F8748E2D0D0E54000B1E12 /* TapRush */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F4F874912D0D0E54000B1E12 /* TapRush */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F4F875192D10CB95000B1E12 /* Exceptions for "TapRush" folder in "TapRush" target */,
+				F4F874D72D0D1EE0000B1E12 /* Exceptions for "TapRush" folder in "TapRushTests" target */,
+			);
 			path = TapRush;
 			sourceTree = "<group>";
 		};
@@ -396,6 +421,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TapRush/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -435,6 +461,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TapRush/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
