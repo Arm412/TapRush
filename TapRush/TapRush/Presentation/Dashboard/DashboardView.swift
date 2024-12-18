@@ -12,8 +12,7 @@ struct DashboardView: View {
         NavigationView {
             VStack {
                 Text("TapRush!")
-                    .font(Font.system(size: 70))
-                    .italic()
+                    .font(.custom("Audiowide-Regular", size: 70))
                     .foregroundStyle(Color.lightningYellow)
                 
                 Spacer()
@@ -26,22 +25,23 @@ struct DashboardView: View {
                             RoundedRectangle(cornerRadius: 15)
                                 .stroke(Color.perano, lineWidth: 5)
                         )
-                        .font(Font.system(size: 40))
+                        .font(.custom("Audiowide-Regular", size: 40))
                         .foregroundStyle(Color.lightningYellow)
                         .padding()
                 }
                 
-                Text("Quick Play")
-                    .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(Color.perano, lineWidth: 5)
-                    )
-                    .font(Font.system(size: 40))
-                    .foregroundStyle(Color.lightningYellow)
-                    .padding()
-                
+                NavigationLink(destination: ButtonCountView()) {
+                    Text("Quick Play")
+                        .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.perano, lineWidth: 5)
+                        )
+                        .font(.custom("Audiowide-Regular", size: 40))
+                        .foregroundStyle(Color.lightningYellow)
+                        .padding()
+                }
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
