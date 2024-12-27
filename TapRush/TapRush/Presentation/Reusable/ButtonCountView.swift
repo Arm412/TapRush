@@ -8,16 +8,19 @@
 import SwiftUI
 
 struct ButtonCountView: View {
+    @Binding var updateCount: Count
     @State var counter: Int = 0
     @State var isPressed: Bool = false
     @State var pointsPerClick = 1
     @State private var numbers: [SlidingNumber] = []
+
+//    var startCount: Int
     
     var body: some View {
         VStack {
             Spacer()
             
-            Text("\(counter)")
+            Text("\(updateCount.count)")
                 .font(Font.system(size: 50))
                 .foregroundStyle(Color.lightningYellow)
             
@@ -86,12 +89,15 @@ struct ButtonCountView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
         .background(Color.arapawa)
+        .onAppear {
+//            updateCount = startCount
+        }
     }
     
     func increment() {
         let newNumber = SlidingNumber(id: UUID(), position: CGPoint(x: CGFloat.random(in: -150...150), y: CGFloat.random(in: 100...200)))
         numbers.append(newNumber)
-        counter += 1
+        updateCount.count += 1
     }
 }
 
@@ -102,5 +108,6 @@ struct SlidingNumber: Identifiable {
 }
 
 #Preview {
-    ButtonCountView()
+    @Previewable @State var currentCount = Count(count: 0)
+    ButtonCountView(updateCount: $currentCount)
 }

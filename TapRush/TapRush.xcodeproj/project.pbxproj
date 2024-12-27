@@ -33,6 +33,7 @@
 		F4F874D72D0D1EE0000B1E12 /* Exceptions for "TapRush" folder in "TapRushTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Domain/Count.swift,
 				Presentation/Campaign/CampaignView.swift,
 				Presentation/Dashboard/DashboardView.swift,
 				Presentation/Dashboard/DashboardViewModel.swift,
