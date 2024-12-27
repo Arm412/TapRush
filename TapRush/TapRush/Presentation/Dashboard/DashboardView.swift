@@ -13,7 +13,7 @@ struct DashboardView: View {
             VStack {
                 Text("TapRush!")
                     .font(.custom("Audiowide-Regular", size: 70))
-                    .foregroundStyle(Color.lightningYellow)
+                    .foregroundStyle(Color.peachOrange)
                 
                 Spacer()
                 
@@ -23,10 +23,10 @@ struct DashboardView: View {
                         .padding()
                         .background(
                             RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.perano, lineWidth: 5)
+                                .stroke(Color.peachOrange, lineWidth: 5)
                         )
                         .font(.custom("Audiowide-Regular", size: 40))
-                        .foregroundStyle(Color.lightningYellow)
+                        .foregroundStyle(Color.peachOrange)
                         .padding()
                 }
                 
@@ -36,17 +36,17 @@ struct DashboardView: View {
                         .padding()
                         .background(
                             RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.perano, lineWidth: 5)
+                                .stroke(Color.peachOrange, lineWidth: 5)
                         )
                         .font(.custom("Audiowide-Regular", size: 40))
-                        .foregroundStyle(Color.lightningYellow)
+                        .foregroundStyle(Color.peachOrange)
                         .padding()
                 }
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding()
-            .background(Color.arapawa)
+            .background(Color.outerSpace)
         }
     }
 }
