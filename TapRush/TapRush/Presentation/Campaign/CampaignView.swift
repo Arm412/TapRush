@@ -23,6 +23,13 @@ struct CampaignView: View {
             if let firstCount = count.first {
                 // If a count exists, bind it to `count`
                 currentCount = firstCount
+            } else {
+                context.insert(currentCount)
+                do {
+                    try context.save()
+                } catch {
+                    print("An error occurred: \(error)")
+                }
             }
         }
         .onDisappear {
