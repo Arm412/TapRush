@@ -35,6 +35,7 @@
 			membershipExceptions = (
 				Domain/Count.swift,
 				Presentation/Campaign/CampaignView.swift,
+				Presentation/Campaign/CampaignViewModel.swift,
 				Presentation/Dashboard/DashboardView.swift,
 				Presentation/Dashboard/DashboardViewModel.swift,
 				Presentation/Reusable/ButtonCountView.swift,

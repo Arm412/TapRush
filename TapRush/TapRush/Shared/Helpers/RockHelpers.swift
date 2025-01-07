@@ -8,11 +8,11 @@
 import Foundation
 
 struct RockStates {
-    let beginner: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6"]
-    let novice: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6"]
-    let advanced: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6"]
-    let proficient: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6"]
-    let expert: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6"]
+    let beginner: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6", "rockstates7", "rockstates8", "rockstates9"]
+    let novice: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6", "rockstates7", "rockstates8", "rockstates9"]
+    let advanced: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6", "rockstates7", "rockstates8", "rockstates9"]
+    let proficient: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6", "rockstates7", "rockstates8", "rockstates9"]
+    let expert: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6", "rockstates7", "rockstates8", "rockstates9"]
 }
 
 enum RockType{
