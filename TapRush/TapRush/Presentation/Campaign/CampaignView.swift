@@ -81,10 +81,6 @@ struct CampaignView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.outerSpace)
-        .onAppear {
-        }
-        .onDisappear {
-        }
     }
 }
 

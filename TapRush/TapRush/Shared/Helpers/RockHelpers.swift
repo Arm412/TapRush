@@ -28,6 +28,7 @@ struct Rock: Identifiable {
     var position: CGPoint
     var states: [String]
     var stateIndex: Int = 0
+    var gemSprites: [String] = Gem().none
     
     init(id: UUID, position: CGPoint, rockType: RockType) {
         let rockStates = RockStates()
@@ -53,4 +54,12 @@ struct Rock: Identifiable {
             break
             }
     }
+}
+
+struct Gem {
+    let none: [String] = []
+    let common: [String] = ["purpEmerald1", "purpEmerald2"]
+    let uncommon: [String] = ["purpEmerald1", "purpEmerald2"]
+    let rare: [String] = ["purpEmerald1", "purpEmerald2"]
+    let legendary: [String] = ["purpEmerald1", "purpEmerald2"]
 }
