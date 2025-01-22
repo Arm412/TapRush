@@ -60,18 +60,31 @@ struct CampaignView: View {
             GeometryReader { geo in
                 ZStack {
                     ForEach(campaignVM.rocks.indices, id: \.self) { index in
-                        Image(campaignVM.rocks[index].states[campaignVM.rocks[index].stateIndex])
-                            .position(campaignVM.rocks[index].position)
-                            .onChange(of:
-                                        campaignVM.rocks[index].stateIndex) {
-                                if campaignVM.rocks[index].stateIndex == 5 {
-                                    campaignVM.startStateUpdateTimer(index: index)
+                        let currentRock = campaignVM.rocks[index]
+                        if !currentRock.isDepleted {
+                            Image(currentRock.states[currentRock.stateIndex])
+                                .position(currentRock.position)
+                                .onChange(of:
+                                            currentRock.stateIndex) {
+                                    if currentRock.stateIndex == 5 {
+                                        campaignVM.startStateUpdateTimer(index: index)
+                                    }
                                 }
-                            }
-                            .onTapGesture {
-                                print("Pressed \(campaignVM.rocks[index].stateIndex)")
-                                campaignVM.rocks[index].stateIndex += 1
-                            }
+                                .onTapGesture {
+                                    print("Pressed \(campaignVM.rocks[index].stateIndex)")
+                                    campaignVM.rocks[index].stateIndex += 1
+                                }
+                        } else if (currentRock.isDepleted && currentRock.hasGem){
+                            Image(currentRock.gemSprites[0])
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 80, height: 80)
+                                .position(currentRock.position)
+                                .onTapGesture {
+                                    campaignVM.rocks.remove(at: index)
+                                    campaignVM.createRock()
+                                }
+                        }
                     }
                 }
                 .onAppear {

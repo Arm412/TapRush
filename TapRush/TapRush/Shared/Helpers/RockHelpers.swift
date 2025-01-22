@@ -29,6 +29,8 @@ struct Rock: Identifiable {
     var states: [String]
     var stateIndex: Int = 0
     var gemSprites: [String] = Gem().none
+    var isDepleted = false
+    var hasGem = true
     
     init(id: UUID, position: CGPoint, rockType: RockType) {
         let rockStates = RockStates()
@@ -53,6 +55,16 @@ struct Rock: Identifiable {
             self.states = rockStates.beginner
             break
             }
+    }
+    
+    mutating func determineGem() {
+        let randomNumber = Int.random(in: 1...100)
+        if randomNumber < 75 {
+            gemSprites = Gem().common
+        } else {
+            gemSprites = Gem().none
+            hasGem = false
+        }
     }
 }
 
