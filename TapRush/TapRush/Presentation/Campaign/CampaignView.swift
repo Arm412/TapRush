@@ -60,30 +60,40 @@ struct CampaignView: View {
             GeometryReader { geo in
                 ZStack {
                     ForEach(campaignVM.rocks.indices, id: \.self) { index in
-                        let currentRock = campaignVM.rocks[index]
-                        if !currentRock.isDepleted {
-                            Image(currentRock.states[currentRock.stateIndex])
-                                .position(currentRock.position)
-                                .onChange(of:
-                                            currentRock.stateIndex) {
-                                    if currentRock.stateIndex == 5 {
-                                        campaignVM.startStateUpdateTimer(index: index)
-                                    }
-                                }
+                        if !campaignVM.rocks[index].isDepleted {
+                            Image(campaignVM.rocks[index].states[campaignVM.rocks[index].stateIndex])
+                                .position(campaignVM.rocks[index].position)
                                 .onTapGesture {
                                     print("Pressed \(campaignVM.rocks[index].stateIndex)")
                                     campaignVM.rocks[index].stateIndex += 1
+                                    if campaignVM.rocks[index].stateIndex == campaignVM.rocks[index].states.count {
+//                                        campaignVM.startStateUpdateTimer(index: index)
+//                                        campaignVM.rocks[index].startAnimation()
+                                        campaignVM.rocks[index].isDepleted = true
+                                    }
                                 }
-                        } else if (currentRock.isDepleted && currentRock.hasGem){
-                            Image(currentRock.gemSprites[0])
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80)
-                                .position(currentRock.position)
-                                .onTapGesture {
-                                    campaignVM.rocks.remove(at: index)
-                                    campaignVM.createRock()
-                                }
+                        } else {
+                            if (!campaignVM.rocks[index].dustSettled) {
+                                var dustCloud = campaignVM.rocks[index].dust
+                                Image(dustCloud.dustCloudSprites[dustCloud.spriteIndex])
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .position(campaignVM.rocks[index].position)
+                                    .onAppear() {
+                                        campaignVM.startStateUpdateTimer(index: index)
+                                    }
+                            } else {
+                                Image(campaignVM.rocks[index].gemSprites[0])
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .position(campaignVM.rocks[index].position)
+                                    .onTapGesture {
+                                        campaignVM.rocks.remove(at: index)
+                                        campaignVM.createRock()
+                                    }
+                            }
                         }
                     }
                 }

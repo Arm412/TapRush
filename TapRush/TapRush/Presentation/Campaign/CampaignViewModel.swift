@@ -14,8 +14,6 @@ class CampaignViewModel: ObservableObject {
     @Published var miningSiteWidth: CGFloat = 0
     @Published var miningSiteHeight: CGFloat = 0
     
-    var stateUpdateTimer: Timer?
-    
     func initRocks(geo: GeometryProxy) {
         miningSiteWidth = geo.size.width
         miningSiteHeight = geo.size.height
@@ -55,32 +53,31 @@ class CampaignViewModel: ObservableObject {
     }
     
     func startStateUpdateTimer(index: Int) {
-        stateUpdateTimer?.invalidate()
+        rocks[index].animationTimer?.invalidate()
         
-        stateUpdateTimer = Timer.scheduledTimer(withTimeInterval: 1/60, repeats: true) { [weak self] _ in
-            Task { [weak self] in
-                await self?.updateStateIndex(index: index)
+        rocks[index].determineGem()
+        
+        rocks[index].animationTimer = Timer.scheduledTimer(withTimeInterval: 1/10, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.updateStateIndex(index: index)
             }
         }
     }
 
     @objc func updateStateIndex(index: Int) {
-        print("rocks[index].stateIndex: \(rocks[index].stateIndex)")
-        if rocks[index].stateIndex == 8 {
-            stateUpdateTimer?.invalidate()
-            stateUpdateTimer = nil
+        print("rocks[\(index)].dust.spriteIndex: \(rocks[index].dust.spriteIndex)")
+        if rocks[index].dust.spriteIndex == rocks[index].dust.dustCloudSprites.count - 1 {
+            rocks[index].animationTimer?.invalidate()
+            rocks[index].animationTimer = nil
             
-            rocks[index].isDepleted = true
-            rocks[index].determineGem()
-            
-            if !rocks[index].hasGem {
+            rocks[index].dustSettled = true
+            if (!rocks[index].hasGem) {
                 rocks.remove(at: index)
                 createRock()
             }
-            
-            return
+        } else {
+            rocks[index].dust.spriteIndex += 1
         }
-        
-        rocks[index].stateIndex += 1
     }
 }

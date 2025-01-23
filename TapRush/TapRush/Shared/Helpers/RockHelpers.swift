@@ -8,11 +8,11 @@
 import Foundation
 
 struct RockStates {
-    let beginner: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6", "rockstates7", "rockstates8", "rockstates9"]
-    let novice: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6", "rockstates7", "rockstates8", "rockstates9"]
-    let advanced: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6", "rockstates7", "rockstates8", "rockstates9"]
-    let proficient: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6", "rockstates7", "rockstates8", "rockstates9"]
-    let expert: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5", "rockstates6", "rockstates7", "rockstates8", "rockstates9"]
+    let beginner: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5"]
+    let novice: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5"]
+    let advanced: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5"]
+    let proficient: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5"]
+    let expert: [String] = ["rockstates1", "rockstates2", "rockstates3", "rockstates4", "rockstates5"]
 }
 
 enum RockType{
@@ -31,6 +31,9 @@ struct Rock: Identifiable {
     var gemSprites: [String] = Gem().none
     var isDepleted = false
     var hasGem = true
+    var animationTimer: Timer? = nil
+    var dust: DustCloud = DustCloud()
+    var dustSettled = false
     
     init(id: UUID, position: CGPoint, rockType: RockType) {
         let rockStates = RockStates()
@@ -57,6 +60,12 @@ struct Rock: Identifiable {
             }
     }
     
+    mutating func stopAnimation() {
+        print("Invalidate")
+        animationTimer?.invalidate()
+        animationTimer = nil
+    }
+    
     mutating func determineGem() {
         let randomNumber = Int.random(in: 1...100)
         if randomNumber < 75 {
@@ -74,4 +83,10 @@ struct Gem {
     let uncommon: [String] = ["purpEmerald1", "purpEmerald2"]
     let rare: [String] = ["purpEmerald1", "purpEmerald2"]
     let legendary: [String] = ["purpEmerald1", "purpEmerald2"]
+}
+
+
+struct DustCloud {
+    let dustCloudSprites = ["dustCloud1", "dustCloud2", "dustCloud1", "dustCloud2", "dustCloud1", "dustCloud2"]
+    var spriteIndex = 0
 }
