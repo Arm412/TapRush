@@ -96,7 +96,17 @@ struct CampaignView: View {
                     }
                 }
                 .onAppear {
+                    if let firstCount = count.first {
+                        currentCount = firstCount
+                    }
                     campaignVM.initRocks(geo: geo)
+                }
+                .onDisappear {
+                    do {
+                        try context.save()
+                    } catch {
+                        print("An error occurred: \(error)")
+                    }
                 }
             }
         }
