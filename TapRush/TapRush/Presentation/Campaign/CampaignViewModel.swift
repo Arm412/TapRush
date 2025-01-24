@@ -13,14 +13,19 @@ class CampaignViewModel: ObservableObject {
     @Published var rocks: [Rock] = []
     @Published var miningSiteWidth: CGFloat = 0
     @Published var miningSiteHeight: CGFloat = 0
+    let campaignDashboardNavButtons: [CampaignScreens] = [
+        CampaignScreens(name: "Mines", destination: MineView(), icon: Image(systemName: "paperplane.fill"), primaryColor: Color.black, secondaryColor: Color.white),
+        CampaignScreens(name: "Mines", destination: MineView(), icon: Image(systemName: "paperplane.fill"), primaryColor: Color.black, secondaryColor: Color.white),
+        CampaignScreens(name: "Store", destination: CampaignStoreView(), icon: Image(systemName: "document.fill"), primaryColor: Color.black, secondaryColor: Color.white),
+        CampaignScreens(name: "Store", destination: CampaignStoreView(), icon: Image(systemName: "document.fill"), primaryColor: Color.black, secondaryColor: Color.white)]
     
     func initRocks(geo: GeometryProxy) {
         miningSiteWidth = geo.size.width
         miningSiteHeight = geo.size.height
         
-        for _ in 0...9 {
+        while rocks.count != 10 {
             rocks.append(createRock())
-        }
+        } 
     }
     
     func createRock() -> Rock {

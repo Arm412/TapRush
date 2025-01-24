@@ -38,7 +38,6 @@
 				Presentation/Campaign/CampaignViewModel.swift,
 				Presentation/Dashboard/DashboardView.swift,
 				Presentation/Dashboard/DashboardViewModel.swift,
-				Presentation/Reusable/ButtonCountView.swift,
 				"Shared/Project Fonts/Audiowide-Regular.ttf",
 			);
 			target = F4F8749F2D0D0E56000B1E12 /* TapRushTests */;

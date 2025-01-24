@@ -1,117 +1,88 @@
-//
-//  CampaignView.swift
-//  TapRush
-//
-//  Created by Adam Mitro on 12/13/24.
-//
-
 import SwiftUI
 import SwiftData
 
 struct CampaignView: View {
+    @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) private var context
     
     @Query var count: [Count]
     
     @State var currentCount: Count = Count(count: 0)
     
-    @State private var lastUpdate = Date()
-    
     @StateObject private var campaignVM = CampaignViewModel()
     
+    let columns: [GridItem] = [
+            GridItem(.flexible(minimum: 50)),
+            GridItem(.flexible(minimum: 10))
+        ]
+    
     var body: some View {
-        VStack {
-            HStack {
-                Image(systemName: "house.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
-                    .foregroundStyle(Color.peachOrange)
-                Spacer()
-                VStack {
-                    HStack {
-                        Image("purpEmerald1")
+        NavigationView { // Wrap the entire view in a NavigationView
+            VStack {
+                // Top navigation bar
+                HStack {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image(systemName: "house.fill")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 40, height: 40)
-                        
-                        Text("\(currentCount.count)")
                             .foregroundStyle(Color.peachOrange)
-                            .font(.system(size: 25))
                     }
-                }
-                Spacer()
-                Image(systemName: "storefront.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
-                    .foregroundStyle(Color.peachOrange)
-            }
-            .padding()
-            .frame(maxWidth: .infinity)
-            .overlay(
-                    Rectangle()
-                        .frame(height: 2)
-                        .foregroundColor(Color.peachOrange)
-                        .padding(.top, 48),
-                    alignment: .bottom
-                )
-            Spacer()
-            GeometryReader { geo in
-                ZStack {
-                    ForEach(campaignVM.rocks.indices, id: \.self) { index in
-                        if !campaignVM.rocks[index].isDepleted {
-                            Image(campaignVM.rocks[index].states[campaignVM.rocks[index].stateIndex])
-                                .position(campaignVM.rocks[index].position)
-                                .onTapGesture {
-                                    print("Pressed \(campaignVM.rocks[index].stateIndex)")
-                                    campaignVM.rocks[index].stateIndex += 1
-                                    if campaignVM.rocks[index].stateIndex == campaignVM.rocks[index].states.count {
-                                        campaignVM.rocks[index].isDepleted = true
-                                    }
-                                }
-                        } else {
-                            if (!campaignVM.rocks[index].dustSettled) {
-                                let dustCloud = campaignVM.rocks[index].dust
-                                Image(dustCloud.dustCloudSprites[dustCloud.spriteIndex])
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 80, height: 80)
-                                    .position(campaignVM.rocks[index].position)
-                                    .onAppear() {
-                                        campaignVM.startStateUpdateTimer(index: index)
-                                    }
-                            } else {
-                                Image(campaignVM.rocks[index].gemSprites[0])
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 80, height: 80)
-                                    .position(campaignVM.rocks[index].position)
-                                    .onTapGesture {
-                                        campaignVM.rocks[index] = campaignVM.createRock()
-                                        currentCount.count += 1
-                                    }
-                            }
+                    Spacer()
+                    VStack {
+                        HStack {
+                            Image("purpEmerald1")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                            
+                            Text("\(currentCount.count)")
+                                .foregroundStyle(Color.peachOrange)
+                                .font(.system(size: 25))
                         }
                     }
-                }
-                .onAppear {
-                    if let firstCount = count.first {
-                        currentCount = firstCount
-                    }
-                    campaignVM.initRocks(geo: geo)
-                }
-                .onDisappear {
-                    do {
-                        try context.save()
-                    } catch {
-                        print("An error occurred: \(error)")
+                    Spacer()
+                    NavigationLink(destination: CampaignStoreView()) {
+                        Image(systemName: "storefront.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundStyle(Color.peachOrange)
                     }
                 }
-            }
+                .padding()
+                .frame(maxWidth: .infinity)
+                .overlay(
+                        Rectangle()
+                            .frame(height: 2)
+                            .foregroundColor(Color.peachOrange)
+                            .padding(.top, 48),
+                        alignment: .bottom
+                    )
+                
+                Spacer()
+                
+                VStack {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVGrid(columns: columns, spacing: 50) {
+                            ForEach(campaignVM.campaignDashboardNavButtons) { item in
+                                Text(item.name)
+                                    .padding()
+                                    .background(Color.blue)
+                                    .cornerRadius(8)
+                                    .foregroundColor(.white)
+                                    .padding()
+                            }
+                        }
+                        .padding()
+                    }
+                }
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.outerSpace)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.outerSpace)
+        .navigationBarBackButtonHidden(true)
     }
 }
 
