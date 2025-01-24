@@ -18,12 +18,12 @@ class CampaignViewModel: ObservableObject {
         miningSiteWidth = geo.size.width
         miningSiteHeight = geo.size.height
         
-        for i in 1...10 {
-            createRock()
+        for _ in 0...9 {
+            rocks.append(createRock())
         }
     }
     
-    func createRock() {
+    func createRock() -> Rock {
         var validCoordinate = false
         let screenWidth = miningSiteWidth
         let widthLimit = screenWidth - 100
@@ -49,7 +49,7 @@ class CampaignViewModel: ObservableObject {
             }
         }
         print("Add rock \(rockX), \(rockY)")
-        rocks.append(Rock(id: UUID(), position: CGPoint(x: rockX, y: rockY), rockType: .beginner))
+        return Rock(id: UUID(), position: CGPoint(x: rockX, y: rockY), rockType: .beginner)
     }
     
     func startStateUpdateTimer(index: Int) {
@@ -73,8 +73,7 @@ class CampaignViewModel: ObservableObject {
             
             rocks[index].dustSettled = true
             if (!rocks[index].hasGem) {
-                rocks.remove(at: index)
-                createRock()
+                rocks[index] = createRock()
             }
         } else {
             rocks[index].dust.spriteIndex += 1

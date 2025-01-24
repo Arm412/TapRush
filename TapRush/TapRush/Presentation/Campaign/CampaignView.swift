@@ -67,14 +67,12 @@ struct CampaignView: View {
                                     print("Pressed \(campaignVM.rocks[index].stateIndex)")
                                     campaignVM.rocks[index].stateIndex += 1
                                     if campaignVM.rocks[index].stateIndex == campaignVM.rocks[index].states.count {
-//                                        campaignVM.startStateUpdateTimer(index: index)
-//                                        campaignVM.rocks[index].startAnimation()
                                         campaignVM.rocks[index].isDepleted = true
                                     }
                                 }
                         } else {
                             if (!campaignVM.rocks[index].dustSettled) {
-                                var dustCloud = campaignVM.rocks[index].dust
+                                let dustCloud = campaignVM.rocks[index].dust
                                 Image(dustCloud.dustCloudSprites[dustCloud.spriteIndex])
                                     .resizable()
                                     .scaledToFit()
@@ -90,8 +88,8 @@ struct CampaignView: View {
                                     .frame(width: 80, height: 80)
                                     .position(campaignVM.rocks[index].position)
                                     .onTapGesture {
-                                        campaignVM.rocks.remove(at: index)
-                                        campaignVM.createRock()
+                                        campaignVM.rocks[index] = campaignVM.createRock()
+                                        currentCount.count += 1
                                     }
                             }
                         }
