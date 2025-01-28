@@ -12,14 +12,13 @@ struct CampaignView: View {
     @StateObject private var campaignVM = CampaignViewModel()
     
     let columns: [GridItem] = [
-            GridItem(.flexible(minimum: 50)),
-            GridItem(.flexible(minimum: 10))
+        GridItem(.flexible(maximum: 150)),
+        GridItem(.flexible(maximum: 150))
         ]
     
     var body: some View {
-        NavigationView { // Wrap the entire view in a NavigationView
+        NavigationView {
             VStack {
-                // Top navigation bar
                 HStack {
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
@@ -43,14 +42,6 @@ struct CampaignView: View {
                                 .font(.system(size: 25))
                         }
                     }
-                    Spacer()
-                    NavigationLink(destination: CampaignStoreView()) {
-                        Image(systemName: "storefront.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(Color.peachOrange)
-                    }
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -62,24 +53,32 @@ struct CampaignView: View {
                         alignment: .bottom
                     )
                 
-                Spacer()
-                
                 VStack {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        LazyVGrid(columns: columns, spacing: 50) {
-                            ForEach(campaignVM.campaignDashboardNavButtons) { item in
-                                Text(item.name)
-                                    .padding()
-                                    .background(Color.blue)
-                                    .cornerRadius(8)
-                                    .foregroundColor(.white)
-                                    .padding()
+                    LazyVGrid(columns: columns, spacing: 20) {
+                        ForEach(campaignVM.campaignDashboardNavButtons) { item in
+                            NavigationLink(destination: item.destination) {
+                                VStack {
+                                    Image(systemName: item.icon)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 40, height: 40)
+                                        .foregroundStyle(.peachOrange)
+                                    Text(item.name)
+                                        .foregroundStyle(.peachOrange)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(item.primaryColor)
+                                .border(.peachOrange, width: 2)
+                                .cornerRadius(5)
+                                .padding()
                             }
                         }
-                        .padding()
                     }
                 }
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.outerSpace)
         }
         .navigationBarBackButtonHidden(true)

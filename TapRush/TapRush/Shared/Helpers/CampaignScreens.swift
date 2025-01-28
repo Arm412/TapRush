@@ -10,14 +10,13 @@ import SwiftUICore
 
 struct CampaignScreens: Identifiable {
     var id: UUID
-    
     var name: String
-    var destination: any View
-    var icon: Image
+    var destination: AnyView
+    var icon: String
     var primaryColor: Color
     var secondaryColor: Color
     
-    init(name: String, destination: any View, icon: Image, primaryColor: Color, secondaryColor: Color) {
+    init(name: String, destination: AnyView, icon: String, primaryColor: Color, secondaryColor: Color) {
         self.id = UUID()
         self.name = name
         self.destination = destination
