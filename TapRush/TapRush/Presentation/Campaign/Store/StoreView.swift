@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct CampaignStoreView: View {
+struct StoreView: View {
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) private var context
     
@@ -63,5 +63,5 @@ struct CampaignStoreView: View {
 #Preview {
     let mockCount = Count(count: 5)
     
-    CampaignStoreView()
+    StoreView()
 }

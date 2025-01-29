@@ -9,6 +9,8 @@ struct CampaignView: View {
     
     @State var currentCount: Count = Count(count: 0)
     
+    @State var selectedMine: String = "Pebblebrook Quarry"
+    
     @StateObject private var campaignVM = CampaignViewModel()
     
     let columns: [GridItem] = [
@@ -77,7 +79,38 @@ struct CampaignView: View {
                     }
                 }
                 Spacer()
+                VStack {
+                    Text("Current Destination:")
+                        .foregroundStyle(.peachOrange)
+                        .font(.custom("Audiowide-Regular", size: 25))
+                    Text(selectedMine)
+                        .foregroundStyle(.peachOrange)
+                        .font(.custom("Audiowide-Regular", size: 25))
+                    NavigationLink(destination: MineView()) {
+                        HStack {
+                            Text("To the Mines!")
+                                .font(.custom("Audiowide-Regular", size: 25))
+                                .foregroundStyle(.peachOrange)
+                            Image("pickaxeAnimation5")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .foregroundStyle(.peachOrange)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(.outerSpace)
+                        .border(.peachOrange, width: 2)
+                        .cornerRadius(5)
+                        .padding(EdgeInsets(top: 20, leading: 50, bottom: 20, trailing: 50))
+                    }
+                }
             }
+            .onAppear(perform: {
+                if let firstCount = count.first {
+                    currentCount = firstCount
+                }
+            })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.outerSpace)
         }
