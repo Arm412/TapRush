@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DashboardView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 Text("TapRush!")
                     .font(.custom("Audiowide-Regular", size: 70))
@@ -29,6 +29,7 @@ struct DashboardView: View {
                         .foregroundStyle(Color.peachOrange)
                         .padding()
                 }
+                
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
