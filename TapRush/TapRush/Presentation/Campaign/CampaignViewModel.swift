@@ -13,7 +13,7 @@ class CampaignViewModel: ObservableObject {
     @Published var rocks: [Rock] = []
     @Published var miningSiteWidth: CGFloat = 0
     @Published var miningSiteHeight: CGFloat = 0
-    @Published var gemCount: [GemCount] = []
+    @Published var gemCount: GemCount
     let campaignDashboardNavButtons: [CampaignScreens] = [
         CampaignScreens(name: "Map", destination: AnyView(MapView()), icon: "map.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
         CampaignScreens(name: "Inventory", destination: AnyView(InventoryView()), icon: "shippingbox.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
@@ -22,13 +22,12 @@ class CampaignViewModel: ObservableObject {
         CampaignScreens(name: "Orders", destination: AnyView(OrdersView()), icon: "list.clipboard.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
         CampaignScreens(name: "Awards", destination: AnyView(AwardsView()), icon: "trophy.fill", primaryColor: .outerSpace, secondaryColor: .roseGold)]
     
-    func getGemCount() {
-        gemCount = CoreDataManager.shared.getGemCount()
-        print(gemCount)
+    init() {
+        self.gemCount = CoreDataManager.shared.getGemCount()[0]
+//        CoreDataManager.shared.deleteGemCount(gemCount: gemCount)
     }
     
     func delete(_ gemCount: GemCount) {
-        
         let existingGemCount = CoreDataManager.shared.getGemCountById(id: gemCount.objectID)
         if let existingGemCount = existingGemCount {
             CoreDataManager.shared.deleteGemCount(gemCount: existingGemCount)
@@ -37,11 +36,11 @@ class CampaignViewModel: ObservableObject {
     
     func save() {
         let gemCounts = GemCount(context: CoreDataManager.shared.viewContext)
-        gemCounts.common = gemCount[0].common
-        gemCounts.common = gemCount[0].uncommon
-        gemCounts.common = gemCount[0].rare
-        gemCounts.common = gemCount[0].legendary
-        gemCounts.common = gemCount[0].mythical
+        gemCounts.common = gemCount.common
+        gemCounts.common = gemCount.uncommon
+        gemCounts.common = gemCount.rare
+        gemCounts.common = gemCount.legendary
+        gemCounts.common = gemCount.mythical
         
         CoreDataManager.shared.save()
         
@@ -95,6 +94,20 @@ class CampaignViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.updateStateIndex(index: index)
             }
+        }
+    }
+    
+    func updateGemCount(gemType: GemType) {
+        if gemType == .common {
+            gemCount.common += 1
+        } else if gemType == .uncommon {
+            gemCount.uncommon += 1
+        } else if gemType == .rare {
+            gemCount.rare += 1
+        } else if gemType == .legendary {
+            gemCount.legendary += 1
+        } else if gemType == .mythical {
+            gemCount.mythical += 1
         }
     }
 

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct StoreView: View {
     @Environment(\.presentationMode) var presentationMode
-//    @Environment(\.modelContext) private var context
     
     @StateObject private var campaignVM = CampaignViewModel()
     
@@ -33,9 +32,9 @@ struct StoreView: View {
                             .scaledToFit()
                             .frame(width: 40, height: 40)
                         
-//                        Text("\(currentCount.count)")
-//                            .foregroundStyle(Color.peachOrange)
-//                            .font(.system(size: 25))
+                        Text("\(campaignVM.gemCount.common)")
+                            .foregroundStyle(Color.peachOrange)
+                            .font(.system(size: 25))
                     }
                 }
             }

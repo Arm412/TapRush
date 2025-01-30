@@ -34,9 +34,9 @@ struct CampaignView: View {
                                 .scaledToFit()
                                 .frame(width: 40, height: 40)
                             
-//                            Text("\(currentCount.count)")
-//                                .foregroundStyle(Color.peachOrange)
-//                                .font(.system(size: 25))
+                            Text("\(campaignVM.gemCount.common)")
+                                .foregroundStyle(Color.peachOrange)
+                                .font(.system(size: 25))
                         }
                     }
                 }
@@ -101,9 +101,6 @@ struct CampaignView: View {
                     }
                 }
             }
-            .onAppear(perform: {
-                campaignVM.getGemCount()
-            })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.outerSpace)
         }

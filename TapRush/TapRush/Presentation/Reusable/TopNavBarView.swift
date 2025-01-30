@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TopNavBarView: View {
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var campaignVM = CampaignViewModel()
     
     var body: some View {
         HStack {
@@ -29,9 +30,9 @@ struct TopNavBarView: View {
                         .scaledToFit()
                         .frame(width: 40, height: 40)
                     
-//                    Text("\(currentCount.count)")
-//                        .foregroundStyle(Color.peachOrange)
-//                        .font(.system(size: 25))
+                    Text("\(campaignVM.gemCount.common)")
+                        .foregroundStyle(Color.peachOrange)
+                        .font(.system(size: 25))
                 }
             }
         }

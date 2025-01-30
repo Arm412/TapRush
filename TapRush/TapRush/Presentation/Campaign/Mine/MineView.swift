@@ -9,45 +9,12 @@ import SwiftUI
 
 struct MineView: View {
     @Environment(\.presentationMode) var presentationMode
-//    @Environment(\.modelContext) private var context
     
     @StateObject private var campaignVM = CampaignViewModel()
     
     var body: some View {
         VStack {
-            HStack {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Image(systemName: "arrow.backward")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                        .foregroundStyle(Color.peachOrange)
-                }
-                Spacer()
-                VStack {
-                    HStack {
-                        Image("purpEmerald1")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                        
-//                        Text("\(currentCount.count)")
-//                            .foregroundStyle(Color.peachOrange)
-//                            .font(.system(size: 25))
-                    }
-                }
-            }
-            .padding()
-            .frame(maxWidth: .infinity)
-            .overlay(
-                Rectangle()
-                    .frame(height: 2)
-                    .foregroundColor(Color.peachOrange)
-                    .padding(.top, 48),
-                alignment: .bottom
-            )
+            TopNavBarView()
             
             Spacer()
             
@@ -83,25 +50,17 @@ struct MineView: View {
                                     .position(campaignVM.rocks[index].position)
                                     .onTapGesture {
                                         campaignVM.rocks[index] = campaignVM.createRock()
-//                                        currentCount.count += 1
+                                        campaignVM.updateGemCount(campaignVM.rocks[index].gemType)
                                     }
                             }
                         }
                     }
                 }
                 .onAppear {
-//                    if let firstCount = count.first {
-//                        currentCount = firstCount
-//                    }
-//                    
                     campaignVM.initRocks(geo: geo)
                 }
                 .onDisappear {
-//                    do {
-//                        try context.save()
-//                    } catch {
-//                        print("An error occurred: \(error)")
-//                    }
+                    campaignVM.save()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
