@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TopNavBarView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var campaignVM = CampaignViewModel()
+    @EnvironmentObject var campaignVM: CampaignViewModel
     
     var body: some View {
         HStack {

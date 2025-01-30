@@ -2,7 +2,6 @@ import SwiftUI
 
 struct CampaignView: View {
     @Environment(\.presentationMode) var presentationMode
-//    @Environment(\.modelContext) private var context
     
     @State var selectedMine: String = "Pebblebrook Quarry"
     
@@ -16,44 +15,13 @@ struct CampaignView: View {
     var body: some View {
         NavigationView {
             VStack {
-                HStack {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Image(systemName: "house.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(Color.peachOrange)
-                    }
-                    Spacer()
-                    VStack {
-                        HStack {
-                            Image("purpEmerald1")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
-                            
-                            Text("\(campaignVM.gemCount.common)")
-                                .foregroundStyle(Color.peachOrange)
-                                .font(.system(size: 25))
-                        }
-                    }
-                }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .overlay(
-                        Rectangle()
-                            .frame(height: 2)
-                            .foregroundColor(Color.peachOrange)
-                            .padding(.top, 48),
-                        alignment: .bottom
-                    )
+                TopNavBarView()
+                    .environmentObject(campaignVM)
                 
                 VStack {
                     LazyVGrid(columns: columns, spacing: 20) {
                         ForEach(campaignVM.campaignDashboardNavButtons) { item in
-                            NavigationLink(destination: item.destination) {
+                            NavigationLink(destination: item.destination.environmentObject(campaignVM)) {
                                 VStack {
                                     Image(systemName: item.icon)
                                         .resizable()
@@ -81,7 +49,7 @@ struct CampaignView: View {
                     Text(selectedMine)
                         .foregroundStyle(.peachOrange)
                         .font(.custom("Audiowide-Regular", size: 25))
-                    NavigationLink(destination: MineView()) {
+                    NavigationLink(destination: MineView().environmentObject(campaignVM)) {
                         HStack {
                             Text("To the Mines!")
                                 .font(.custom("Audiowide-Regular", size: 25))
@@ -104,6 +72,7 @@ struct CampaignView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.outerSpace)
         }
+        .environmentObject(campaignVM)
         .navigationBarBackButtonHidden(true)
     }
 }
