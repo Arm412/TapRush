@@ -1,13 +1,8 @@
 import SwiftUI
-import SwiftData
 
 struct CampaignView: View {
     @Environment(\.presentationMode) var presentationMode
-    @Environment(\.modelContext) private var context
-    
-    @Query var count: [Count]
-    
-    @State var currentCount: Count = Count(count: 0)
+//    @Environment(\.modelContext) private var context
     
     @State var selectedMine: String = "Pebblebrook Quarry"
     
@@ -39,9 +34,9 @@ struct CampaignView: View {
                                 .scaledToFit()
                                 .frame(width: 40, height: 40)
                             
-                            Text("\(currentCount.count)")
-                                .foregroundStyle(Color.peachOrange)
-                                .font(.system(size: 25))
+//                            Text("\(currentCount.count)")
+//                                .foregroundStyle(Color.peachOrange)
+//                                .font(.system(size: 25))
                         }
                     }
                 }
@@ -107,9 +102,7 @@ struct CampaignView: View {
                 }
             }
             .onAppear(perform: {
-                if let firstCount = count.first {
-                    currentCount = firstCount
-                }
+                campaignVM.getGemCount()
             })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.outerSpace)
@@ -119,5 +112,5 @@ struct CampaignView: View {
 }
 
 #Preview {
-    CampaignView(currentCount: Count(count: 0))
+//    CampaignView(currentCount: Count(count: 0))
 }

@@ -6,14 +6,10 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct TopNavBarView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @Query var count: [Count]
-    
-    @State var currentCount: Count = Count(count: 0)
     var body: some View {
         HStack {
             Button(action: {
@@ -33,9 +29,9 @@ struct TopNavBarView: View {
                         .scaledToFit()
                         .frame(width: 40, height: 40)
                     
-                    Text("\(currentCount.count)")
-                        .foregroundStyle(Color.peachOrange)
-                        .font(.system(size: 25))
+//                    Text("\(currentCount.count)")
+//                        .foregroundStyle(Color.peachOrange)
+//                        .font(.system(size: 25))
                 }
             }
         }

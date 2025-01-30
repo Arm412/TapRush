@@ -1,0 +1,67 @@
+//
+//  CoreDataManager.swift
+//  TapRush
+//
+//  Created by Adam Mitro on 1/30/25.
+//
+
+import Foundation
+import CoreData
+
+class CoreDataManager {
+    let persistentContainer: NSPersistentContainer
+    static let shared = CoreDataManager()
+    
+    var viewContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
+    func getGemCountById(id: NSManagedObjectID) -> GemCount? {
+        do {
+            return try viewContext.existingObject(with: id) as? GemCount
+        } catch {
+            return nil
+        }
+    }
+    
+    func deleteGemCount(gemCount: GemCount) {
+        viewContext.delete(gemCount)
+        save()
+    }
+    
+    func getGemCount() -> [GemCount] {
+        let request: NSFetchRequest<GemCount> = GemCount.fetchRequest()
+        
+        do {
+            let data = try viewContext.fetch(request)
+            if data.isEmpty {
+                let gemCount = GemCount(context: viewContext)
+                
+                CoreDataManager.shared.save()
+                return [gemCount]
+            } else {
+                return data
+            }
+        } catch {
+            return []
+        }
+    }
+    
+    func save() {
+        do {
+            try viewContext.save()
+        } catch {
+            viewContext.rollback()
+            print(error.localizedDescription)
+        }
+    }
+    
+    private init() {
+        persistentContainer = NSPersistentContainer(name: "TapRushDataModel")
+        persistentContainer.loadPersistentStores { (description, error) in
+            if let error = error {
+                fatalError("Unable to initialize Core Data Stack \(error)")
+            }
+        }
+    }
+}

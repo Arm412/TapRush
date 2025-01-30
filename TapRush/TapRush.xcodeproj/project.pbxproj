@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F4F250B42D4BF480008FDA03 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F250B32D4BF480008FDA03 /* CoreData.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F4F874A12D0D0E56000B1E12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F4F250B32D4BF480008FDA03 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		F4F8748F2D0D0E54000B1E12 /* TapRush.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapRush.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F874A02D0D0E56000B1E12 /* TapRushTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TapRushTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F874AA2D0D0E56000B1E12 /* TapRushUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TapRushUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -33,7 +38,6 @@
 		F4F874D72D0D1EE0000B1E12 /* Exceptions for "TapRush" folder in "TapRushTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Domain/Count.swift,
 				Presentation/Campaign/CampaignView.swift,
 				Presentation/Campaign/CampaignViewModel.swift,
 				Presentation/Dashboard/DashboardView.swift,
@@ -45,17 +49,29 @@
 		F4F875192D10CB95000B1E12 /* Exceptions for "TapRush" folder in "TapRush" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Domain/TapRushDataModel.xcdatamodeld,
 				Info.plist,
 			);
 			target = F4F8748E2D0D0E54000B1E12 /* TapRush */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		F4F250B12D4BF40D008FDA03 /* Exceptions for "TapRush" folder in "Copy Bundle Resources" phase from "TapRush" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = F4F8748D2D0D0E54000B1E12 /* Resources */;
+			membershipExceptions = (
+				Domain/TapRushDataModel.xcdatamodeld,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F4F874912D0D0E54000B1E12 /* TapRush */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				F4F875192D10CB95000B1E12 /* Exceptions for "TapRush" folder in "TapRush" target */,
+				F4F250B12D4BF40D008FDA03 /* Exceptions for "TapRush" folder in "Copy Bundle Resources" phase from "TapRush" target */,
 				F4F874D72D0D1EE0000B1E12 /* Exceptions for "TapRush" folder in "TapRushTests" target */,
 			);
 			path = TapRush;
@@ -78,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4F250B42D4BF480008FDA03 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,12 +115,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F4F250B22D4BF480008FDA03 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F4F250B32D4BF480008FDA03 /* CoreData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F4F874862D0D0E54000B1E12 = {
 			isa = PBXGroup;
 			children = (
 				F4F874912D0D0E54000B1E12 /* TapRush */,
 				F4F874A32D0D0E56000B1E12 /* TapRushTests */,
 				F4F874AD2D0D0E56000B1E12 /* TapRushUITests */,
+				F4F250B22D4BF480008FDA03 /* Frameworks */,
 				F4F874902D0D0E54000B1E12 /* Products */,
 			);
 			sourceTree = "<group>";

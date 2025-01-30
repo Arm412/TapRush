@@ -6,15 +6,11 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct MineView: View {
     @Environment(\.presentationMode) var presentationMode
-    @Environment(\.modelContext) private var context
+//    @Environment(\.modelContext) private var context
     
-    @Query var count: [Count]
-    
-    @State var currentCount: Count = Count(count: 0)
     @StateObject private var campaignVM = CampaignViewModel()
     
     var body: some View {
@@ -37,9 +33,9 @@ struct MineView: View {
                             .scaledToFit()
                             .frame(width: 40, height: 40)
                         
-                        Text("\(currentCount.count)")
-                            .foregroundStyle(Color.peachOrange)
-                            .font(.system(size: 25))
+//                        Text("\(currentCount.count)")
+//                            .foregroundStyle(Color.peachOrange)
+//                            .font(.system(size: 25))
                     }
                 }
             }
@@ -87,25 +83,25 @@ struct MineView: View {
                                     .position(campaignVM.rocks[index].position)
                                     .onTapGesture {
                                         campaignVM.rocks[index] = campaignVM.createRock()
-                                        currentCount.count += 1
+//                                        currentCount.count += 1
                                     }
                             }
                         }
                     }
                 }
                 .onAppear {
-                    if let firstCount = count.first {
-                        currentCount = firstCount
-                    }
-                    
+//                    if let firstCount = count.first {
+//                        currentCount = firstCount
+//                    }
+//                    
                     campaignVM.initRocks(geo: geo)
                 }
                 .onDisappear {
-                    do {
-                        try context.save()
-                    } catch {
-                        print("An error occurred: \(error)")
-                    }
+//                    do {
+//                        try context.save()
+//                    } catch {
+//                        print("An error occurred: \(error)")
+//                    }
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

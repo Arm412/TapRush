@@ -13,6 +13,7 @@ class CampaignViewModel: ObservableObject {
     @Published var rocks: [Rock] = []
     @Published var miningSiteWidth: CGFloat = 0
     @Published var miningSiteHeight: CGFloat = 0
+    @Published var gemCount: [GemCount] = []
     let campaignDashboardNavButtons: [CampaignScreens] = [
         CampaignScreens(name: "Map", destination: AnyView(MapView()), icon: "map.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
         CampaignScreens(name: "Inventory", destination: AnyView(InventoryView()), icon: "shippingbox.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
@@ -20,6 +21,31 @@ class CampaignViewModel: ObservableObject {
         CampaignScreens(name: "Pawn Shop", destination: AnyView(PawnShopView()), icon: "dollarsign.circle.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
         CampaignScreens(name: "Orders", destination: AnyView(OrdersView()), icon: "list.clipboard.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
         CampaignScreens(name: "Awards", destination: AnyView(AwardsView()), icon: "trophy.fill", primaryColor: .outerSpace, secondaryColor: .roseGold)]
+    
+    func getGemCount() {
+        gemCount = CoreDataManager.shared.getGemCount()
+        print(gemCount)
+    }
+    
+    func delete(_ gemCount: GemCount) {
+        
+        let existingGemCount = CoreDataManager.shared.getGemCountById(id: gemCount.objectID)
+        if let existingGemCount = existingGemCount {
+            CoreDataManager.shared.deleteGemCount(gemCount: existingGemCount)
+        }
+    }
+    
+    func save() {
+        let gemCounts = GemCount(context: CoreDataManager.shared.viewContext)
+        gemCounts.common = gemCount[0].common
+        gemCounts.common = gemCount[0].uncommon
+        gemCounts.common = gemCount[0].rare
+        gemCounts.common = gemCount[0].legendary
+        gemCounts.common = gemCount[0].mythical
+        
+        CoreDataManager.shared.save()
+        
+    }
     
     func initRocks(geo: GeometryProxy) {
         miningSiteWidth = geo.size.width
