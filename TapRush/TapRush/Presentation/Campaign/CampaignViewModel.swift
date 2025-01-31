@@ -112,7 +112,6 @@ class CampaignViewModel: ObservableObject {
     }
 
     @objc func updateStateIndex(index: Int) {
-        print("rocks[\(index)].dust.spriteIndex: \(rocks[index].dust.spriteIndex)")
         if rocks[index].dust.spriteIndex == rocks[index].dust.dustCloudSprites.count - 1 {
             rocks[index].animationTimer?.invalidate()
             rocks[index].animationTimer = nil
