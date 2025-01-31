@@ -25,16 +25,69 @@ struct TopNavBarView: View {
             Spacer()
             VStack {
                 HStack {
-                    Image("purpEmerald1")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
+                    HStack {
+                        Image("purpEmerald1")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                        Text("\(campaignVM.gemCount.common)")
+                            .foregroundStyle(Color.peachOrange)
+                            .font(.system(size: 25))
+                    }
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                     
-                    Text("\(campaignVM.gemCount.common)")
-                        .foregroundStyle(Color.peachOrange)
-                        .font(.system(size: 25))
+                    HStack {
+                        Text("UC")
+                            .frame(width: 40, height: 40)
+                            .background(.green)
+                        Text("\(campaignVM.gemCount.uncommon)")
+                            .foregroundStyle(Color.peachOrange)
+                            .font(.system(size: 25))
+                    }
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                    
+                    HStack {
+                        Text("Rare")
+                            .frame(width: 40, height: 40)
+                            .background(.blue)
+                        Text("\(campaignVM.gemCount.rare)")
+                            .foregroundStyle(Color.peachOrange)
+                            .font(.system(size: 25))
+                    }
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                }
+                HStack {
+                    HStack {
+                        Text("L")
+                            .frame(width: 40, height: 40)
+                            .background(.yellow)
+                        Text("\(campaignVM.gemCount.legendary)")
+                            .foregroundStyle(Color.peachOrange)
+                            .font(.system(size: 25))
+                    }
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                    
+                    HStack {
+                        Text("Myth")
+                            .frame(width: 40, height: 40)
+                            .background(.purple)
+                        Text("\(campaignVM.gemCount.mythical)")
+                            .foregroundStyle(Color.peachOrange)
+                            .font(.system(size: 25))
+                    }
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                    
+                    HStack {
+                        Text("Gold")
+                            .frame(width: 40, height: 40)
+                        Text("0")
+                            .foregroundStyle(Color.peachOrange)
+                            .font(.system(size: 25))
+                    }
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                 }
             }
+            .foregroundStyle(Color.black)
         }
         .padding()
         .frame(maxWidth: .infinity)
@@ -49,5 +102,6 @@ struct TopNavBarView: View {
 }
 
 #Preview {
-    TopNavBarView()
+    var campaignVM = CampaignViewModel()
+    TopNavBarView().environmentObject(campaignVM)
 }
