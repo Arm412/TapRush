@@ -13,7 +13,7 @@ struct CampaignView: View {
         ]
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 TopNavBarView()
                     .environmentObject(campaignVM)
