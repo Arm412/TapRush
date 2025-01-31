@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
 
 @main
 struct TapRushApp: App {
@@ -14,6 +13,5 @@ struct TapRushApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: Count.self)
     }
 }

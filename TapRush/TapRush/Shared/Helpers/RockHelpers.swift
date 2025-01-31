@@ -28,7 +28,8 @@ struct Rock: Identifiable {
     var position: CGPoint
     var states: [String]
     var stateIndex: Int = 0
-    var gemSprites: [String] = Gem().none
+    var gemSprites: [String] = []
+    var gemType: GemType = .none
     var isDepleted = false
     var hasGem = true
     var animationTimer: Timer? = nil
@@ -69,20 +70,37 @@ struct Rock: Identifiable {
     mutating func determineGem() {
         let randomNumber = Int.random(in: 1...100)
         if randomNumber < 75 {
-            gemSprites = Gem().common
+            gemType = .common
+            gemSprites = GemManager().getGemNames(for: .common)
         } else {
-            gemSprites = Gem().none
+            gemSprites = GemManager().getGemNames(for: .none)
             hasGem = false
         }
     }
 }
 
-struct Gem {
-    let none: [String] = []
-    let common: [String] = ["purpEmerald1", "purpEmerald2"]
-    let uncommon: [String] = ["purpEmerald1", "purpEmerald2"]
-    let rare: [String] = ["purpEmerald1", "purpEmerald2"]
-    let legendary: [String] = ["purpEmerald1", "purpEmerald2"]
+enum GemType {
+    case none
+    case common
+    case uncommon
+    case rare
+    case legendary
+    case mythical
+}
+
+struct GemManager {
+    private let gemNames: [GemType: [String]] = [
+        .none: [],
+        .common: ["purpEmerald1", "purpEmerald2"],
+        .uncommon: ["purpEmerald1", "purpEmerald2"],
+        .rare: ["purpEmerald1", "purpEmerald2"],
+        .legendary: ["purpEmerald1", "purpEmerald2"],
+        .mythical: ["purpEmerald1", "purpEmerald2"]
+    ]
+    
+    func getGemNames(for type: GemType) -> [String] {
+        return gemNames[type] ?? []
+    }
 }
 
 

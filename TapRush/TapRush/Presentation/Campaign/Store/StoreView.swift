@@ -6,15 +6,10 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct StoreView: View {
     @Environment(\.presentationMode) var presentationMode
-    @Environment(\.modelContext) private var context
     
-    @Query var count: [Count]
-    
-    @State var currentCount: Count = Count(count: 0)
     @StateObject private var campaignVM = CampaignViewModel()
     
     var body: some View {
@@ -37,7 +32,7 @@ struct StoreView: View {
                             .scaledToFit()
                             .frame(width: 40, height: 40)
                         
-                        Text("\(currentCount.count)")
+                        Text("\(campaignVM.gemCount.common)")
                             .foregroundStyle(Color.peachOrange)
                             .font(.system(size: 25))
                     }
@@ -61,7 +56,7 @@ struct StoreView: View {
 }
 
 #Preview {
-    let mockCount = Count(count: 5)
+//    let mockCount = Count(count: 5)
     
     StoreView()
 }
