@@ -47,6 +47,24 @@ class CoreDataManager {
         }
     }
     
+    func getGoldCount() -> [GoldCount] {
+        let request: NSFetchRequest<GoldCount> = GoldCount.fetchRequest()
+        
+        do {
+            let data = try viewContext.fetch(request)
+            if data.isEmpty {
+                let goldCount = GoldCount(context: viewContext)
+                
+                CoreDataManager.shared.save()
+                return [goldCount]
+            } else {
+                return data
+            }
+        } catch {
+            return []
+        }
+    }
+    
     func save() {
         do {
             try viewContext.save()

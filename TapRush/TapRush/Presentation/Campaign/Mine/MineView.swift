@@ -88,7 +88,6 @@ struct MineView: View {
         }
     }
     
-    // Handle tap on the gem (when dust has settled)
     private func handleGemTap(for rock: Rock, at index: Int) {
         campaignVM.rocks[index] = campaignVM.createRock()
         campaignVM.updateGemCount(gemType: rock.gemType)
@@ -96,5 +95,8 @@ struct MineView: View {
 }
 
 #Preview {
+    var campaignVM = CampaignViewModel()
+    
     MineView()
+        .environmentObject(campaignVM)
 }
