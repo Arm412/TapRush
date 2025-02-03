@@ -13,7 +13,8 @@ class CampaignViewModel: ObservableObject {
     @Published var rocks: [Rock] = []
     @Published var miningSiteWidth: CGFloat = 0
     @Published var miningSiteHeight: CGFloat = 0
-    @Published var gemCount: GemCount
+    @Published var gems: GemCount
+    @Published var gold: GoldCount
     let campaignDashboardNavButtons: [CampaignScreens] = [
         CampaignScreens(name: "Map", destination: AnyView(MapView()), icon: "map.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
         CampaignScreens(name: "Inventory", destination: AnyView(InventoryView()), icon: "shippingbox.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
@@ -23,8 +24,10 @@ class CampaignViewModel: ObservableObject {
         CampaignScreens(name: "Awards", destination: AnyView(AwardsView()), icon: "trophy.fill", primaryColor: .outerSpace, secondaryColor: .roseGold)]
     
     init() {
-        self.gemCount = CoreDataManager.shared.getGemCount()[0]
+        self.gems = CoreDataManager.shared.getGemCount()[0]
 //        CoreDataManager.shared.deleteGemCount(gemCount: gemCount)
+        self.gold = CoreDataManager.shared.getGoldCount()[0]
+        print(self.gold.count)
     }
     
     func delete(_ gemCount: GemCount) {
@@ -36,11 +39,15 @@ class CampaignViewModel: ObservableObject {
     
     func save() {
         let gemCounts = GemCount(context: CoreDataManager.shared.viewContext)
-        gemCounts.common = gemCount.common
-        gemCounts.common = gemCount.uncommon
-        gemCounts.common = gemCount.rare
-        gemCounts.common = gemCount.legendary
-        gemCounts.common = gemCount.mythical
+        let goldCount = GoldCount(context: CoreDataManager.shared.viewContext)
+        
+        gemCounts.common = gems.common
+        gemCounts.uncommon = gems.uncommon
+        gemCounts.rare = gems.rare
+        gemCounts.legendary = gems.legendary
+        gemCounts.mythical = gems.mythical
+        
+        goldCount.count = gold.count
         
         CoreDataManager.shared.save()
         
@@ -99,15 +106,15 @@ class CampaignViewModel: ObservableObject {
     
     func updateGemCount(gemType: GemType) {
         if gemType == .common {
-            gemCount.common += 1
+            gems.common += 1
         } else if gemType == .uncommon {
-            gemCount.uncommon += 1
+            gems.uncommon += 1
         } else if gemType == .rare {
-            gemCount.rare += 1
+            gems.rare += 1
         } else if gemType == .legendary {
-            gemCount.legendary += 1
+            gems.legendary += 1
         } else if gemType == .mythical {
-            gemCount.mythical += 1
+            gems.mythical += 1
         }
     }
 

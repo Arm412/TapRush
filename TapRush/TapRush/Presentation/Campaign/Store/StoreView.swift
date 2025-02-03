@@ -32,7 +32,7 @@ struct StoreView: View {
                             .scaledToFit()
                             .frame(width: 40, height: 40)
                         
-                        Text("\(campaignVM.gemCount.common)")
+                        Text("\(campaignVM.gems.common)")
                             .foregroundStyle(Color.peachOrange)
                             .font(.system(size: 25))
                     }
