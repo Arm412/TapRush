@@ -10,7 +10,7 @@ import SwiftUI
 struct MineView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @EnvironmentObject var campaignVM: CampaignViewModel
+    @EnvironmentObject var menuVM: MenuViewModel
     
     var body: some View {
         VStack {
@@ -20,8 +20,8 @@ struct MineView: View {
             
             GeometryReader { geo in
                 ZStack {
-                    ForEach(campaignVM.rocks.indices, id: \.self) { index in
-                        let rock = campaignVM.rocks[index]
+                    ForEach(menuVM.rocks.indices, id: \.self) { index in
+                        let rock = menuVM.rocks[index]
                         
                         if !rock.isDepleted {
                             rockImageView(for: rock, at: index)
@@ -31,10 +31,10 @@ struct MineView: View {
                     }
                 }
                 .onAppear {
-                    campaignVM.initRocks(geo: geo)
+                    menuVM.initRocks(geo: geo)
                 }
                 .onDisappear {
-                    campaignVM.save()
+                    menuVM.save()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -63,7 +63,7 @@ struct MineView: View {
                     .frame(width: 80, height: 80)
                     .position(rock.position)
                     .onAppear {
-                        campaignVM.startStateUpdateTimer(index: index)
+                        menuVM.startStateUpdateTimer(index: index)
                     }
             )
         } else {
@@ -82,21 +82,21 @@ struct MineView: View {
     
     private func handleRockTap(for rock: Rock, at index: Int) {
         print("Pressed \(rock.stateIndex)")
-        campaignVM.rocks[index].stateIndex += 1
-        if campaignVM.rocks[index].stateIndex == rock.states.count {
-            campaignVM.rocks[index].isDepleted = true
+        menuVM.rocks[index].stateIndex += 1
+        if menuVM.rocks[index].stateIndex == rock.states.count {
+            menuVM.rocks[index].isDepleted = true
         }
     }
     
     private func handleGemTap(for rock: Rock, at index: Int) {
-        campaignVM.rocks[index] = campaignVM.createRock()
-        campaignVM.updateGemCount(gemType: rock.gemType)
+        menuVM.rocks[index] = menuVM.createRock()
+        menuVM.updateGemCount(gemType: rock.gemType)
     }
 }
 
 #Preview {
-    var campaignVM = CampaignViewModel()
+    var menuVM = MenuViewModel()
     
     MineView()
-        .environmentObject(campaignVM)
+        .environmentObject(menuVM)
 }

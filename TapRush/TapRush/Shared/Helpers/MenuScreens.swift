@@ -1,5 +1,5 @@
 //
-//  CampaignScreens.swift
+//  MenuScreens.swift
 //  TapRush
 //
 //  Created by Adam Mitro on 1/24/25.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUICore
 
-struct CampaignScreens: Identifiable {
+struct MenuScreens: Identifiable {
     var id: UUID
     var name: String
     var destination: AnyView

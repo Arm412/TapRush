@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TopNavBarView: View {
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var campaignVM: CampaignViewModel
+    @EnvironmentObject var menuVM: MenuViewModel
     
     var body: some View {
         HStack {
@@ -30,7 +30,7 @@ struct TopNavBarView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 40, height: 40)
-                        Text("\(campaignVM.gems.common)")
+                        Text("\(menuVM.gems.common)")
                             .foregroundStyle(Color.peachOrange)
                             .font(.system(size: 20))
                     }
@@ -40,7 +40,7 @@ struct TopNavBarView: View {
                         Text("UC")
                             .frame(width: 40, height: 40)
                             .background(.green)
-                        Text("\(campaignVM.gems.uncommon)")
+                        Text("\(menuVM.gems.uncommon)")
                             .foregroundStyle(Color.peachOrange)
                             .font(.system(size: 20))
                     }
@@ -50,7 +50,7 @@ struct TopNavBarView: View {
                         Text("Rare")
                             .frame(width: 40, height: 40)
                             .background(.blue)
-                        Text("\(campaignVM.gems.rare)")
+                        Text("\(menuVM.gems.rare)")
                             .foregroundStyle(Color.peachOrange)
                             .font(.system(size: 20))
                     }
@@ -61,7 +61,7 @@ struct TopNavBarView: View {
                         Text("L")
                             .frame(width: 40, height: 40)
                             .background(.yellow)
-                        Text("\(campaignVM.gems.legendary)")
+                        Text("\(menuVM.gems.legendary)")
                             .foregroundStyle(Color.peachOrange)
                             .font(.system(size: 20))
                     }
@@ -71,7 +71,7 @@ struct TopNavBarView: View {
                         Text("Myth")
                             .frame(width: 40, height: 40)
                             .background(.purple)
-                        Text("\(campaignVM.gems.mythical)")
+                        Text("\(menuVM.gems.mythical)")
                             .foregroundStyle(Color.peachOrange)
                             .font(.system(size: 20))
                     }
@@ -80,7 +80,7 @@ struct TopNavBarView: View {
                     HStack {
                         Text("Gold")
                             .frame(width: 40, height: 40)
-                        Text("\(campaignVM.gold.count)")
+                        Text("\(menuVM.gold.count)")
                             .foregroundStyle(Color.peachOrange)
                             .font(.system(size: 20))
                     }
@@ -102,8 +102,8 @@ struct TopNavBarView: View {
 }
 
 #Preview {
-    var campaignVM = CampaignViewModel()
+    var menuVM = MenuViewModel()
     
     TopNavBarView()
-        .environmentObject(campaignVM)
+        .environmentObject(menuVM)
 }

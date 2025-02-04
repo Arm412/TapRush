@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct CampaignView: View {
+struct MiningMenuView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State var selectedMine: String = "Pebblebrook Quarry"
     
-    @StateObject private var campaignVM = CampaignViewModel()
+    @StateObject private var menuVM = MenuViewModel()
     
     let columns: [GridItem] = [
         GridItem(.flexible(maximum: 150)),
@@ -16,12 +16,12 @@ struct CampaignView: View {
         NavigationStack {
             VStack {
                 TopNavBarView()
-                    .environmentObject(campaignVM)
+                    .environmentObject(menuVM)
                 
                 VStack {
                     LazyVGrid(columns: columns, spacing: 20) {
-                        ForEach(campaignVM.campaignDashboardNavButtons) { item in
-                            NavigationLink(destination: item.destination.environmentObject(campaignVM)) {
+                        ForEach(menuVM.miningMenuNavButtons) { item in
+                            NavigationLink(destination: item.destination.environmentObject(menuVM)) {
                                 VStack {
                                     Image(systemName: item.icon)
                                         .resizable()
@@ -49,7 +49,7 @@ struct CampaignView: View {
                     Text(selectedMine)
                         .foregroundStyle(.peachOrange)
                         .font(.custom("Audiowide-Regular", size: 25))
-                    NavigationLink(destination: MineView().environmentObject(campaignVM)) {
+                    NavigationLink(destination: MineView().environmentObject(menuVM)) {
                         HStack {
                             Text("To the Mines!")
                                 .font(.custom("Audiowide-Regular", size: 25))
@@ -72,11 +72,11 @@ struct CampaignView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.outerSpace)
         }
-        .environmentObject(campaignVM)
+        .environmentObject(menuVM)
         .navigationBarBackButtonHidden(true)
     }
 }
 
 #Preview {
-//    CampaignView(currentCount: Count(count: 0))
+    MiningMenuView()
 }

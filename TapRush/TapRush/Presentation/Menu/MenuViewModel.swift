@@ -1,5 +1,5 @@
 //
-//  CampaignViewModel.swift
+//  MenuViewModel.swift
 //  TapRush
 //
 //  Created by Adam Mitro on 1/5/25.
@@ -9,19 +9,19 @@ import Foundation
 import SwiftUICore
 
 @MainActor
-class CampaignViewModel: ObservableObject {
+class MenuViewModel: ObservableObject {
     @Published var rocks: [Rock] = []
     @Published var miningSiteWidth: CGFloat = 0
     @Published var miningSiteHeight: CGFloat = 0
     @Published var gems: GemCount
     @Published var gold: GoldCount
-    let campaignDashboardNavButtons: [CampaignScreens] = [
-        CampaignScreens(name: "Map", destination: AnyView(MapView()), icon: "map.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
-        CampaignScreens(name: "Inventory", destination: AnyView(InventoryView()), icon: "shippingbox.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
-        CampaignScreens(name: "Store", destination: AnyView(StoreView()), icon: "storefront.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
-        CampaignScreens(name: "Pawn Shop", destination: AnyView(PawnShopView()), icon: "dollarsign.circle.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
-        CampaignScreens(name: "Orders", destination: AnyView(OrdersView()), icon: "list.clipboard.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
-        CampaignScreens(name: "Awards", destination: AnyView(AwardsView()), icon: "trophy.fill", primaryColor: .outerSpace, secondaryColor: .roseGold)]
+    let miningMenuNavButtons: [MenuScreens] = [
+        MenuScreens(name: "Map", destination: AnyView(MapView()), icon: "map.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
+        MenuScreens(name: "Inventory", destination: AnyView(InventoryView()), icon: "shippingbox.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
+        MenuScreens(name: "Store", destination: AnyView(StoreView()), icon: "storefront.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
+        MenuScreens(name: "Pawn Shop", destination: AnyView(PawnShopView()), icon: "dollarsign.circle.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
+        MenuScreens(name: "Orders", destination: AnyView(OrdersView()), icon: "list.clipboard.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
+        MenuScreens(name: "Awards", destination: AnyView(AwardsView()), icon: "trophy.fill", primaryColor: .outerSpace, secondaryColor: .roseGold)]
     
     init() {
         self.gems = CoreDataManager.shared.getGemCount()[0]
