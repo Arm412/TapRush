@@ -51,36 +51,50 @@ struct MineView: View {
                 .background(Color.outerSpace)
                 
                 // Menu Overlay view
-                ZStack(alignment: .topTrailing) {
+                ZStack(alignment: .topLeading) {
                     VStack {
-                        Image(systemName: "line.horizontal.3")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: showMenu ? 40 : 0, height: 40)
-                            .foregroundStyle(Color.white)
-                            .padding()
+                        if showMenu {
+                            Image(systemName: "xmark")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .foregroundStyle(.peachOrange)
+                                .padding()
+                                .onTapGesture {
+                                    showMenu.toggle()
+                                }
+                        }
                         Spacer()
                     }
                     
-                    
-                    
-//                    if showMenu {
-                        VStack {
-                            Text("Test")
-                                .font(.custom("Audiowide-Regular", size: 30))
-                                .foregroundStyle(.peachOrange)
+                    VStack {
+                        
+                        if showMenu {
+                            ForEach(menuVM.miningMenuNavButtons) { item in
+                                NavigationLink(destination: item.destination) {
+                                    HStack {
+                                        Image(systemName: item.icon)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 40, height: 40)
+                                            .foregroundStyle(.peachOrange)
+                                            .padding()
+                                            .onTapGesture {
+                                                showMenu.toggle()
+                                            }
+                                        Text(item.name)
+                                            .font(.custom("Audiowide-Regular", size: 30))
+                                            .foregroundStyle(.peachOrange)
+                                        Spacer()
+                                    }
+                                }
+                            }
                         }
-                        .frame(width: showMenu ? geo.size.width * 0.8 : 0, height: geo.size.height)
-//                        .frame(width: geo.size.width * 0.8, height: geo.size.height)
-                        .border(.peachOrange, width: 2)
-//                        .onAppear {
-//                            menuIsShown = true
-//                        }
-//                        .onDisappear {
-//                            menuIsShown = false
-//                        }
-//                    }
+                    }
+                    .frame(width: showMenu ? geo.size.width * 0.8 : 0, height: geo.size.height == 0 ? geo.size.height : geo.size.height - 25)
+                    .border(.peachOrange, width: 2)
                 }
+                .background(.outerSpace)
             }
         }
     }
