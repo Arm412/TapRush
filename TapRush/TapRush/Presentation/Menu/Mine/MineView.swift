@@ -13,6 +13,7 @@ struct MineView: View {
     @EnvironmentObject var menuVM: MenuViewModel
     
     @State var showMenu: Bool = false
+    @State var menuIsShown: Bool = false
     
     var body: some View {
         GeometryReader { geo in
@@ -51,20 +52,34 @@ struct MineView: View {
                 
                 // Menu Overlay view
                 ZStack(alignment: .topTrailing) {
-                    Image(systemName: "line.horizontal.3")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: showMenu ? 40 : 0, height: 40)
-                        .foregroundStyle(Color.white)
-                        .padding()
-                    
                     VStack {
-                        Text("Test")
-                            .font(.custom("Audiowide-Regular", size: 30))
-                            .foregroundStyle(.peachOrange)
+                        Image(systemName: "line.horizontal.3")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: showMenu ? 40 : 0, height: 40)
+                            .foregroundStyle(Color.white)
+                            .padding()
+                        Spacer()
                     }
-                    .frame(width: showMenu ? geo.size.width * 0.8 : 0, height: geo.size.height)
-                    .border(.peachOrange, width: 2)
+                    
+                    
+                    
+//                    if showMenu {
+                        VStack {
+                            Text("Test")
+                                .font(.custom("Audiowide-Regular", size: 30))
+                                .foregroundStyle(.peachOrange)
+                        }
+                        .frame(width: showMenu ? geo.size.width * 0.8 : 0, height: geo.size.height)
+//                        .frame(width: geo.size.width * 0.8, height: geo.size.height)
+                        .border(.peachOrange, width: 2)
+//                        .onAppear {
+//                            menuIsShown = true
+//                        }
+//                        .onDisappear {
+//                            menuIsShown = false
+//                        }
+//                    }
                 }
             }
         }

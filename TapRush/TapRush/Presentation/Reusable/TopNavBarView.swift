@@ -35,7 +35,7 @@ struct TopNavBarView: View {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }) {
-                    Image(systemName: "arrow.backward")
+                    Image(systemName: "xmark")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 40, height: 40)
