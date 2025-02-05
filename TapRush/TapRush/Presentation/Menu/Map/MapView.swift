@@ -10,7 +10,7 @@ import SwiftUI
 struct MapView: View {
     var body: some View {
         VStack(alignment: HorizontalAlignment.center) {
-            TopNavBarView()
+            TopNavBarView(title: "Maps")
             Spacer()
             Text("View to display the mine destinations")
                 .font(.custom("Audiowide-Regular", size: 40))

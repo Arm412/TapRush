@@ -12,38 +12,62 @@ struct MineView: View {
     
     @EnvironmentObject var menuVM: MenuViewModel
     
+    @State var showMenu: Bool = false
+    
     var body: some View {
-        VStack {
-            TopNavBarView()
-            
-            Spacer()
-            
-            GeometryReader { geo in
-                ZStack {
-                    ForEach(menuVM.rocks.indices, id: \.self) { index in
-                        let rock = menuVM.rocks[index]
-                        
-                        if !rock.isDepleted {
-                            rockImageView(for: rock, at: index)
-                        } else {
-                            dustAndGemImageView(for: rock, at: index)
+        GeometryReader { geo in
+            ZStack(alignment: Alignment.leading) {
+                VStack {
+                    TopNavBarView(menuHandler: { showMenu.toggle() }, title: "Mine", isMining: true)
+                    
+                    Spacer()
+                    
+                    GeometryReader { mineGeo in
+                        ZStack {
+                            ForEach(menuVM.rocks.indices, id: \.self) { index in
+                                let rock = menuVM.rocks[index]
+                                
+                                if !rock.isDepleted {
+                                    rockImageView(for: rock, at: index)
+                                } else {
+                                    dustAndGemImageView(for: rock, at: index)
+                                }
+                            }
+                        }
+                        .onAppear {
+                            menuVM.initRocks(geo: mineGeo)
+                        }
+                        .onDisappear {
+                            menuVM.save()
                         }
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.outerSpace)
+                    .navigationBarBackButtonHidden(true)
                 }
-                .onAppear {
-                    menuVM.initRocks(geo: geo)
-                }
-                .onDisappear {
-                    menuVM.save()
+                .navigationBarBackButtonHidden(true)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.outerSpace)
+                
+                // Menu Overlay view
+                ZStack(alignment: .topTrailing) {
+                    Image(systemName: "line.horizontal.3")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: showMenu ? 40 : 0, height: 40)
+                        .foregroundStyle(Color.white)
+                        .padding()
+                    
+                    VStack {
+                        Text("Test")
+                            .font(.custom("Audiowide-Regular", size: 30))
+                            .foregroundStyle(.peachOrange)
+                    }
+                    .frame(width: showMenu ? geo.size.width * 0.8 : 0, height: geo.size.height)
+                    .border(.peachOrange, width: 2)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.outerSpace)
-            .navigationBarBackButtonHidden(true)
         }
-        .navigationBarBackButtonHidden(true)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.outerSpace)
     }
     
     private func rockImageView(for rock: Rock, at index: Int) -> some View {

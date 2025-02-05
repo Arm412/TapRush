@@ -10,7 +10,7 @@ import SwiftUI
 struct PawnShopView: View {
     var body: some View {
         VStack(alignment: HorizontalAlignment.center) {
-            TopNavBarView()
+            TopNavBarView(title: "Pawn Shop")
             Spacer()
             Text("View to display the gem pawn shop.")
                 .font(.custom("Audiowide-Regular", size: 40))

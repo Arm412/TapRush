@@ -15,7 +15,7 @@ struct MiningMenuView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                TopNavBarView()
+                TopNavBarView(title: "Menu")
                     .environmentObject(menuVM)
                 
                 VStack {
