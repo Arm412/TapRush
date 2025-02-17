@@ -16,6 +16,7 @@ struct MineView: View {
     @State var showMenu: Bool = false
     @State var menuIsShown: Bool = false
     @State var showAlert: Bool = false
+    @State var selectedScreen: Screen = .mining
     @Binding var navPath: NavigationPath
     
     var body: some View {
@@ -90,17 +91,18 @@ struct MineView: View {
                                 }
                                 .onTapGesture {
                                     showAlert = true
+                                    selectedScreen = item.destination
                                 }
                                 .alert(isPresented: $showAlert) {
                                     Alert(
-                                        title: Text("Are you sure?"),
-                                        message: Text("Leaving the game will cause you to lose progress."),
+                                        title: Text("Are you sure you want to leave the mine?"),
+                                        message: Text("Leaving the mine will cause you to lose progress."),
                                         primaryButton: .destructive(Text("Yes, Leave")) {
                                             // End the game, then navigate to the menu
                                             navigationVM.resetNavigation()
                                             navigationVM.navigateTo(screen: .dashboard)
                                             navigationVM.navigateTo(screen: .miningMenu)
-                                            navigationVM.navigateTo(screen: item.destination)
+                                            navigationVM.navigateTo(screen: selectedScreen)
                                         },
                                         secondaryButton: .cancel()
                                     )
