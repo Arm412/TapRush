@@ -11,9 +11,12 @@ struct MineView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var menuVM: MenuViewModel
+    @EnvironmentObject var navigationVM: NavigationViewModel
     
     @State var showMenu: Bool = false
     @State var menuIsShown: Bool = false
+    @State var showAlert: Bool = false
+    @Binding var navPath: NavigationPath
     
     var body: some View {
         GeometryReader { geo in
@@ -68,25 +71,39 @@ struct MineView: View {
                     }
                     
                     VStack {
-                        
                         if showMenu {
                             ForEach(menuVM.miningMenuNavButtons) { item in
-                                NavigationLink(destination: item.destination) {
-                                    HStack {
-                                        Image(systemName: item.icon)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 40, height: 40)
-                                            .foregroundStyle(.peachOrange)
-                                            .padding()
-                                            .onTapGesture {
-                                                showMenu.toggle()
-                                            }
-                                        Text(item.name)
-                                            .font(.custom("Audiowide-Regular", size: 30))
-                                            .foregroundStyle(.peachOrange)
-                                        Spacer()
-                                    }
+                                HStack {
+                                    Image(systemName: item.icon)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 40, height: 40)
+                                        .foregroundStyle(.peachOrange)
+                                        .padding()
+                                        .onTapGesture {
+                                            showMenu.toggle()
+                                        }
+                                    Text(item.name)
+                                        .font(.custom("Audiowide-Regular", size: 30))
+                                        .foregroundStyle(.peachOrange)
+                                    Spacer()
+                                }
+                                .onTapGesture {
+                                    showAlert = true
+                                }
+                                .alert(isPresented: $showAlert) {
+                                    Alert(
+                                        title: Text("Are you sure?"),
+                                        message: Text("Leaving the game will cause you to lose progress."),
+                                        primaryButton: .destructive(Text("Yes, Leave")) {
+                                            // End the game, then navigate to the menu
+                                            navigationVM.resetNavigation()
+                                            navigationVM.navigateTo(screen: .dashboard)
+                                            navigationVM.navigateTo(screen: .miningMenu)
+                                            navigationVM.navigateTo(screen: item.destination)
+                                        },
+                                        secondaryButton: .cancel()
+                                    )
                                 }
                             }
                         }
@@ -148,8 +165,9 @@ struct MineView: View {
 }
 
 #Preview {
+    @Previewable @State var navPath = NavigationPath()
     var menuVM = MenuViewModel()
     
-    MineView()
+    MineView(navPath: $navPath)
         .environmentObject(menuVM)
 }

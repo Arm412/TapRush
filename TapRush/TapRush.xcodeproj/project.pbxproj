@@ -39,7 +39,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Presentation/Dashboard/DashboardView.swift,
-				Presentation/Dashboard/DashboardViewModel.swift,
 				Presentation/Menu/MiningMenuView.swift,
 				"Shared/Project Fonts/Audiowide-Regular.ttf",
 			);

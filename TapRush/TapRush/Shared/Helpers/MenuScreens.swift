@@ -11,12 +11,12 @@ import SwiftUICore
 struct MenuScreens: Identifiable {
     var id: UUID
     var name: String
-    var destination: AnyView
+    var destination: Screen
     var icon: String
     var primaryColor: Color
     var secondaryColor: Color
     
-    init(name: String, destination: AnyView, icon: String, primaryColor: Color, secondaryColor: Color) {
+    init(name: String, destination: Screen, icon: String, primaryColor: Color, secondaryColor: Color) {
         self.id = UUID()
         self.name = name
         self.destination = destination
@@ -24,4 +24,16 @@ struct MenuScreens: Identifiable {
         self.primaryColor = primaryColor
         self.secondaryColor = secondaryColor
     }
+}
+
+enum Screen: Hashable {
+    case dashboard
+    case mining
+    case miningMenu
+    case awards
+    case inventory
+    case map
+    case orders
+    case pawnShop
+    case store
 }

@@ -9,88 +9,89 @@ import SwiftUI
 
 struct DashboardView: View {
     @State var selectedMine: String = "Pebblebrook Quarry"
-    @StateObject private var menuVM = MenuViewModel()
+    @EnvironmentObject private var menuVM: MenuViewModel
+    @EnvironmentObject private var navigationVM: NavigationViewModel
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                Text("TapRush!")
-                    .font(.custom("Audiowide-Regular", size: 70))
-                    .foregroundStyle(Color.peachOrange)
-                    .frame(maxWidth: .infinity)
-
-                GeometryReader { geometry in
-                    VStack {
-                        NavigationLink(destination: MiningMenuView()) {
-                            Text("Menu")
-                                .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
-                                .frame(width: geometry.size.width * 0.9)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .stroke(Color.peachOrange, lineWidth: 5)
-                                )
-                                .font(.custom("Audiowide-Regular", size: 40))
-                                .foregroundStyle(Color.peachOrange)
-                        }
-                        
-                        Spacer()
-
-                        NavigationLink(destination: MineView().environmentObject(menuVM)) {
-                            HStack {
-                                Text("To the Mines!")
-                                    .font(.custom("Audiowide-Regular", size: 25))
-                                    .foregroundStyle(.peachOrange)
-                                Image("pickaxeAnimation5")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 40, height: 40)
-                                    .foregroundStyle(.peachOrange)
-                            }
-                            .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
-                            .frame(width: geometry.size.width * 0.9)
-                            .background(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(Color.peachOrange, lineWidth: 5)
-                            )
-                        }
-                        
-                        Spacer()
-
-                        NavigationLink(destination: MiningMenuView()) {
-                            Text("Quick Play")
-                                .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
-                                .frame(width: geometry.size.width * 0.9)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .stroke(Color.peachOrange, lineWidth: 5)
-                                )
-                                .font(.custom("Audiowide-Regular", size: 40))
-                                .foregroundStyle(Color.peachOrange)
-                                .frame(width: geometry.size.width * 0.9)
-                        }
-                        Spacer()
-                    }
-                    .frame(maxHeight: geometry.size.height * 0.70)
-                    .padding(EdgeInsets(top: geometry.size.height * 0.15, leading: geometry.size.width * 0.05, bottom: 20, trailing: geometry.size.width * 0.05))
-                }
-
-                Spacer()
-
+        VStack {
+            Text("TapRush!")
+                .font(.custom("Audiowide-Regular", size: 65))
+                .foregroundStyle(Color.peachOrange)
+                .frame(maxWidth: .infinity)
+            
+            GeometryReader { geometry in
                 VStack {
-                    Text("Current Destination:")
-                        .foregroundStyle(.peachOrange)
-                        .font(.custom("Audiowide-Regular", size: 25))
-                    Text(selectedMine)
-                        .foregroundStyle(.peachOrange)
-                        .font(.custom("Audiowide-Regular", size: 25))
+                    Text("Menu")
+                        .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
+                        .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.2)
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.peachOrange, lineWidth: 5)
+                        )
+                        .adaptiveFontSize(customFontName: "Audiowide-Regular")
+                        .foregroundStyle(Color.peachOrange)
+                        .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
+                        .onTapGesture {
+                            navigationVM.navigateTo(screen: Screen.miningMenu)
+//                            menuVM.navPath.append(Screen.miningMenu)
+                        }
+                    HStack {
+                        Text("Go Mining!")
+                            .foregroundStyle(.peachOrange)
+                            .adaptiveFontSize(customFontName: "Audiowide-Regular")
+                        Image("pickaxeAnimation5")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                            .foregroundStyle(.peachOrange)
+                    }
+                    .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
+                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.2)
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color.peachOrange, lineWidth: 5)
+                    )
+                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
+                    .onTapGesture {
+                        navigationVM.navigateTo(screen: Screen.mining)
+//                        menuVM.navPath.append(Screen.mining)
+                    }
+                    Text("Quick Play")
+                        .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
+                        .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.2)
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.peachOrange, lineWidth: 5)
+                        )
+                        .adaptiveFontSize(customFontName: "Audiowide-Regular")
+                        .foregroundStyle(Color.peachOrange)
+                        .frame(width: geometry.size.width * 0.9)
+                        .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
+                        .onTapGesture {
+                            navigationVM.navigateTo(screen: Screen.miningMenu)
+//                            menuVM.navPath.append(Screen.miningMenu)
+                        }
+                    Spacer()
                 }
+                .frame(maxHeight: geometry.size.height * 0.70)
+                .padding(EdgeInsets(top: geometry.size.height * 0.15, leading: geometry.size.width * 0.05, bottom: 20, trailing: geometry.size.width * 0.05))
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding()
-            .background(Color.outerSpace)
-
-
+            
+            Spacer()
+            
+            VStack {
+                Text("Current Destination:")
+                    .foregroundStyle(.peachOrange)
+                    .font(.custom("Audiowide-Regular", size: 25))
+                Text(selectedMine)
+                    .foregroundStyle(.peachOrange)
+                    .font(.custom("Audiowide-Regular", size: 25))
+            }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
+        .background(Color.outerSpace)
+        .navigationBarBackButtonHidden(true)
     }
 }
 
