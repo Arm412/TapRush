@@ -1,5 +1,5 @@
 //
-//  PawnShopView.swift
+//  OrdersView.swift
 //  TapRush
 //
 //  Created by Adam Mitro on 1/27/25.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct PawnShopView: View {
+struct OrdersView: View {
     var body: some View {
         VStack(alignment: HorizontalAlignment.center) {
-            TopNavBarView()
+            TopNavBarView(title: "Orders")
             Spacer()
-            Text("View to display the gem pawn shop.")
+            Text("View to show gem orders")
                 .font(.custom("Audiowide-Regular", size: 40))
                 .foregroundStyle(Color.peachOrange)
         }
@@ -23,5 +23,5 @@ struct PawnShopView: View {
 }
 
 #Preview {
-    PawnShopView()
+    OrdersView()
 }

@@ -38,10 +38,8 @@
 		F4F874D72D0D1EE0000B1E12 /* Exceptions for "TapRush" folder in "TapRushTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Presentation/Campaign/CampaignView.swift,
-				Presentation/Campaign/CampaignViewModel.swift,
 				Presentation/Dashboard/DashboardView.swift,
-				Presentation/Dashboard/DashboardViewModel.swift,
+				Presentation/Menu/MiningMenuView.swift,
 				"Shared/Project Fonts/Audiowide-Regular.ttf",
 			);
 			target = F4F8749F2D0D0E56000B1E12 /* TapRushTests */;

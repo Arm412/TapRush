@@ -1,5 +1,5 @@
 //
-//  CampaignStoreView.swift
+//  StoreView.swift
 //  TapRush
 //
 //  Created by Adam Mitro on 1/23/25.
@@ -10,7 +10,7 @@ import SwiftUI
 struct StoreView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @StateObject private var campaignVM = CampaignViewModel()
+    @StateObject private var menuVM = MenuViewModel()
     
     var body: some View {
         VStack {
@@ -32,7 +32,7 @@ struct StoreView: View {
                             .scaledToFit()
                             .frame(width: 40, height: 40)
                         
-                        Text("\(campaignVM.gems.common)")
+                        Text("\(menuVM.gems.common)")
                             .foregroundStyle(Color.peachOrange)
                             .font(.system(size: 25))
                     }

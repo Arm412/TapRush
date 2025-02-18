@@ -10,7 +10,7 @@ import SwiftUI
 struct InventoryView: View {
     var body: some View {
         VStack(alignment: HorizontalAlignment.center) {
-            TopNavBarView()
+            TopNavBarView(title: "Inventory")
             Spacer()
             Text("View to show the inventory")
                 .font(.custom("Audiowide-Regular", size: 40))
