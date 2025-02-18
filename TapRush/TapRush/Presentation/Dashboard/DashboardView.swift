@@ -33,7 +33,6 @@ struct DashboardView: View {
                         .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
                         .onTapGesture {
                             navigationVM.navigateTo(screen: Screen.miningMenu)
-//                            menuVM.navPath.append(Screen.miningMenu)
                         }
                     HStack {
                         Text("Go Mining!")
@@ -54,7 +53,6 @@ struct DashboardView: View {
                     .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
                     .onTapGesture {
                         navigationVM.navigateTo(screen: Screen.mining)
-//                        menuVM.navPath.append(Screen.mining)
                     }
                     Text("Quick Play")
                         .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
@@ -69,7 +67,6 @@ struct DashboardView: View {
                         .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
                         .onTapGesture {
                             navigationVM.navigateTo(screen: Screen.miningMenu)
-//                            menuVM.navPath.append(Screen.miningMenu)
                         }
                     Spacer()
                 }
@@ -90,7 +87,7 @@ struct DashboardView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
-        .background(Color.outerSpace)
+        .background(.outerSpace)
         .navigationBarBackButtonHidden(true)
     }
 }

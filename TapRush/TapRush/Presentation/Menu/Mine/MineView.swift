@@ -93,20 +93,6 @@ struct MineView: View {
                                     showAlert = true
                                     selectedScreen = item.destination
                                 }
-                                .alert(isPresented: $showAlert) {
-                                    Alert(
-                                        title: Text("Are you sure you want to leave the mine?"),
-                                        message: Text("Leaving the mine will cause you to lose progress."),
-                                        primaryButton: .destructive(Text("Yes, Leave")) {
-                                            // End the game, then navigate to the menu
-                                            navigationVM.resetNavigation()
-                                            navigationVM.navigateTo(screen: .dashboard)
-                                            navigationVM.navigateTo(screen: .miningMenu)
-                                            navigationVM.navigateTo(screen: selectedScreen)
-                                        },
-                                        secondaryButton: .cancel()
-                                    )
-                                }
                             }
                         }
                     }
@@ -114,6 +100,46 @@ struct MineView: View {
                     .border(.peachOrange, width: 2)
                 }
                 .background(.outerSpace)
+                
+                if(showAlert) {
+                    ZStack {
+                        VStack {
+                            Text("Are you sure you want to leave the mine?")
+                            Text("Leaving the mine will cause you to lose progress.")
+                            
+                            HStack {
+                                Button("Leave", action: {
+                                    print("Leave")
+                                    showAlert = false
+                                    navigationVM.resetNavigation()
+                                    navigationVM.navigateTo(screen: .dashboard)
+                                    navigationVM.navigateTo(screen: .miningMenu)
+                                    navigationVM.navigateTo(screen: selectedScreen)
+                                })
+                                .font(.custom("Audiowide-Regular", size: 30))
+                                .foregroundStyle(Color.red)
+                                .padding()
+                                
+                                Button("Stay", action: {
+                                    print("Stay")
+                                    showAlert = false
+                                })
+                                .font(.custom("Audiowide-Regular", size: 30))
+                                .padding()
+                            }
+                        }
+                        .padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 10))
+                        .background(.outerSpace)
+                        .foregroundStyle(Color.white)
+                        .border(.red, width: 5)
+                        .padding()
+                    }
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .background(Color.black.opacity(0.2))
+                    .onTapGesture {
+                        showAlert = false
+                    }
+                }
             }
         }
     }
