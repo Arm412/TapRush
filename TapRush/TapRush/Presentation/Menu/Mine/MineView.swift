@@ -23,7 +23,7 @@ struct MineView: View {
         GeometryReader { geo in
             ZStack(alignment: Alignment.leading) {
                 VStack {
-                    TopNavBarView(menuHandler: { showMenu.toggle() }, title: "Mine", isMining: true)
+                    TopNavBarView(menuHandler: { showMenu.toggle() }, title: Strings.mine, isMining: true)
                     
                     Spacer()
                     
@@ -104,11 +104,11 @@ struct MineView: View {
                 if(showAlert) {
                     ZStack {
                         VStack {
-                            Text("Are you sure you want to leave the mine?")
-                            Text("Leaving the mine will cause you to lose progress.")
+                            Text(Strings.warning1)
+                            Text(Strings.warning2)
                             
                             HStack {
-                                Button("Leave", action: {
+                                Button(Strings.leave, action: {
                                     print("Leave")
                                     showAlert = false
                                     navigationVM.resetNavigation()
@@ -120,7 +120,7 @@ struct MineView: View {
                                 .foregroundStyle(Color.red)
                                 .padding()
                                 
-                                Button("Stay", action: {
+                                Button(Strings.stay, action: {
                                     print("Stay")
                                     showAlert = false
                                 })

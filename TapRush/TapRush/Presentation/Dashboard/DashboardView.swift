@@ -14,14 +14,14 @@ struct DashboardView: View {
     
     var body: some View {
         VStack {
-            Text("TapRush!")
+            Text(Strings.dashboardTitle)
                 .font(.custom("Audiowide-Regular", size: 65))
                 .foregroundStyle(Color.peachOrange)
                 .frame(maxWidth: .infinity)
             
             GeometryReader { geometry in
                 VStack {
-                    Text("Menu")
+                    Text(Strings.menu)
                         .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
                         .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.2)
                         .background(
@@ -35,7 +35,7 @@ struct DashboardView: View {
                             navigationVM.navigateTo(screen: Screen.miningMenu)
                         }
                     HStack {
-                        Text("Go Mining!")
+                        Text(Strings.goMining)
                             .foregroundStyle(.peachOrange)
                             .adaptiveFontSize(customFontName: "Audiowide-Regular")
                         Image("pickaxeAnimation5")
@@ -54,7 +54,7 @@ struct DashboardView: View {
                     .onTapGesture {
                         navigationVM.navigateTo(screen: Screen.mining)
                     }
-                    Text("Quick Play")
+                    Text(Strings.quickPLay)
                         .padding(EdgeInsets(top: 20, leading: 30, bottom: 20, trailing: 30))
                         .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.2)
                         .background(
@@ -77,7 +77,7 @@ struct DashboardView: View {
             Spacer()
             
             VStack {
-                Text("Current Destination:")
+                Text(Strings.currentDestination)
                     .foregroundStyle(.peachOrange)
                     .font(.custom("Audiowide-Regular", size: 25))
                 Text(selectedMine)

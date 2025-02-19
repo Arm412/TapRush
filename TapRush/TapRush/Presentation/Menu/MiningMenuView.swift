@@ -15,7 +15,7 @@ struct MiningMenuView: View {
     
     var body: some View {
         VStack {
-            TopNavBarView(title: "Menu")
+            TopNavBarView(title: Strings.menu)
                 .environmentObject(menuVM)
             
             VStack {
@@ -44,14 +44,14 @@ struct MiningMenuView: View {
             }
             Spacer()
             VStack {
-                Text("Current Destination:")
+                Text(Strings.currentDestination)
                     .foregroundStyle(.peachOrange)
                     .font(.custom("Audiowide-Regular", size: 25))
                 Text(selectedMine)
                     .foregroundStyle(.peachOrange)
                     .font(.custom("Audiowide-Regular", size: 25))
                 HStack {
-                    Text("To the Mines!")
+                    Text(Strings.toTheMines)
                         .font(.custom("Audiowide-Regular", size: 25))
                         .foregroundStyle(.peachOrange)
                     Image("pickaxeAnimation5")
@@ -80,7 +80,6 @@ struct MiningMenuView: View {
 }
 
 #Preview {
-//    @Previewable @State var navPath = NavigationPath()
     var navigationViewModel = NavigationViewModel()
     var menuViewModel = MenuViewModel()
     

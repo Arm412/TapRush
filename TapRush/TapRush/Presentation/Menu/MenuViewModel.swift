@@ -27,12 +27,12 @@ class MenuViewModel: ObservableObject {
     
     
     let miningMenuNavButtons: [MenuScreens] = [
-        MenuScreens(name: "Map", destination: .map, icon: "map.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
-        MenuScreens(name: "Inventory", destination: .inventory, icon: "shippingbox.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
-        MenuScreens(name: "Store", destination: .store, icon: "storefront.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
-        MenuScreens(name: "Pawn Shop", destination: .pawnShop, icon: "dollarsign.circle.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
-        MenuScreens(name: "Orders", destination: .orders, icon: "list.clipboard.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
-        MenuScreens(name: "Awards", destination: .awards, icon: "trophy.fill", primaryColor: .outerSpace, secondaryColor: .roseGold)]
+        MenuScreens(name: Strings.map, destination: .map, icon: "map.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
+        MenuScreens(name: Strings.inventory, destination: .inventory, icon: "shippingbox.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
+        MenuScreens(name: Strings.store, destination: .store, icon: "storefront.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
+        MenuScreens(name: Strings.pawnShop, destination: .pawnShop, icon: "dollarsign.circle.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
+        MenuScreens(name: Strings.orders, destination: .orders, icon: "list.clipboard.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
+        MenuScreens(name: Strings.awards, destination: .awards, icon: "trophy.fill", primaryColor: .outerSpace, secondaryColor: .roseGold)]
     
     init() {
         self.gems = CoreDataManager.shared.getGemCount()[0]
