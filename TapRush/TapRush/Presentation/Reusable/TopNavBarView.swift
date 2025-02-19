@@ -59,6 +59,6 @@ struct TopNavBarView: View {
 #Preview {
     var menuVM = MenuViewModel()
     
-    TopNavBarView(title: "Menu")
+    TopNavBarView(title: Strings.menu)
         .environmentObject(menuVM)
 }
