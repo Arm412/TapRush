@@ -17,6 +17,7 @@ class MenuViewModel: ObservableObject {
     @Published var gems: GemCount
     @Published var gold: GoldCount
     @Published var navPath = NavigationPath()
+    @Published var inventory = Inventory(itemList: [])
     
     var navPathBinding: Binding<NavigationPath> {
             Binding(
@@ -24,7 +25,6 @@ class MenuViewModel: ObservableObject {
                 set: { self.navPath = $0 }
             )
         }
-    
     
     let miningMenuNavButtons: [MenuScreens] = [
         MenuScreens(name: Strings.map, destination: .map, icon: "map.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
@@ -40,6 +40,10 @@ class MenuViewModel: ObservableObject {
         self.gold = CoreDataManager.shared.getGoldCount()[0]
         print(self.gold.count)
         print("self.gold.count")
+        
+        // Get other items stored in CoreData TBD
+        
+        inventory = InventoryHelpers().createInventoryList(gems: gems, gold: gold)
     }
     
     func delete(_ gemCount: GemCount) {
