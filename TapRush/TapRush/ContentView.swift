@@ -34,6 +34,7 @@ struct ContentView: View {
                         AwardsView()
                     case .inventory:
                         InventoryView()
+                            .environmentObject(menuVM)
                     case .map:
                         MapView()
                     case .orders:

@@ -68,10 +68,22 @@ struct Rock: Identifiable {
     }
     
     mutating func determineGem() {
-        let randomNumber = Int.random(in: 1...100)
-        if randomNumber < 75 {
+        let randomNumber = Int.random(in: 1...120)
+        if randomNumber <= 20 {
             gemType = .common
             gemSprites = GemManager().getGemNames(for: .common)
+        } else if randomNumber > 20 && randomNumber <= 40 {
+            gemType = .uncommon
+            gemSprites = GemManager().getGemNames(for: .uncommon)
+        } else if randomNumber > 40 && randomNumber <= 60 {
+            gemType = .rare
+            gemSprites = GemManager().getGemNames(for: .rare)
+        } else if randomNumber > 60 && randomNumber <= 80 {
+            gemType = .legendary
+            gemSprites = GemManager().getGemNames(for: .legendary)
+        } else if randomNumber > 80 && randomNumber <= 100 {
+            gemType = .mythical
+            gemSprites = GemManager().getGemNames(for: .mythical)
         } else {
             gemSprites = GemManager().getGemNames(for: .none)
             hasGem = false
@@ -79,23 +91,23 @@ struct Rock: Identifiable {
     }
 }
 
-enum GemType {
-    case none
-    case common
-    case uncommon
-    case rare
-    case legendary
-    case mythical
+enum GemType: String, CaseIterable {
+    case none = "none"
+    case common = "common"
+    case uncommon = "uncommon"
+    case rare = "rare"
+    case legendary = "legendary"
+    case mythical = "mythical"
 }
 
 struct GemManager {
     private let gemNames: [GemType: [String]] = [
         .none: [],
-        .common: ["purpEmerald1", "purpEmerald2"],
-        .uncommon: ["purpEmerald1", "purpEmerald2"],
-        .rare: ["purpEmerald1", "purpEmerald2"],
-        .legendary: ["purpEmerald1", "purpEmerald2"],
-        .mythical: ["purpEmerald1", "purpEmerald2"]
+        .common: ["purpEmerald1"],
+        .uncommon: ["purpEmerald2"],
+        .rare: ["sapphire"],
+        .legendary: ["emerald"],
+        .mythical: ["diamond"]
     ]
     
     func getGemNames(for type: GemType) -> [String] {
