@@ -31,6 +31,7 @@ struct DashboardView: View {
                         .adaptiveFontSize(customFontName: "Audiowide-Regular")
                         .foregroundStyle(Color.peachOrange)
                         .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
+                        .contentShape(RoundedRectangle(cornerRadius: 15))
                         .onTapGesture {
                             navigationVM.navigateTo(screen: Screen.miningMenu)
                         }
@@ -51,6 +52,7 @@ struct DashboardView: View {
                             .stroke(Color.peachOrange, lineWidth: 5)
                     )
                     .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
+                    .contentShape(RoundedRectangle(cornerRadius: 15))
                     .onTapGesture {
                         navigationVM.navigateTo(screen: Screen.mining)
                     }
@@ -65,6 +67,7 @@ struct DashboardView: View {
                         .foregroundStyle(Color.peachOrange)
                         .frame(width: geometry.size.width * 0.9)
                         .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
+                        .contentShape(RoundedRectangle(cornerRadius: 15))
                         .onTapGesture {
                             navigationVM.navigateTo(screen: Screen.miningMenu)
                         }

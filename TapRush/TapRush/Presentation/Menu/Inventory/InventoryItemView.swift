@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct InventoryItemView: View {
+    @Binding var inventoryItem: InventoryItem
+    
     var body: some View {
         ZStack {
-            Image("purpEmerald1")
+            Image(inventoryItem.itemIcon)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 100, height: 100)
+                .frame(width: 90, height: 90)
             
             Image(systemName: "trash.fill")
                 .resizable()
@@ -25,10 +27,10 @@ struct InventoryItemView: View {
             VStack {
                 Spacer()
                 HStack {
-                    Text("x10000")
+                    Text("x\(inventoryItem.itemCount)")
                         .font(.custom("Roboto", size: 20))
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
-                        .foregroundStyle(.peachOrange)
+                        .foregroundStyle(.white)
                     Spacer()
                 }
             }
@@ -38,5 +40,7 @@ struct InventoryItemView: View {
 }
 
 #Preview {
-    InventoryItemView()
+    @Previewable @State var item = InventoryItem(itemIcon: "", itemCount: 2, itemName: "", itemDescription: "")
+    
+    InventoryItemView(inventoryItem: $item)
 }

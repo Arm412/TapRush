@@ -26,10 +26,36 @@ struct InventoryView: View {
             VStack(alignment: HorizontalAlignment.center) {
                 TopNavBarView(title: Strings.inventory)
                 
+                HStack {
+                    Spacer()
+                    Text("\(menuVM.inventory.getTotalInventoryCount())/200")
+                        .foregroundStyle(.white)
+                        .font(.custom("Roboto", size: 25))
+                        .padding()
+                    Spacer()
+                    
+                    HStack {
+                        Image("gold")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                        Text("x\(menuVM.inventory.goldCount)")
+                            .font(.custom("Roboto", size: 25))
+                    }
+                    .padding()
+                    
+                    Spacer()
+                }
+                
+                Rectangle()
+                    .fill(Color.white)
+                    .frame(height: 2)
+                    .frame(maxWidth: .infinity)
+                
                 ScrollView {
                     LazyVGrid(columns: geo.size.width < 400 ? columnsSmall : columnsLarge, spacing: 20) {
-                        ForEach(0..<16) { _ in
-                            InventoryItemView()
+                        ForEach($menuVM.inventory.itemList, id: \.self) { $item in
+                            InventoryItemView(inventoryItem: $item)
                         }
                     }
                     .frame(width: geo.size.width)
