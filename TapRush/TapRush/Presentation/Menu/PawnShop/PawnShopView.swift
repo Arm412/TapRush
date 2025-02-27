@@ -8,13 +8,19 @@
 import SwiftUI
 
 struct PawnShopView: View {
+    @EnvironmentObject var menuVM: MenuViewModel
+    
     var body: some View {
         VStack(alignment: HorizontalAlignment.center) {
             TopNavBarView(title: "Pawn Shop")
+            VStack(alignment: .center) {
+                ForEach($menuVM.inventory.gemList, id: \.self) { item in
+                    HStack {
+                        TradeItemView(gem: item)
+                    }
+                }
+            }
             Spacer()
-            Text("View to display the gem pawn shop.")
-                .font(.custom("Audiowide-Regular", size: 40))
-                .foregroundStyle(Color.peachOrange)
         }
         .navigationBarBackButtonHidden(true)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -23,5 +29,8 @@ struct PawnShopView: View {
 }
 
 #Preview {
+    var viewModel = MenuViewModel()
+    
     PawnShopView()
+        .environmentObject(viewModel)
 }

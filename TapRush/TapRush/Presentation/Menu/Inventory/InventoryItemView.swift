@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct InventoryItemView: View {
-    @Binding var inventoryItem: InventoryItem
+    @Binding var gemItem: GemItem
     
     var body: some View {
         ZStack {
-            Image(inventoryItem.itemIcon)
+            Image(gemItem.itemIcon)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 90, height: 90)
@@ -27,7 +27,7 @@ struct InventoryItemView: View {
             VStack {
                 Spacer()
                 HStack {
-                    Text("x\(inventoryItem.itemCount)")
+                    Text("x\(gemItem.itemCount)")
                         .font(.custom("Roboto", size: 20))
                         .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
                         .foregroundStyle(.white)
@@ -40,7 +40,7 @@ struct InventoryItemView: View {
 }
 
 #Preview {
-    @Previewable @State var item = InventoryItem(itemIcon: "", itemCount: 2, itemName: "", itemDescription: "")
+    @Previewable @State var item = GemItem(itemIcon: "", itemCount: 2, itemName: "", itemDescription: "", gemType: .common)
     
-    InventoryItemView(inventoryItem: $item)
+    InventoryItemView(gemItem: $item)
 }

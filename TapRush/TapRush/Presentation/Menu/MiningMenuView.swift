@@ -9,8 +9,8 @@ struct MiningMenuView: View {
     @EnvironmentObject private var navigationVM: NavigationViewModel
     
     let columns: [GridItem] = [
-        GridItem(.flexible(maximum: 150)),
-        GridItem(.flexible(maximum: 150))
+        GridItem(.flexible(maximum: 175)),
+        GridItem(.flexible(maximum: 175))
     ]
     
     var body: some View {
@@ -29,6 +29,7 @@ struct MiningMenuView: View {
                                 .foregroundStyle(.peachOrange)
                             Text(item.name)
                                 .foregroundStyle(.peachOrange)
+                                .font(.custom("Audiowide-Regular", size: 18))
                         }
                         .frame(maxWidth: .infinity)
                         .padding()

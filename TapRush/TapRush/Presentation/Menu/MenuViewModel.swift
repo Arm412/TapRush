@@ -17,7 +17,7 @@ class MenuViewModel: ObservableObject {
     @Published var gems: GemCount
     @Published var gold: GoldCount
     @Published var navPath = NavigationPath()
-    @Published var inventory = Inventory(itemList: [])
+    @Published var inventory = Inventory(gemList: [])
     
     var navPathBinding: Binding<NavigationPath> {
             Binding(
@@ -43,7 +43,7 @@ class MenuViewModel: ObservableObject {
         
         // Get other items stored in CoreData TBD
         
-        inventory = InventoryHelpers().createInventoryList(gems: gems, gold: gold)
+        inventory = InventoryHelpers().updateInventoryList(gems: gems, gold: gold)
     }
     
     func delete(_ gemCount: GemCount) {
@@ -65,8 +65,9 @@ class MenuViewModel: ObservableObject {
         
         goldCount.count = gold.count
         
-        CoreDataManager.shared.save()
+        inventory = InventoryHelpers().updateInventoryList(gems: gems, gold: gold)
         
+        CoreDataManager.shared.save()
     }
     
     func initRocks(geo: GeometryProxy) {
