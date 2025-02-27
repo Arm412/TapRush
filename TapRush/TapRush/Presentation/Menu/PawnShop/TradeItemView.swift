@@ -2,8 +2,11 @@ import SwiftUI
 
 struct TradeItemView: View {
     @Binding var gem: GemItem
+    @Binding var totalGold: Int
     @State var sellAmount: Int = 0
     @State var calculatedGold: Int = 0
+    @State var plusIsTapped = false
+    @State var minusIsTapped = false
     
     // Helper function to dynamically scale font size based on the number length
     func dynamicFontSize(for number: Int) -> CGFloat {
@@ -39,43 +42,82 @@ struct TradeItemView: View {
                     }
                 }
             }
-            .frame(width: 90, height: 90)
-
+            .frame(width: 70, height: 90)
+            
             Image(systemName: "minus")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 15, height: 15)
                 .padding()
-                .border(.peachOrange, width: 2)
-                .foregroundStyle(.peachOrange)
-                .contentShape(Rectangle())
+                .overlay(
+                    Circle().stroke(minusIsTapped ? Color.red : Color.peachOrange, lineWidth: 2)
+                )
+                .foregroundStyle(minusIsTapped ? Color.red : Color.peachOrange)
+                .contentShape(Circle())
                 .onTapGesture {
                     if (sellAmount - gem.minimumGemIncrement >= 0) {
                         sellAmount -= gem.minimumGemIncrement
                         calculatedGold -= gem.goldPerIncrement
+                        $totalGold.wrappedValue -= gem.goldPerIncrement
+                        
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            minusIsTapped = false
+                        }
+                    } else {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            minusIsTapped = true
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                minusIsTapped = false
+                            }
+                        }
                     }
                 }
+
 
             Text("\(sellAmount)")
                 .font(.custom("Roboto", size: dynamicFontSize(for: sellAmount)))
                 .foregroundStyle(.peachOrange)
                 .frame(width: 50)
-                .padding()
 
             Image(systemName: "plus")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 15, height: 15)
                 .padding()
-                .border(.peachOrange, width: 2)
-                .foregroundStyle(.peachOrange)
-                .contentShape(Rectangle())
+                .overlay(
+                    Circle().stroke(plusIsTapped ? Color.red : Color.peachOrange, lineWidth: 2)
+                )
+                .foregroundStyle(plusIsTapped ? Color.red : Color.peachOrange)
+                .contentShape(Circle())
                 .onTapGesture {
                     if (sellAmount + gem.minimumGemIncrement <= gem.itemCount) {
                         sellAmount += gem.minimumGemIncrement
                         calculatedGold += gem.goldPerIncrement
+                        $totalGold.wrappedValue += gem.goldPerIncrement
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            plusIsTapped = false
+                        }
+                    } else {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            plusIsTapped = true
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                plusIsTapped = false
+                            }
+                        }
                     }
                 }
+            Image(systemName: "arrow.right")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 15, height: 15)
+                .foregroundStyle(.peachOrange)
+                .padding(.leading, 10)
 
             Text("\(calculatedGold)")
                 .font(.custom("Roboto", size: dynamicFontSize(for: calculatedGold)))
@@ -88,5 +130,6 @@ struct TradeItemView: View {
 
 #Preview {
     @Previewable @State var gem = GemItem(itemIcon: "emerald", itemCount: 2, itemName: "", itemDescription: "", gemType: .rare)
-    TradeItemView(gem: $gem)
+    @Previewable @State var total: Int = 0
+    TradeItemView(gem: $gem, totalGold: $total)
 }
