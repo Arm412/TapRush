@@ -2,11 +2,11 @@ import SwiftUI
 
 struct TradeItemView: View {
     @Binding var gem: GemItem
-    @State var sellAmount: Int64 = 0
-    @State var calculatedGold: Int64 = 0
+    @State var sellAmount: Int = 0
+    @State var calculatedGold: Int = 0
     
     // Helper function to dynamically scale font size based on the number length
-    func dynamicFontSize(for number: Int64) -> CGFloat {
+    func dynamicFontSize(for number: Int) -> CGFloat {
         let length = String(number).count
         switch length {
         case 1:
@@ -50,9 +50,9 @@ struct TradeItemView: View {
                 .foregroundStyle(.peachOrange)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    if (sellAmount - 1 >= 0) {
-                        sellAmount -= 1
-                        calculatedGold -= 10
+                    if (sellAmount - gem.minimumGemIncrement >= 0) {
+                        sellAmount -= gem.minimumGemIncrement
+                        calculatedGold -= gem.goldPerIncrement
                     }
                 }
 
@@ -71,9 +71,9 @@ struct TradeItemView: View {
                 .foregroundStyle(.peachOrange)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    if (sellAmount + 1 <= gem.itemCount) {
-                        sellAmount += 1
-                        calculatedGold += 10
+                    if (sellAmount + gem.minimumGemIncrement <= gem.itemCount) {
+                        sellAmount += gem.minimumGemIncrement
+                        calculatedGold += gem.goldPerIncrement
                     }
                 }
 
