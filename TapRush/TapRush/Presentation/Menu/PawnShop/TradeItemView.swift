@@ -3,10 +3,15 @@ import SwiftUI
 struct TradeItemView: View {
     @Binding var gem: GemItem
     @Binding var totalGold: Int
+    @Binding var totalGems: Int
     @State var sellAmount: Int = 0
     @State var calculatedGold: Int = 0
     @State var plusIsTapped = false
     @State var minusIsTapped = false
+    
+    var screenWidth: CGFloat {
+        UIScreen.main.bounds.width
+    }
     
     // Helper function to dynamically scale font size based on the number length
     func dynamicFontSize(for number: Int) -> CGFloat {
@@ -20,6 +25,16 @@ struct TradeItemView: View {
             return 20
         default:
             return 18
+        }
+    }
+    
+    func dynamicPaddingSize() -> CGFloat {
+        if screenWidth <= 375 {
+            return 15
+        } else if screenWidth <= 600 {
+            return 25
+        } else {
+            return 40
         }
     }
     
@@ -43,93 +58,103 @@ struct TradeItemView: View {
                 }
             }
             .frame(width: 70, height: 90)
+            .padding(.leading, dynamicPaddingSize())
             
-            Image(systemName: "minus")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 15, height: 15)
-                .padding()
-                .overlay(
-                    Circle().stroke(minusIsTapped ? Color.red : Color.peachOrange, lineWidth: 2)
-                )
-                .foregroundStyle(minusIsTapped ? Color.red : Color.peachOrange)
-                .contentShape(Circle())
-                .onTapGesture {
-                    if (sellAmount - gem.minimumGemIncrement >= 0) {
-                        sellAmount -= gem.minimumGemIncrement
-                        calculatedGold -= gem.goldPerIncrement
-                        $totalGold.wrappedValue -= gem.goldPerIncrement
-                        
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            minusIsTapped = false
-                        }
-                    } else {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            minusIsTapped = true
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            withAnimation(.easeInOut(duration: 0.2)) {
+            Spacer()
+            
+            HStack {
+                Image(systemName: "minus")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 15, height: 15)
+                    .padding()
+                    .overlay(
+                        Circle().stroke(minusIsTapped ? Color.red : Color.peachOrange, lineWidth: 2)
+                    )
+                    .foregroundStyle(minusIsTapped ? Color.red : Color.peachOrange)
+                    .contentShape(Circle())
+                    .onTapGesture {
+                        if (sellAmount - gem.minimumGemIncrement >= 0) {
+                            sellAmount -= gem.minimumGemIncrement
+                            calculatedGold -= gem.goldPerIncrement
+                            $totalGold.wrappedValue -= gem.goldPerIncrement
+                            $totalGems.wrappedValue -= gem.minimumGemIncrement
+                            
+                            withAnimation(.easeInOut(duration: 0.3)) {
                                 minusIsTapped = false
                             }
-                        }
-                    }
-                }
-
-
-            Text("\(sellAmount)")
-                .font(.custom("Roboto", size: dynamicFontSize(for: sellAmount)))
-                .foregroundStyle(.peachOrange)
-                .frame(width: 50)
-
-            Image(systemName: "plus")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 15, height: 15)
-                .padding()
-                .overlay(
-                    Circle().stroke(plusIsTapped ? Color.red : Color.peachOrange, lineWidth: 2)
-                )
-                .foregroundStyle(plusIsTapped ? Color.red : Color.peachOrange)
-                .contentShape(Circle())
-                .onTapGesture {
-                    if (sellAmount + gem.minimumGemIncrement <= gem.itemCount) {
-                        sellAmount += gem.minimumGemIncrement
-                        calculatedGold += gem.goldPerIncrement
-                        $totalGold.wrappedValue += gem.goldPerIncrement
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            plusIsTapped = false
-                        }
-                    } else {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            plusIsTapped = true
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                plusIsTapped = false
+                        } else {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                minusIsTapped = true
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    minusIsTapped = false
+                                }
                             }
                         }
                     }
-                }
-            Image(systemName: "arrow.right")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 15, height: 15)
-                .foregroundStyle(.peachOrange)
-                .padding(.leading, 10)
 
+
+                Text("\(sellAmount)")
+                    .font(.custom("Roboto", size: dynamicFontSize(for: sellAmount)))
+                    .foregroundStyle(.peachOrange)
+                    .frame(width: 50)
+
+                Image(systemName: "plus")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 15, height: 15)
+                    .padding()
+                    .overlay(
+                        Circle().stroke(plusIsTapped ? Color.red : Color.peachOrange, lineWidth: 2)
+                    )
+                    .foregroundStyle(plusIsTapped ? Color.red : Color.peachOrange)
+                    .contentShape(Circle())
+                    .onTapGesture {
+                        if (sellAmount + gem.minimumGemIncrement <= gem.itemCount) {
+                            sellAmount += gem.minimumGemIncrement
+                            calculatedGold += gem.goldPerIncrement
+                            $totalGold.wrappedValue += gem.goldPerIncrement
+                            $totalGems.wrappedValue += gem.minimumGemIncrement
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                plusIsTapped = false
+                            }
+                        } else {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                plusIsTapped = true
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    plusIsTapped = false
+                                }
+                            }
+                        }
+                    }
+                Image(systemName: "arrow.right")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(.peachOrange)
+                    .padding(.leading, 10)
+            }
+
+            Spacer()
+            
             Text("\(calculatedGold)")
                 .font(.custom("Roboto", size: dynamicFontSize(for: calculatedGold)))
                 .foregroundStyle(.peachOrange)
                 .frame(width: 50)
-                .padding()
+                .padding(.trailing, dynamicPaddingSize())
         }
+        .frame(maxWidth: .infinity)
     }
 }
 
 #Preview {
     @Previewable @State var gem = GemItem(itemIcon: "emerald", itemCount: 2, itemName: "", itemDescription: "", gemType: .rare)
     @Previewable @State var total: Int = 0
-    TradeItemView(gem: $gem, totalGold: $total)
+    TradeItemView(gem: $gem, totalGold: $total, totalGems: $total)
 }
