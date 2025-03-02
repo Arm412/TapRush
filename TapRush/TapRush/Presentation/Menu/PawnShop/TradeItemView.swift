@@ -43,7 +43,7 @@ struct TradeItemView: View {
     var body: some View {
         HStack {
             ZStack {
-                Image(gem.itemIcon)
+                Image(gem.gem.sprites[0])
                     .resizable()
                     .scaledToFit()
                     .frame(width: 60, height: 60)
@@ -82,7 +82,7 @@ struct TradeItemView: View {
                             
                             $totalGold.wrappedValue -= gem.goldPerIncrement
 //                            $totalGems.wrappedValue -= gem.minimumGemIncrement
-                            updateGemCount(type: gem.gemType, amount: gem.minimumGemIncrement * -1)
+                            updateGemCount(type: gem.gem.type, amount: gem.minimumGemIncrement * -1)
                             
                             withAnimation(.easeInOut(duration: 0.3)) {
                                 minusIsTapped = false
@@ -123,7 +123,7 @@ struct TradeItemView: View {
                             
                             $totalGold.wrappedValue += gem.goldPerIncrement
 //                            $totalGems.wrappedValue += gem.minimumGemIncrement
-                            updateGemCount(type: gem.gemType, amount: gem.minimumGemIncrement)
+                            updateGemCount(type: gem.gem.type, amount: gem.minimumGemIncrement)
                             withAnimation(.easeInOut(duration: 0.3)) {
                                 plusIsTapped = false
                             }
@@ -174,7 +174,7 @@ struct TradeItemView: View {
 }
 
 #Preview {
-    @Previewable @State var gem = GemItem(itemIcon: "emerald", itemCount: 2, itemName: "Emerald", itemDescription: "A rare gem", gemType: .rare)
+    @Previewable @State var gem = GemItem(itemCount: 2, itemDescription: "A rare gem", gemType: .rare)
     @Previewable @State var total: Int = 1000
     @Previewable @State var gemCount = SoldGemCounts()
     

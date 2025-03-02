@@ -121,16 +121,16 @@ class MenuViewModel: ObservableObject {
         }
     }
     
-    func updateGemCount(gemType: GemType, amount: Int) {
-        if gemType == .common {
+    func updateGemCount(gem: Gem, amount: Int) {
+        if gem.type == .common {
             gems.common += amount
-        } else if gemType == .uncommon {
+        } else if gem.type == .uncommon {
             gems.uncommon += amount
-        } else if gemType == .rare {
+        } else if gem.type == .rare {
             gems.rare += amount
-        } else if gemType == .legendary {
+        } else if gem.type == .legendary {
             gems.legendary += amount
-        } else if gemType == .mythical {
+        } else if gem.type == .mythical {
             gems.mythical += amount
         }
     }
@@ -141,7 +141,7 @@ class MenuViewModel: ObservableObject {
             rocks[index].animationTimer = nil
             
             rocks[index].dustSettled = true
-            if (!rocks[index].hasGem) {
+            if (rocks[index].gem == nil) {
                 rocks[index] = createRock()
             }
         } else {

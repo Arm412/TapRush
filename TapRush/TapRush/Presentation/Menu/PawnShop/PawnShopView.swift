@@ -21,7 +21,7 @@ struct PawnShopView: View {
                     TopNavBarView(title: Strings.pawnShop)
                     
                     VStack(alignment: .center) {
-                        ForEach($menuVM.inventory.gemList, id: \.self) { item in
+                        ForEach($menuVM.inventory.gemList) { item in
                             HStack {
                                 TradeItemView(gem: item, totalGold: $totalGoldConverted, gemCount: $sellGemCount)
                                     .environmentObject(menuVM)

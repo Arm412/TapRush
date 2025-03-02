@@ -54,7 +54,7 @@ struct InventoryView: View {
                 
                 ScrollView {
                     LazyVGrid(columns: geo.size.width < 400 ? columnsSmall : columnsLarge, spacing: 20) {
-                        ForEach($menuVM.inventory.gemList, id: \.self) { item in
+                        ForEach($menuVM.inventory.gemList) { item in
                             InventoryItemView(gemItem: item)
                         }
                     }

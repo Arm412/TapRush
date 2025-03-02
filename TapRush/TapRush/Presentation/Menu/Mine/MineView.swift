@@ -166,7 +166,7 @@ struct MineView: View {
             )
         } else {
             return AnyView(
-                Image(rock.gemSprites[0])
+                Image(rock.gem!.sprites[0])
                     .resizable()
                     .scaledToFit()
                     .frame(width: 80, height: 80)
@@ -187,8 +187,12 @@ struct MineView: View {
     }
     
     private func handleGemTap(for rock: Rock, at index: Int) {
-        menuVM.rocks[index] = menuVM.createRock()
-        menuVM.updateGemCount(gemType: rock.gemType, amount: 1)
+        if let gem = rock.gem {
+            menuVM.rocks[index] = menuVM.createRock()
+            menuVM.updateGemCount(gem: gem, amount: 1)
+        } else {
+            menuVM.rocks[index] = menuVM.createRock()
+        }
     }
 }
 

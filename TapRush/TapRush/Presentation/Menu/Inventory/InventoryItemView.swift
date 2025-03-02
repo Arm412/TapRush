@@ -12,7 +12,7 @@ struct InventoryItemView: View {
     
     var body: some View {
         ZStack {
-            Image(gemItem.itemIcon)
+            Image(gemItem.gem.sprites[0])
                 .resizable()
                 .scaledToFit()
                 .frame(width: 90, height: 90)
@@ -40,7 +40,7 @@ struct InventoryItemView: View {
 }
 
 #Preview {
-    @Previewable @State var item = GemItem(itemIcon: "", itemCount: 2, itemName: "", itemDescription: "", gemType: .common)
+    @Previewable @State var item = GemItem(itemCount: 2, itemDescription: "", gemType: .common)
     
     InventoryItemView(gemItem: $item)
 }

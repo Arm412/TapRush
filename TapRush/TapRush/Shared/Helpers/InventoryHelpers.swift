@@ -13,11 +13,9 @@ class InventoryHelpers {
         
         // Add gem to inventory
         for gemTypeName in GemType.allCases {
-            if gemTypeName != .none {
-                let gemCount = (gems.value(forKey: gemTypeName.rawValue) ?? 0) as! Int
-                let gemInvItem = GemItem(itemIcon: GemManager().getGemNames(for: gemTypeName)[0], itemCount: gemCount, itemName: gemTypeName.rawValue.capitalized, itemDescription: "", gemType: gemTypeName)
-                inventory.gemList.append(gemInvItem)
-            }
+            let gemCount = (gems.value(forKey: gemTypeName.rawValue) ?? 0) as! Int
+            let gemInvItem = GemItem(itemCount: gemCount, itemDescription: "", gemType: gemTypeName)
+            inventory.gemList.append(gemInvItem)
         }
         
         // Add gold to inventory
@@ -34,21 +32,19 @@ protocol InventoryItem: Hashable {
     var itemDescription: String { get }
 }
 
-struct GemItem: Hashable {
-    var itemIcon: String = ""
+struct GemItem: Identifiable {
+    var id: UUID = UUID()
     var itemCount: Int = 0
-    var itemName: String = ""
     var itemDescription: String = ""
-    var gemType: GemType = .none
+    var gem: Gem
     var minimumGemIncrement: Int = 0
     var goldPerIncrement: Int = 0
     
-    init(itemIcon: String, itemCount: Int, itemName: String, itemDescription: String, gemType: GemType) {
-        self.itemIcon = itemIcon
+    init(itemCount: Int, itemDescription: String, gemType: GemType) {
         self.itemCount = itemCount
-        self.itemName = itemName
         self.itemDescription = itemDescription
-        self.gemType = gemType
+
+        self.gem = Gem(type: gemType)
         
         // Set the gem to gold conversion ratio based on gem type
         if gemType == .common {
