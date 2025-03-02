@@ -121,17 +121,17 @@ class MenuViewModel: ObservableObject {
         }
     }
     
-    func updateGemCount(gemType: GemType) {
+    func updateGemCount(gemType: GemType, amount: Int) {
         if gemType == .common {
-            gems.common += 1
+            gems.common += amount
         } else if gemType == .uncommon {
-            gems.uncommon += 1
+            gems.uncommon += amount
         } else if gemType == .rare {
-            gems.rare += 1
+            gems.rare += amount
         } else if gemType == .legendary {
-            gems.legendary += 1
+            gems.legendary += amount
         } else if gemType == .mythical {
-            gems.mythical += 1
+            gems.mythical += amount
         }
     }
 

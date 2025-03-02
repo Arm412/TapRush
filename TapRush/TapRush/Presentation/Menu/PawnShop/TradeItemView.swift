@@ -3,11 +3,13 @@ import SwiftUI
 struct TradeItemView: View {
     @Binding var gem: GemItem
     @Binding var totalGold: Int
-    @Binding var totalGems: Int
+    @Binding var gemCount: SoldGemCounts
     @State var sellAmount: Int = 0
     @State var calculatedGold: Int = 0
     @State var plusIsTapped = false
     @State var minusIsTapped = false
+    
+    @EnvironmentObject var menuVM: MenuViewModel
     
     var screenWidth: CGFloat {
         UIScreen.main.bounds.width
@@ -77,8 +79,10 @@ struct TradeItemView: View {
                         if (sellAmount - gem.minimumGemIncrement >= 0) {
                             sellAmount -= gem.minimumGemIncrement
                             calculatedGold -= gem.goldPerIncrement
+                            
                             $totalGold.wrappedValue -= gem.goldPerIncrement
-                            $totalGems.wrappedValue -= gem.minimumGemIncrement
+//                            $totalGems.wrappedValue -= gem.minimumGemIncrement
+                            updateGemCount(type: gem.gemType, amount: gem.minimumGemIncrement * -1)
                             
                             withAnimation(.easeInOut(duration: 0.3)) {
                                 minusIsTapped = false
@@ -116,8 +120,10 @@ struct TradeItemView: View {
                         if (sellAmount + gem.minimumGemIncrement <= gem.itemCount) {
                             sellAmount += gem.minimumGemIncrement
                             calculatedGold += gem.goldPerIncrement
+                            
                             $totalGold.wrappedValue += gem.goldPerIncrement
-                            $totalGems.wrappedValue += gem.minimumGemIncrement
+//                            $totalGems.wrappedValue += gem.minimumGemIncrement
+                            updateGemCount(type: gem.gemType, amount: gem.minimumGemIncrement)
                             withAnimation(.easeInOut(duration: 0.3)) {
                                 plusIsTapped = false
                             }
@@ -151,10 +157,26 @@ struct TradeItemView: View {
         }
         .frame(maxWidth: .infinity)
     }
+    
+    func updateGemCount(type: GemType, amount: Int) {
+        if type == .common {
+            gemCount.common += amount
+        } else if type == .uncommon {
+            gemCount.uncommon += amount
+        } else if type == .rare {
+            gemCount.rare += amount
+        } else if type == .legendary {
+            gemCount.legendary += amount
+        } else if type == .mythical {
+            gemCount.mythical += amount
+        }
+    }
 }
 
 #Preview {
-    @Previewable @State var gem = GemItem(itemIcon: "emerald", itemCount: 2, itemName: "", itemDescription: "", gemType: .rare)
-    @Previewable @State var total: Int = 0
-    TradeItemView(gem: $gem, totalGold: $total, totalGems: $total)
+    @Previewable @State var gem = GemItem(itemIcon: "emerald", itemCount: 2, itemName: "Emerald", itemDescription: "A rare gem", gemType: .rare)
+    @Previewable @State var total: Int = 1000
+    @Previewable @State var gemCount = SoldGemCounts()
+    
+    TradeItemView(gem: $gem, totalGold: $total, gemCount: $gemCount)
 }

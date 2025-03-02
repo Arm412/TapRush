@@ -188,7 +188,7 @@ struct MineView: View {
     
     private func handleGemTap(for rock: Rock, at index: Int) {
         menuVM.rocks[index] = menuVM.createRock()
-        menuVM.updateGemCount(gemType: rock.gemType)
+        menuVM.updateGemCount(gemType: rock.gemType, amount: 1)
     }
 }
 

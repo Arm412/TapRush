@@ -12,6 +12,7 @@ struct PawnShopView: View {
     @State var totalGoldConverted: Int = 0
     @State var sellGemsPressed: Bool = false
     @State var totalGemsSold: Int = 0
+    @State var sellGemCount: SoldGemCounts = SoldGemCounts()
     
     var body: some View {
         GeometryReader { geo in
@@ -22,7 +23,8 @@ struct PawnShopView: View {
                     VStack(alignment: .center) {
                         ForEach($menuVM.inventory.gemList, id: \.self) { item in
                             HStack {
-                                TradeItemView(gem: item, totalGold: $totalGoldConverted, totalGems: $totalGemsSold)
+                                TradeItemView(gem: item, totalGold: $totalGoldConverted, gemCount: $sellGemCount)
+                                    .environmentObject(menuVM)
                             }
                             .frame(maxWidth: .infinity)
                         }
@@ -31,7 +33,7 @@ struct PawnShopView: View {
                     
                     HStack {
                         Spacer()
-                        Text(Strings.totalGold)
+                        Text(Strings.convertedGold)
                             .foregroundStyle(.peachOrange)
                             .adaptiveFontSize(customFontName: "Audiowide-Regular")
                         Text("\(totalGoldConverted)")
@@ -64,7 +66,63 @@ struct PawnShopView: View {
                 if (sellGemsPressed) {
                     ZStack {
                         VStack {
-                            Text("You are about to sell \(totalGemsSold) \(totalGemsSold > 1 ? "gems" : "gem") for \(totalGoldConverted) gold.")
+                            Text("You are about to sell:")
+                            if(sellGemCount.common > 0) {
+                                HStack {
+                                    Image("purpEmerald1")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                    Text("x\(sellGemCount.common)")
+                                }
+                            }
+                            if(sellGemCount.uncommon > 0) {
+                                HStack {
+                                    Image("purpEmerald2")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                    Text("x\(sellGemCount.uncommon)")
+                                }
+                            }
+                            if(sellGemCount.rare > 0) {
+                                HStack {
+                                    Image("sapphire")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                    Text("x\(sellGemCount.rare)")
+                                }
+                            }
+                            if(sellGemCount.legendary > 0) {
+                                HStack {
+                                    Image("emerald")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                    Text("x\(sellGemCount.legendary)")
+                                }
+                            }
+                            if(sellGemCount.mythical > 0) {
+                                HStack {
+                                    Image("diamond")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 50, height: 50)
+                                    Text("x\(sellGemCount.mythical)")
+                                }
+                            }
+                            
+                            Text("for")
+                            
+                            HStack {
+                                Image("gold")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 50, height: 50)
+                                Text("x\(totalGoldConverted)")
+                            }
+                            
                             HStack {
                                 Button("Close", action: {
                                     sellGemsPressed = false
@@ -86,6 +144,10 @@ struct PawnShopView: View {
                         .foregroundStyle(Color.white)
                         .border(.red, width: 5)
                         .padding()
+                        .onAppear {
+                            print("sellGemCount")
+                            print(sellGemCount)
+                        }
                     }
                     .frame(width: geo.size.width, height: geo.size.height)
                     .background(Color.black.opacity(0.2))
@@ -96,6 +158,14 @@ struct PawnShopView: View {
             }
         }
     }
+}
+
+struct SoldGemCounts {
+    var common: Int = 0
+    var uncommon: Int = 0
+    var rare: Int = 0
+    var legendary: Int = 0
+    var mythical: Int = 0
 }
 
 #Preview {
