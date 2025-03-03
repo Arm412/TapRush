@@ -9,8 +9,8 @@ struct MiningMenuView: View {
     @EnvironmentObject private var navigationVM: NavigationViewModel
     
     let columns: [GridItem] = [
-        GridItem(.flexible(maximum: 150)),
-        GridItem(.flexible(maximum: 150))
+        GridItem(.flexible(maximum: 175)),
+        GridItem(.flexible(maximum: 175))
     ]
     
     var body: some View {
@@ -29,13 +29,15 @@ struct MiningMenuView: View {
                                 .foregroundStyle(.peachOrange)
                             Text(item.name)
                                 .foregroundStyle(.peachOrange)
+                                .font(.custom("Audiowide-Regular", size: 18))
+                                .frame(maxWidth: .infinity)
                         }
                         .frame(maxWidth: .infinity)
-                        .padding()
+                        .padding(EdgeInsets(top: 20, leading: 5, bottom: 20, trailing: 5))
                         .background(item.primaryColor)
                         .border(.peachOrange, width: 2)
                         .cornerRadius(5)
-                        .padding()
+                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
                         .onTapGesture {
                             navigationVM.navigateTo(screen: item.destination)
                         }
@@ -65,7 +67,7 @@ struct MiningMenuView: View {
                 .background(.outerSpace)
                 .border(.peachOrange, width: 2)
                 .cornerRadius(5)
-                .padding(EdgeInsets(top: 20, leading: 50, bottom: 20, trailing: 50))
+                .padding(EdgeInsets(top: 20, leading: 25, bottom: 20, trailing: 25))
                 .onTapGesture {
                     navigationVM.navigateTo(screen: .mining)
                 }

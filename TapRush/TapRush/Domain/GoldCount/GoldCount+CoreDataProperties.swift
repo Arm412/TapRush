@@ -16,7 +16,7 @@ extension GoldCount {
         return NSFetchRequest<GoldCount>(entityName: "GoldCount")
     }
 
-    @NSManaged public var count: Int64
+    @NSManaged public var count: Int
 
 }
 

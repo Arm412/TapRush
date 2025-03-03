@@ -41,7 +41,7 @@ struct ContentView: View {
                         OrdersView()
                     case .pawnShop:
                         PawnShopView()
-                            .environmentObject(navigationVM)
+                            .environmentObject(menuVM)
                     case .store:
                         StoreView()
                     case .mining:

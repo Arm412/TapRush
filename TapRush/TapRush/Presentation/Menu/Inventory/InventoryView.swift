@@ -41,6 +41,7 @@ struct InventoryView: View {
                             .frame(width: 40, height: 40)
                         Text("x\(menuVM.inventory.goldCount)")
                             .font(.custom("Roboto", size: 25))
+                            .foregroundStyle(.white)
                     }
                     .padding()
                     
@@ -54,8 +55,8 @@ struct InventoryView: View {
                 
                 ScrollView {
                     LazyVGrid(columns: geo.size.width < 400 ? columnsSmall : columnsLarge, spacing: 20) {
-                        ForEach($menuVM.inventory.itemList, id: \.self) { $item in
-                            InventoryItemView(inventoryItem: $item)
+                        ForEach($menuVM.inventory.gemList) { item in
+                            InventoryItemView(gemItem: item)
                         }
                     }
                     .frame(width: geo.size.width)

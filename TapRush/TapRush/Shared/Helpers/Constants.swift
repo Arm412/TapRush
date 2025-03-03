@@ -11,7 +11,7 @@ class Strings {
     static let appName = "TapRush"
     
     // Dashboard strings
-    static let dashboardTitle = "TapRush!"
+    static let dashboardTitle = "TapRush"
     static let menu = "Menu"
     static let quickPLay = "Quick Play"
     static let goMining = "Go Mining!"
@@ -22,7 +22,7 @@ class Strings {
     static let inventory = "Inventory"
     static let map = "Map"
     static let orders = "Orders"
-    static let pawnShop = "Pawn shop"
+    static let pawnShop = "Pawn Shop"
     static let store = "Store"
     static let toTheMines = "To the mines!"
     
@@ -32,4 +32,13 @@ class Strings {
     static let stay = "Stay"
     static let warning1 = "Are you sure you want to leave the mine?"
     static let warning2 = "Leaving the mine will cause you to lose progress."
+    
+    // Pawn Shop
+    static let close = "Close"
+    static let confirm = "Confirm"
+    static let currentGold = "Current Gold: "
+    static let stringFor = "for"
+    static let goldPayout = "Gold Payout: "
+    static let sell = "Sell"
+    static let youAreAboutToSell = "You are about to sell:"
 }

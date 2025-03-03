@@ -8,16 +8,14 @@
 import Foundation
 
 class InventoryHelpers {
-    func createInventoryList(gems: GemCount, gold: GoldCount) -> Inventory {
-        var inventory = Inventory(itemList: [])
+    func updateInventoryList(gems: GemCount, gold: GoldCount) -> Inventory {
+        var inventory = Inventory(gemList: [])
         
         // Add gem to inventory
         for gemTypeName in GemType.allCases {
-            if gemTypeName != .none {
-                let gemCount = (gems.value(forKey: gemTypeName.rawValue) ?? 0) as! Int64
-                let gemInvItem = InventoryItem(itemIcon: GemManager().getGemNames(for: gemTypeName)[0], itemCount: gemCount, itemName: gemTypeName.rawValue.capitalized, itemDescription: "")
-                inventory.itemList.append(gemInvItem)
-            }
+            let gemCount = (gems.value(forKey: gemTypeName.rawValue) ?? 0) as! Int
+            let gemInvItem = GemItem(itemCount: gemCount, itemDescription: "", gemType: gemTypeName)
+            inventory.gemList.append(gemInvItem)
         }
         
         // Add gold to inventory
@@ -27,32 +25,59 @@ class InventoryHelpers {
     }
 }
 
-struct InventoryItem: Hashable {
-    var itemIcon: String
-    var itemCount: Int64
-    var itemName: String
-    var itemDescription: String
+protocol InventoryItem: Hashable {
+    var itemIcon: String { get }
+    var itemCount: Int { get }
+    var itemName: String { get }
+    var itemDescription: String { get }
+}
+
+struct GemItem: Identifiable {
+    var id: UUID = UUID()
+    var itemCount: Int = 0
+    var itemDescription: String = ""
+    var gem: Gem
+    var minimumGemIncrement: Int = 0
+    var goldPerIncrement: Int = 0
     
-    init(itemIcon: String, itemCount: Int64, itemName: String, itemDescription: String) {
-        self.itemIcon = itemIcon
+    init(itemCount: Int, itemDescription: String, gemType: GemType) {
         self.itemCount = itemCount
-        self.itemName = itemName
         self.itemDescription = itemDescription
+
+        self.gem = Gem(type: gemType)
+        
+        // Set the gem to gold conversion ratio based on gem type
+        if gemType == .common {
+            minimumGemIncrement = 10
+            goldPerIncrement = 1
+        } else if gemType == .uncommon {
+            minimumGemIncrement = 5
+            goldPerIncrement = 1
+        } else if gemType == .rare {
+            minimumGemIncrement = 1
+            goldPerIncrement = 1
+        } else if gemType == .legendary {
+            minimumGemIncrement = 1
+            goldPerIncrement = 5
+        } else if gemType == .mythical {
+            minimumGemIncrement = 1
+            goldPerIncrement = 10
+        }
     }
 }
 
 struct Inventory {
-    var itemList: [InventoryItem]
-    var goldCount: Int64 = 0
+    var gemList: [GemItem]
+    var goldCount: Int = 0
     
-    init(itemList: [InventoryItem]) {
-        self.itemList = itemList
+    init(gemList: [GemItem]) {
+        self.gemList = gemList
     }
     
-    func getTotalInventoryCount() -> Int64 {
-        var itemCount: Int64 = 0
+    func getTotalInventoryCount() -> Int {
+        var itemCount: Int = 0
         
-        for item in itemList {
+        for item in gemList {
             itemCount += item.itemCount
         }
         return itemCount

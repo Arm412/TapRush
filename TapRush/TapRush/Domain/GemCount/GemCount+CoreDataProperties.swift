@@ -16,11 +16,11 @@ extension GemCount {
         return NSFetchRequest<GemCount>(entityName: "GemCount")
     }
 
-    @NSManaged public var common: Int64
-    @NSManaged public var uncommon: Int64
-    @NSManaged public var rare: Int64
-    @NSManaged public var legendary: Int64
-    @NSManaged public var mythical: Int64
+    @NSManaged public var common: Int
+    @NSManaged public var uncommon: Int
+    @NSManaged public var rare: Int
+    @NSManaged public var legendary: Int
+    @NSManaged public var mythical: Int
 
 }
 

@@ -17,7 +17,7 @@ class MenuViewModel: ObservableObject {
     @Published var gems: GemCount
     @Published var gold: GoldCount
     @Published var navPath = NavigationPath()
-    @Published var inventory = Inventory(itemList: [])
+    @Published var inventory = Inventory(gemList: [])
     
     var navPathBinding: Binding<NavigationPath> {
             Binding(
@@ -43,7 +43,7 @@ class MenuViewModel: ObservableObject {
         
         // Get other items stored in CoreData TBD
         
-        inventory = InventoryHelpers().createInventoryList(gems: gems, gold: gold)
+        inventory = InventoryHelpers().updateInventoryList(gems: gems, gold: gold)
     }
     
     func delete(_ gemCount: GemCount) {
@@ -65,8 +65,21 @@ class MenuViewModel: ObservableObject {
         
         goldCount.count = gold.count
         
-        CoreDataManager.shared.save()
+        inventory = InventoryHelpers().updateInventoryList(gems: gems, gold: gold)
         
+        CoreDataManager.shared.save()
+    }
+    
+    func sellGems(soldGems: SoldGemCounts, aqcuiredGold: Int) {
+        gems.common -= soldGems.common.count
+        gems.uncommon -= soldGems.uncommon.count
+        gems.rare -= soldGems.rare.count
+        gems.legendary -= soldGems.legendary.count
+        gems.mythical -= soldGems.mythical.count
+        
+        gold.count += aqcuiredGold
+        
+        self.save()
     }
     
     func initRocks(geo: GeometryProxy) {
@@ -120,17 +133,17 @@ class MenuViewModel: ObservableObject {
         }
     }
     
-    func updateGemCount(gemType: GemType) {
-        if gemType == .common {
-            gems.common += 1
-        } else if gemType == .uncommon {
-            gems.uncommon += 1
-        } else if gemType == .rare {
-            gems.rare += 1
-        } else if gemType == .legendary {
-            gems.legendary += 1
-        } else if gemType == .mythical {
-            gems.mythical += 1
+    func updateGemCount(gem: Gem, amount: Int) {
+        if gem.type == .common {
+            gems.common += amount
+        } else if gem.type == .uncommon {
+            gems.uncommon += amount
+        } else if gem.type == .rare {
+            gems.rare += amount
+        } else if gem.type == .legendary {
+            gems.legendary += amount
+        } else if gem.type == .mythical {
+            gems.mythical += amount
         }
     }
 
@@ -140,7 +153,7 @@ class MenuViewModel: ObservableObject {
             rocks[index].animationTimer = nil
             
             rocks[index].dustSettled = true
-            if (!rocks[index].hasGem) {
+            if (rocks[index].gem == nil) {
                 rocks[index] = createRock()
             }
         } else {
