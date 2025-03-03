@@ -70,6 +70,18 @@ class MenuViewModel: ObservableObject {
         CoreDataManager.shared.save()
     }
     
+    func sellGems(soldGems: SoldGemCounts, aqcuiredGold: Int) {
+        gems.common -= soldGems.common.count
+        gems.uncommon -= soldGems.uncommon.count
+        gems.rare -= soldGems.rare.count
+        gems.legendary -= soldGems.legendary.count
+        gems.mythical -= soldGems.mythical.count
+        
+        gold.count += aqcuiredGold
+        
+        self.save()
+    }
+    
     func initRocks(geo: GeometryProxy) {
         miningSiteWidth = geo.size.width
         miningSiteHeight = geo.size.height

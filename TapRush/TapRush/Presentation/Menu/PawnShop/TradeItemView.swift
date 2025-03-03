@@ -160,15 +160,15 @@ struct TradeItemView: View {
     
     func updateGemCount(type: GemType, amount: Int) {
         if type == .common {
-            gemCount.common += amount
+            gemCount.common.count += amount
         } else if type == .uncommon {
-            gemCount.uncommon += amount
+            gemCount.uncommon.count += amount
         } else if type == .rare {
-            gemCount.rare += amount
+            gemCount.rare.count += amount
         } else if type == .legendary {
-            gemCount.legendary += amount
+            gemCount.legendary.count += amount
         } else if type == .mythical {
-            gemCount.mythical += amount
+            gemCount.mythical.count += amount
         }
     }
 }

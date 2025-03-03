@@ -41,6 +41,7 @@ struct InventoryView: View {
                             .frame(width: 40, height: 40)
                         Text("x\(menuVM.inventory.goldCount)")
                             .font(.custom("Roboto", size: 25))
+                            .foregroundStyle(.white)
                     }
                     .padding()
                     

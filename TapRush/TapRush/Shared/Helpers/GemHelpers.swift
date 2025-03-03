@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct Gem {
+struct Gem: Hashable {
+    var count: Int = 0
+    let icon: String
     let name: String
     let type: GemType
     let sprites: [String]
@@ -17,6 +19,7 @@ struct Gem {
         
         self.name = type.rawValue
         self.sprites = self.gemNames[type] ?? []
+        self.icon = self.sprites.first ?? ""
     }
     
     private let gemNames: [GemType: [String]] = [
@@ -26,4 +29,20 @@ struct Gem {
         .legendary: ["emerald"],
         .mythical: ["diamond"]
     ]
+}
+
+struct SoldGemCounts {
+    var common: Gem = Gem(type: .common)
+    var uncommon: Gem = Gem(type: .uncommon)
+    var rare: Gem = Gem(type: .rare)
+    var legendary: Gem = Gem(type: .legendary)
+    var mythical: Gem = Gem(type: .mythical)
+}
+
+enum GemType: String, CaseIterable {
+    case common = "common"
+    case uncommon = "uncommon"
+    case rare = "rare"
+    case legendary = "legendary"
+    case mythical = "mythical"
 }

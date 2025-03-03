@@ -14,6 +14,16 @@ struct PawnShopView: View {
     @State var totalGemsSold: Int = 0
     @State var sellGemCount: SoldGemCounts = SoldGemCounts()
     
+    var gemCounts: [Gem] {
+        return [
+            sellGemCount.common,
+            sellGemCount.uncommon,
+            sellGemCount.rare,
+            sellGemCount.legendary,
+            sellGemCount.mythical
+        ]
+    }
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -67,49 +77,15 @@ struct PawnShopView: View {
                     ZStack {
                         VStack {
                             Text("You are about to sell:")
-                            if(sellGemCount.common > 0) {
-                                HStack {
-                                    Image("purpEmerald1")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 50, height: 50)
-                                    Text("x\(sellGemCount.common)")
-                                }
-                            }
-                            if(sellGemCount.uncommon > 0) {
-                                HStack {
-                                    Image("purpEmerald2")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 50, height: 50)
-                                    Text("x\(sellGemCount.uncommon)")
-                                }
-                            }
-                            if(sellGemCount.rare > 0) {
-                                HStack {
-                                    Image("sapphire")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 50, height: 50)
-                                    Text("x\(sellGemCount.rare)")
-                                }
-                            }
-                            if(sellGemCount.legendary > 0) {
-                                HStack {
-                                    Image("emerald")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 50, height: 50)
-                                    Text("x\(sellGemCount.legendary)")
-                                }
-                            }
-                            if(sellGemCount.mythical > 0) {
-                                HStack {
-                                    Image("diamond")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 50, height: 50)
-                                    Text("x\(sellGemCount.mythical)")
+                            ForEach(gemCounts, id: \.self) { gem in
+                                if gem.count > 0 {
+                                    HStack {
+                                        Image(gem.icon)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 50, height: 50)
+                                        Text("x\(gem.count)")
+                                    }
                                 }
                             }
                             
@@ -133,6 +109,8 @@ struct PawnShopView: View {
                                 
                                 Button("Confirm", action: {
                                     sellGemsPressed = false
+                                    menuVM.sellGems(soldGems: sellGemCount, aqcuiredGold: totalGoldConverted)
+                                    totalGoldConverted = 0
                                 })
                                 .font(.custom("Audiowide-Regular", size: 30))
                                 .foregroundStyle(.green)
@@ -144,10 +122,6 @@ struct PawnShopView: View {
                         .foregroundStyle(Color.white)
                         .border(.red, width: 5)
                         .padding()
-                        .onAppear {
-                            print("sellGemCount")
-                            print(sellGemCount)
-                        }
                     }
                     .frame(width: geo.size.width, height: geo.size.height)
                     .background(Color.black.opacity(0.2))
@@ -158,14 +132,6 @@ struct PawnShopView: View {
             }
         }
     }
-}
-
-struct SoldGemCounts {
-    var common: Int = 0
-    var uncommon: Int = 0
-    var rare: Int = 0
-    var legendary: Int = 0
-    var mythical: Int = 0
 }
 
 #Preview {

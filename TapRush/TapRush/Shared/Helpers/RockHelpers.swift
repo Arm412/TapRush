@@ -80,14 +80,6 @@ struct Rock: Identifiable {
     }
 }
 
-enum GemType: String, CaseIterable {
-    case common = "common"
-    case uncommon = "uncommon"
-    case rare = "rare"
-    case legendary = "legendary"
-    case mythical = "mythical"
-}
-
 struct DustCloud {
     let dustCloudSprites = ["dustCloud1", "dustCloud2", "dustCloud1", "dustCloud2", "dustCloud1", "dustCloud2"]
     var spriteIndex = 0

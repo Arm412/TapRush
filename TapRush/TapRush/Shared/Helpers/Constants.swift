@@ -11,7 +11,7 @@ class Strings {
     static let appName = "TapRush"
     
     // Dashboard strings
-    static let dashboardTitle = "TapRush!"
+    static let dashboardTitle = "TapRush"
     static let menu = "Menu"
     static let quickPLay = "Quick Play"
     static let goMining = "Go Mining!"
