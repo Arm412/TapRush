@@ -34,6 +34,11 @@ class Strings {
     static let warning2 = "Leaving the mine will cause you to lose progress."
     
     // Pawn Shop
-    static let convertedGold = "Converted Gold: "
+    static let close = "Close"
+    static let confirm = "Confirm"
+    static let currentGold = "Current Gold: "
+    static let stringFor = "for"
+    static let goldPayout = "Gold Payout: "
     static let sell = "Sell"
+    static let youAreAboutToSell = "You are about to sell:"
 }

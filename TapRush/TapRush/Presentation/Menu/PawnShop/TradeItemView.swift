@@ -30,6 +30,7 @@ struct TradeItemView: View {
         }
     }
     
+    // Helper function to dynamically scale padding
     func dynamicPaddingSize() -> CGFloat {
         if screenWidth <= 375 {
             return 15

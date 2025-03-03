@@ -30,6 +30,13 @@ struct PawnShopView: View {
                 VStack(alignment: HorizontalAlignment.center) {
                     TopNavBarView(title: Strings.pawnShop)
                     
+                    HStack {
+                        Text(Strings.currentGold + "\(menuVM.gold.count)")
+                            .foregroundStyle(.peachOrange)
+                            .font(.custom("Audiowide-Regular", size: 25))
+                            .frame(maxWidth: .infinity)
+                    }
+                    
                     VStack(alignment: .center) {
                         ForEach($menuVM.inventory.gemList) { item in
                             HStack {
@@ -43,7 +50,7 @@ struct PawnShopView: View {
                     
                     HStack {
                         Spacer()
-                        Text(Strings.convertedGold)
+                        Text(Strings.goldPayout)
                             .foregroundStyle(.peachOrange)
                             .adaptiveFontSize(customFontName: "Audiowide-Regular")
                         Text("\(totalGoldConverted)")
@@ -76,7 +83,7 @@ struct PawnShopView: View {
                 if (sellGemsPressed) {
                     ZStack {
                         VStack {
-                            Text("You are about to sell:")
+                            Text(Strings.youAreAboutToSell)
                             ForEach(gemCounts, id: \.self) { gem in
                                 if gem.count > 0 {
                                     HStack {
@@ -89,7 +96,7 @@ struct PawnShopView: View {
                                 }
                             }
                             
-                            Text("for")
+                            Text(Strings.stringFor)
                             
                             HStack {
                                 Image("gold")
@@ -100,14 +107,14 @@ struct PawnShopView: View {
                             }
                             
                             HStack {
-                                Button("Close", action: {
+                                Button(Strings.close, action: {
                                     sellGemsPressed = false
                                 })
                                 .font(.custom("Audiowide-Regular", size: 30))
                                 .foregroundStyle(.white)
                                 .padding()
                                 
-                                Button("Confirm", action: {
+                                Button(Strings.confirm, action: {
                                     sellGemsPressed = false
                                     menuVM.sellGems(soldGems: sellGemCount, aqcuiredGold: totalGoldConverted)
                                     totalGoldConverted = 0
@@ -120,7 +127,7 @@ struct PawnShopView: View {
                         .padding(EdgeInsets(top: 20, leading: 10, bottom: 5, trailing: 10))
                         .background(.outerSpace)
                         .foregroundStyle(Color.white)
-                        .border(.red, width: 5)
+                        .border(.white, width: 5)
                         .padding()
                     }
                     .frame(width: geo.size.width, height: geo.size.height)
