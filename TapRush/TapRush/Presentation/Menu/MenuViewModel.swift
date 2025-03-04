@@ -18,6 +18,7 @@ class MenuViewModel: ObservableObject {
     @Published var gold: GoldCount
     @Published var navPath = NavigationPath()
     @Published var inventory = Inventory(gemList: [])
+    @Published var coordinates: [[Int]] = [[100, 100], [200, 200], [300, 300]]
     
     var navPathBinding: Binding<NavigationPath> {
             Binding(
