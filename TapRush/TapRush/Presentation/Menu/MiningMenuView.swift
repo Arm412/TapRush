@@ -3,7 +3,7 @@ import SwiftUI
 struct MiningMenuView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @State var selectedMine: String = "Pebblebrook Quarry"
+    @State var selectedMine: Mine = MineHelpers().createMineObject(for: .amberHollow)
     
     @EnvironmentObject private var menuVM: MenuViewModel
     @EnvironmentObject private var navigationVM: NavigationViewModel
@@ -15,7 +15,7 @@ struct MiningMenuView: View {
     
     var body: some View {
         VStack {
-            TopNavBarView(title: Strings.menu)
+            TopNavBarView(foregroundColor: .peachOrange, title: Strings.menu)
                 .environmentObject(menuVM)
             
             VStack {
@@ -49,7 +49,7 @@ struct MiningMenuView: View {
                 Text(Strings.currentDestination)
                     .foregroundStyle(.peachOrange)
                     .font(.custom("Audiowide-Regular", size: 25))
-                Text(selectedMine)
+                Text(selectedMine.name.rawValue)
                     .foregroundStyle(.peachOrange)
                     .font(.custom("Audiowide-Regular", size: 25))
                 HStack {

@@ -11,6 +11,8 @@ struct TopNavBarView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var menuVM: MenuViewModel
     
+    var foregroundColor: Color
+    
     var menuHandler: () -> Void = {}
     
     var title: String
@@ -28,7 +30,7 @@ struct TopNavBarView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 40, height: 40)
-                        .foregroundStyle(Color.peachOrange)
+                        .foregroundStyle(foregroundColor)
                 }
                 .padding()
             } else {
@@ -39,7 +41,7 @@ struct TopNavBarView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 40, height: 40)
-                        .foregroundStyle(Color.peachOrange)
+                        .foregroundStyle(foregroundColor)
                 }
                 .padding()
             }
@@ -47,7 +49,7 @@ struct TopNavBarView: View {
                 Spacer()
                 Text(title)
                     .font(.custom("Audiowide-Regular", size: 30))
-                    .foregroundStyle(.peachOrange)
+                    .foregroundStyle(foregroundColor)
                 Spacer()
             }
             .padding()
@@ -59,6 +61,6 @@ struct TopNavBarView: View {
 #Preview {
     var menuVM = MenuViewModel()
     
-    TopNavBarView(title: Strings.menu)
+    TopNavBarView(foregroundColor: .peachOrange, title: Strings.menu)
         .environmentObject(menuVM)
 }

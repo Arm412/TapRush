@@ -37,6 +37,7 @@ struct ContentView: View {
                             .environmentObject(menuVM)
                     case .map:
                         MapView()
+                            .environmentObject(menuVM)
                     case .orders:
                         OrdersView()
                     case .pawnShop:

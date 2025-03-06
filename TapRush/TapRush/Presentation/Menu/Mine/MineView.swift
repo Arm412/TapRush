@@ -23,7 +23,7 @@ struct MineView: View {
         GeometryReader { geo in
             ZStack(alignment: Alignment.leading) {
                 VStack {
-                    TopNavBarView(menuHandler: { showMenu.toggle() }, title: Strings.mine, isMining: true)
+                    TopNavBarView(foregroundColor: .peachOrange, menuHandler: { showMenu.toggle() }, title: Strings.mine, isMining: true)
                     
                     Spacer()
                     

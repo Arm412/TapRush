@@ -13,6 +13,7 @@ struct Gem: Hashable {
     let name: String
     let type: GemType
     let sprites: [String]
+    var probability: Double = 0.0
     
     init(type: GemType) {
         self.type = type
