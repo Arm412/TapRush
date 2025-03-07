@@ -3,7 +3,7 @@ import SwiftUI
 struct MiningMenuView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @State var selectedMine: Mine = MineHelpers().createMineObject(for: .amberHollow)
+    @Binding var selectedMine: Mine
     
     @EnvironmentObject private var menuVM: MenuViewModel
     @EnvironmentObject private var navigationVM: NavigationViewModel
@@ -85,7 +85,9 @@ struct MiningMenuView: View {
     var navigationViewModel = NavigationViewModel()
     var menuViewModel = MenuViewModel()
     
-    MiningMenuView()
+    @State var mine = menuViewModel.mineList[0]
+    
+    MiningMenuView(selectedMine: $mine)
         .environmentObject(navigationViewModel)
         .environmentObject(menuViewModel)
 }

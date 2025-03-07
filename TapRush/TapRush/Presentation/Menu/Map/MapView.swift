@@ -10,7 +10,7 @@ import SwiftUI
 struct MapView: View {
     @EnvironmentObject var menuVM: MenuViewModel
     @State private var scrollOffset: CGPoint = CGPoint(x: 1000, y: 500)
-    
+
     var body: some View {
         VStack {
             TopNavBarView(foregroundColor: .peachOrange, title: "Maps")
@@ -31,26 +31,34 @@ struct MapView: View {
                     .frame(width: 40, height: 40)
                     .foregroundStyle(.peachOrange)
             }
+
             GeometryReader { geo in
                 ScrollView([.horizontal, .vertical], showsIndicators: false) {
                     ScrollViewReader { proxy in
-                        Image("worldMap4")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 4000, height: 2000)
-                            .id("mapImage")
-                        
-//                        Image(systemName: "flag.fill")
-//                            .resizable()
-//                            .scaledToFill()
-//                            .frame(width: 40, height: 40)
-//                            .id("mineFlag")
-//                            .position(CGPoint(x: menuVM.mine.coordinates.0, y: menuVM.mine.coordinates.0))
-//                            .onAppear {
-//                                DispatchQueue.main.async {
-//                                    proxy.scrollTo("mineFlag", anchor: .center)
-//                                }
-//                            }
+                        ZStack {
+                            Image("worldMap4")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 4000, height: 2000)
+
+                            ForEach(menuVM.mineList) { mine in
+                                Image(systemName: "flag.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 40, height: 40)
+                                    .foregroundStyle(.red)
+                                    .position(x: CGFloat(mine.coordinates.0),
+                                              y: CGFloat(mine.coordinates.1))
+                                    .id(mine.name.rawValue)
+                            }
+                        }
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                if menuVM.mineList.contains(where: { $0.name == menuVM.currentMine }) {
+                                    proxy.scrollTo(menuVM.currentMine.rawValue, anchor: .center)
+                                }
+                            }
+                        }
                     }
                 }
                 .frame(width: geo.size.width, height: 275)
@@ -62,10 +70,10 @@ struct MapView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarBackButtonHidden(true)
-        .background(.outerSpace)
+        .background(Color.outerSpace)
     }
-    
 }
+
 
 #Preview {
     var viewModel: MenuViewModel = .init()

@@ -9,70 +9,72 @@ import Foundation
 import SwiftUICore
 
 class MineHelpers {
-    func createMineObject(for mineName: MineNames) -> Mine {
-        let probabilities = getGemProbabilities(name: mineName)
-        let coordinates = getMineCoordinates(name: mineName)
-        return Mine(coordinates: coordinates, name: mineName, gemProbabilities: probabilities, primaryColor: .white, secondaryColor: .blue, rockSprites: [""])
+    static let allMines: [Mine] = [
+        Mine(coordinates: (500, 500), name: .dustveilQuarry,
+             gemProbabilities: getGemProbabilities(name: .dustveilQuarry),
+             primaryColor: .gray, secondaryColor: .brown, rockSprites: []),
+        
+        Mine(coordinates: (30, 30), name: .amberHollow,
+             gemProbabilities: getGemProbabilities(name: .amberHollow),
+             primaryColor: .orange, secondaryColor: .yellow, rockSprites: []),
+        
+        Mine(coordinates: (50, 50), name: .whisperingCaverns,
+             gemProbabilities: getGemProbabilities(name: .whisperingCaverns),
+             primaryColor: .blue, secondaryColor: .purple, rockSprites: []),
+        
+        Mine(coordinates: (70, 70), name: .shadewindPassage,
+             gemProbabilities: getGemProbabilities(name: .shadewindPassage),
+             primaryColor: .black, secondaryColor: .gray, rockSprites: []),
+        
+        Mine(coordinates: (90, 90), name: .horizonRift,
+             gemProbabilities: getGemProbabilities(name: .horizonRift),
+             primaryColor: .red, secondaryColor: .white, rockSprites: []),
+        
+        Mine(coordinates: (110, 110), name: .silvercoreDepths,
+             gemProbabilities: getGemProbabilities(name: .silvercoreDepths),
+             primaryColor: .white, secondaryColor: .blue, rockSprites: []),
+        
+        Mine(coordinates: (120, 120), name: .shadowmarrowMine,
+             gemProbabilities: getGemProbabilities(name: .shadowmarrowMine),
+             primaryColor: .purple, secondaryColor: .black, rockSprites: []),
+        
+        Mine(coordinates: (130, 130), name: .blazewaterTunnels,
+             gemProbabilities: getGemProbabilities(name: .blazewaterTunnels),
+             primaryColor: .orange, secondaryColor: .red, rockSprites: []),
+        
+        Mine(coordinates: (140, 140), name: .azurefangChasm,
+             gemProbabilities: getGemProbabilities(name: .azurefangChasm),
+             primaryColor: .cyan, secondaryColor: .blue, rockSprites: []),
+        
+        Mine(coordinates: (150, 150), name: .celestiteExpanse,
+             gemProbabilities: getGemProbabilities(name: .celestiteExpanse),
+             primaryColor: .white, secondaryColor: .green, rockSprites: []),
+        
+        Mine(coordinates: (160, 160), name: .starstoneAbyss,
+             gemProbabilities: getGemProbabilities(name: .starstoneAbyss),
+             primaryColor: .white, secondaryColor: .black, rockSprites: []),
+        
+        Mine(coordinates: (170, 170), name: .astralcoreDepths,
+             gemProbabilities: getGemProbabilities(name: .astralcoreDepths),
+             primaryColor: .purple, secondaryColor: .white, rockSprites: [])
+    ]
+    
+    static func getMine(for name: MineNames) -> Mine? {
+        return allMines.first { $0.name == name }
     }
     
-    func getGemProbabilities(name: MineNames) -> GemProbablity {
+    static func getGemProbabilities(name: MineNames) -> GemProbablity {
         switch name {
-        case .dustveilQuarry: // 1
+        case .dustveilQuarry:
             return GemProbablity(gemsProbability: [.common: 0.5], noGemProbability: 0.5)
-        case .amberHollow: // 1
+        case .amberHollow, .whisperingCaverns, .shadewindPassage, .horizonRift, .silvercoreDepths,
+             .shadowmarrowMine, .blazewaterTunnels, .azurefangChasm, .celestiteExpanse,
+             .starstoneAbyss, .astralcoreDepths:
             return GemProbablity(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
-        case .whisperingCaverns: // 2
-            return GemProbablity(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
-        case .shadewindPassage: // 2
-            return GemProbablity(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
-        case .horizonRift: // 3
-            return GemProbablity(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
-        case .silvercoreDepths: // 3
-            return GemProbablity(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
-        case .shadowmarrowMine: // 4
-            return GemProbablity(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
-        case .blazewaterTunnels: // 4
-            return GemProbablity(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
-        case .azurefangChasm: // 4
-            return GemProbablity(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
-        case .celestiteExpanse: // 5
-            return GemProbablity(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
-        case .starstoneAbyss: // 5
-            return GemProbablity(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
-        case .astralcoreDepths: // 6
-            return GemProbablity(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
-        }
-    }
-    
-    func getMineCoordinates(name: MineNames) -> (Int, Int) {
-        switch name {
-        case .dustveilQuarry: // 1
-            return (100, 10)
-        case .amberHollow: // 1
-            return (30, 30)
-        case .whisperingCaverns: // 2
-            return (50, 50)
-        case .shadewindPassage: // 2
-            return (70, 70)
-        case .horizonRift: // 3
-            return (90, 90)
-        case .silvercoreDepths: // 3
-            return (110, 110)
-        case .shadowmarrowMine: // 4
-            return (120, 120)
-        case .blazewaterTunnels: // 4
-            return (130, 130)
-        case .azurefangChasm: // 4
-            return (140, 140)
-        case .celestiteExpanse: // 5
-            return (150, 150)
-        case .starstoneAbyss: // 5
-            return (160, 160)
-        case .astralcoreDepths: // 6
-            return (170, 170)
         }
     }
 }
+
 
 struct GemProbablity {
     var gemsProbability: [GemType:Double]
@@ -84,7 +86,8 @@ struct GemProbablity {
     }
 }
 
-struct Mine {
+struct Mine: Identifiable {
+    var id: UUID = UUID()
     var coordinates: (Int, Int)
     var name: MineNames
     var gemProbabilities: GemProbablity

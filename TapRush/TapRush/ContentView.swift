@@ -27,7 +27,7 @@ struct ContentView: View {
                             .environmentObject(menuVM)
                             .environmentObject(navigationVM)
                     case .miningMenu:
-                        MiningMenuView()
+                        MiningMenuView(selectedMine: $menuVM.mineList[0])
                             .environmentObject(menuVM)
                             .environmentObject(navigationVM)
                     case .awards:
