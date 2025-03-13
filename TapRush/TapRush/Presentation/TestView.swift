@@ -1,67 +1,41 @@
 import SwiftUI
 
 struct TestView: View {
-    @State private var isMenuOpen = false
-    @Namespace private var menuNamespace
+    @State private var flagPosition: CGPoint = CGPoint(x: 400, y: 300)
+    @State private var scrollViewID = "scrollViewID"
+    
+    let scrollWidth: CGFloat = 1000
+    let scrollHeight: CGFloat = 1000
     
     var body: some View {
-        ZStack {
-            // Main content
-            VStack {
-                Text("Main Content")
-                    .font(.largeTitle)
-                    .padding()
-                
-                Spacer()
-            }
-            .offset(x: isMenuOpen ? 250 : 0)  // Move the content when menu is open
-            .animation(.easeInOut(duration: 0.3), value: isMenuOpen) // Animate content
-            
-            // Menu
-            VStack {
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        withAnimation {
-                            isMenuOpen.toggle()
+        ScrollView([.horizontal, .vertical]) {
+            ScrollViewReader { proxy in
+                VStack {
+                    Image(systemName: "flag.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.red)
+                        .position(flagPosition)
+                        .id(scrollViewID) // Make sure the flag has an ID to scroll to
+                        .onAppear {
+                            // Generate a random position for the flag within the scroll bounds
+                            //                            flagPosition = CGPoint(
+                            //                                x: CGFloat.random(in: 0..<scrollWidth),
+                            //                                y: CGFloat.random(in: 0..<scrollHeight)
+                            //                            )
+                            
+                            // Scroll to the flag position with a slight offset to center it in the view
+                            //                            let offset = CGPoint(x: flagPosition.x - 25, y: flagPosition.y - 25)
+                            withAnimation {
+                                proxy.scrollTo(scrollViewID, anchor: .center) // Scroll to the flag's position
+                            }
                         }
-                    }) {
-                        Text("Close")
-                            .padding()
-                            .foregroundColor(.white)
-                    }
-                    .background(Color.blue)
-                    .cornerRadius(8)
-                    .padding(10)
                 }
-                Spacer()
-                // Menu content goes here
-                Text("Menu Content")
-                    .font(.title)
-                    .foregroundColor(.white)
-                    .padding()
-                Spacer()
             }
-            .frame(width: 250)
-            .background(Color.blue)
-            .offset(x: isMenuOpen ? 0 : -250)  // Move the menu in from the left
-            .animation(.easeInOut(duration: 0.3), value: isMenuOpen) // Animate menu
-            .edgesIgnoringSafeArea(.vertical)
-            
-            // Menu Button to trigger open/close
-            Button(action: {
-                withAnimation {
-                    isMenuOpen.toggle()
-                }
-            }) {
-                Image(systemName: "line.horizontal.3")
-                    .font(.largeTitle)
-                    .foregroundColor(.black)
-                    .padding()
-            }
-            .position(x: 30, y: 30) // Menu button in top-left corner
         }
-        .edgesIgnoringSafeArea(.all)
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        .background(.blue)
     }
 }
 
