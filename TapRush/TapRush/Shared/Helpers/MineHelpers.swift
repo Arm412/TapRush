@@ -75,6 +75,7 @@ struct GemProbability {
 
 struct Mine: Identifiable {
     var id: UUID = UUID()
+    var description: String = "Description"
     var name: MineNames
     var gemProbabilities: GemProbability
     var primaryColor: Color

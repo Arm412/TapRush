@@ -82,7 +82,6 @@ struct TradeItemView: View {
                             calculatedGold -= gem.goldPerIncrement
                             
                             $totalGold.wrappedValue -= gem.goldPerIncrement
-//                            $totalGems.wrappedValue -= gem.minimumGemIncrement
                             updateGemCount(type: gem.gem.type, amount: gem.minimumGemIncrement * -1)
                             
                             withAnimation(.easeInOut(duration: 0.3)) {
