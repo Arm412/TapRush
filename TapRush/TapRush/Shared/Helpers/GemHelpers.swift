@@ -7,6 +7,20 @@
 
 import Foundation
 
+class GemHelpers {
+    static let gemSprites: [GemType: [String]] = [
+        .common: ["purpEmerald1"],
+        .uncommon: ["purpEmerald2"],
+        .rare: ["sapphire"],
+        .legendary: ["emerald"],
+        .mythical: ["diamond"]
+    ]
+    
+    static func getGemIcon(for gemType: GemType) -> String {
+        return gemSprites[gemType]?.first ?? ""
+    }
+}
+
 struct Gem: Hashable {
     var count: Int = 0
     let icon: String
@@ -19,17 +33,9 @@ struct Gem: Hashable {
         self.type = type
         
         self.name = type.rawValue
-        self.sprites = self.gemNames[type] ?? []
+        self.sprites = GemHelpers.gemSprites[type] ?? []
         self.icon = self.sprites.first ?? ""
     }
-    
-    private let gemNames: [GemType: [String]] = [
-        .common: ["purpEmerald1"],
-        .uncommon: ["purpEmerald2"],
-        .rare: ["sapphire"],
-        .legendary: ["emerald"],
-        .mythical: ["diamond"]
-    ]
 }
 
 struct SoldGemCounts {

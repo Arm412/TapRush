@@ -59,17 +59,17 @@ class MineHelpers {
     static func getGemProbabilities(name: MineNames) -> GemProbability {
         switch name {
         case .dustveilQuarry:
-            return GemProbability(gemsProbability: [.common: 0.5], noGemProbability: 0.5)
+            return GemProbability(gemsProbabilityList: [.common: 0.2, .uncommon: 0.2, .rare: 0.2, .legendary: 0.2, .mythical: 0.1], noGemProbability: 0.1)
         case .amberHollow, .whisperingCaverns, .shadewindPassage, .horizonRift, .silvercoreDepths,
              .shadowmarrowMine, .blazewaterTunnels, .azurefangChasm, .celestiteExpanse,
              .starstoneAbyss, .astralcoreDepths:
-            return GemProbability(gemsProbability: [.common: 0.6, .uncommon: 0.3], noGemProbability: 0.1)
+            return GemProbability(gemsProbabilityList: [.uncommon: 0.4, .rare: 0.2, .legendary: 0.2, .mythical: 0.1], noGemProbability: 0.1)
         }
     }
 }
 
 struct GemProbability {
-    var gemsProbability: [GemType: Double]
+    var gemsProbabilityList: [GemType: Double]
     var noGemProbability: Double
 }
 

@@ -19,6 +19,9 @@ struct MineView: View {
     @State var selectedScreen: Screen = .mining
     @Binding var navPath: NavigationPath
     
+    let screenWidth = UIScreen.main.bounds.width
+    let screenHeight = UIScreen.main.bounds.height
+    
     var safeAreaTop: CGFloat {
         UIApplication.shared.connectedScenes
             .compactMap { $0 as? UIWindowScene }
@@ -36,9 +39,6 @@ struct MineView: View {
     }
     
     var body: some View {
-        let screenWidth = UIScreen.main.bounds.width
-        let screenHeight = UIScreen.main.bounds.height
-        
         ZStack(alignment: Alignment.leading) {
             VStack {
                 TopNavBarView(foregroundColor: .peachOrange, menuHandler: { showMenu.toggle() }, title: Strings.mine, isMining: true)
@@ -204,7 +204,6 @@ struct MineView: View {
     }
     
     private func handleRockTap(for rock: Rock, at index: Int) {
-        print("Pressed \(rock.stateIndex)")
         menuVM.rocks[index].stateIndex += 1
         if menuVM.rocks[index].stateIndex == rock.states.count {
             menuVM.rocks[index].isDepleted = true

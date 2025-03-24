@@ -12,9 +12,11 @@ struct MapView: View {
     var allMines = MineHelpers.allMines
     @State var mineIndex = 0
     
+    let gemOrder: [GemType] = [.common, .uncommon, .rare, .legendary, .mythical]
+    
     let columns: [GridItem] = [
-        GridItem(.flexible(maximum: 175)),
-        GridItem(.flexible(maximum: 175))
+        GridItem(.flexible(maximum: UIScreen.main.bounds.width/2)),
+        GridItem(.flexible(maximum: UIScreen.main.bounds.width/2))
     ]
 
     var body: some View {
@@ -90,29 +92,7 @@ struct MapView: View {
                     ScrollViewReader { proxy in
                         LazyHStack {
                             ForEach(allMines) { mine in
-                                VStack {
-                                    HStack {
-                                        Text("\(mine.description)")
-                                            .adaptiveFontSize(customFontName: "Audiowide-Regular")
-                                            .foregroundStyle(allMines[mineIndex].secondaryColor)
-                                    }
-                                    Text("Gem Probabilities:")
-                                        .adaptiveFontSize(customFontName: "Audiowide-Regular")
-                                        .foregroundStyle(allMines[mineIndex].secondaryColor)
-                                    LazyVGrid(columns: columns, spacing: 20) {
-                                        HStack {
-                                            Text("Test")
-                                        }
-                                        .frame(maxWidth: .infinity)
-                                        .border(.white, width: 2)
-                                    }
-                                    
-                                    Spacer()
-                                }
-                                .padding()
-                                .frame(width: geo.size.width, height: 200)
-                                .border(allMines[mineIndex].primaryColor, width: 5)
-                                .id(mine.name.rawValue)
+                                gemProbabilitiesView(mine: mine, geo: geo)
                             }
                         }
                         .onAppear {
@@ -127,7 +107,7 @@ struct MapView: View {
                         }
                     }
                 }
-                .frame(width: geo.size.width, height: 300)
+                .frame(width: geo.size.width)
                 
                 Spacer()
             }
@@ -135,6 +115,45 @@ struct MapView: View {
             .navigationBarBackButtonHidden(true)
             .background(Color.outerSpace)
         }
+    }
+    
+    private func gemProbabilitiesView(mine: Mine, geo: GeometryProxy) -> some View {
+        let mineGemProbabilityList = mine.gemProbabilities.gemsProbabilityList
+        return VStack {
+            HStack {
+                Text("\(mine.description)")
+                    .adaptiveFontSize(customFontName: "Audiowide-Regular")
+                    .foregroundStyle(allMines[mineIndex].secondaryColor)
+            }
+            Text("Gem Probabilities:")
+                .adaptiveFontSize(customFontName: "Audiowide-Regular")
+                .foregroundStyle(allMines[mineIndex].secondaryColor)
+            LazyVGrid(columns: columns, spacing: 30) {
+                ForEach(Array(gemOrder), id: \.self) { gem in
+                    if (mineGemProbabilityList[gem] ?? 0 > 0) {
+                        HStack {
+                            Image(GemHelpers.getGemIcon(for: gem))
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                            
+                            Text(": \(mineGemProbabilityList[gem] ?? 0)")
+                                .foregroundStyle(.white)
+                        }
+                    }
+                }
+                if (mine.gemProbabilities.noGemProbability > 0) {
+                    Text("Nothing: \(mine.gemProbabilities.noGemProbability)")
+                        .foregroundStyle(.white)
+                }
+            }
+            
+            Spacer()
+        }
+        .padding()
+        .frame(width: geo.size.width)
+        .border(allMines[mineIndex].primaryColor, width: 5)
+        .id(mine.name.rawValue)
     }
 }
 
