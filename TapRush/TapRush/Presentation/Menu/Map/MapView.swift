@@ -22,7 +22,7 @@ struct MapView: View {
     var body: some View {
         GeometryReader { geo in
             VStack {
-                TopNavBarView(foregroundColor: .peachOrange, title: "Maps")
+                TopNavBarView(foregroundColor: .peachOrange, title: "Map")
                 
                 HStack {
                     Image(systemName: "arrow.backward")
@@ -80,19 +80,35 @@ struct MapView: View {
                         }
                 }
                 
-                VStack {
-                    Text("\(allMines[mineIndex].name.rawValue)")
-                        .adaptiveFontSize(customFontName: "Audiowide-Regular")
-                        .foregroundStyle(allMines[mineIndex].secondaryColor)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollViewReader { proxy in
+                        LazyHStack {
+                            ForEach(allMines) { mine in
+                                Text("\(allMines[mineIndex].name.rawValue)")
+                                    .adaptiveFontSize(customFontName: "Audiowide-Regular")
+                                    .foregroundStyle(allMines[mineIndex].secondaryColor)
+                                    .frame(width: geo.size.width)
+                                    .id(mine.name.rawValue)
+                            }
+                        }
+                        .onAppear {
+                            proxy.scrollTo(allMines[mineIndex].name.rawValue, anchor: .center)
+                        }
+                        .onChange(of: mineIndex) { _, newValue in
+                            withAnimation {
+                                proxy.scrollTo(allMines[mineIndex].name.rawValue, anchor: .center)
+                            }
+                        }
+                    }
                 }
-                .frame(maxWidth: .infinity, maxHeight: 200)
-                .border(allMines[mineIndex].primaryColor, width: 5)
+                .frame(height: 200)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
                     ScrollViewReader { proxy in
                         LazyHStack {
                             ForEach(allMines) { mine in
                                 gemProbabilitiesView(mine: mine, geo: geo)
+                                    .frame(maxHeight: .none)
                             }
                         }
                         .onAppear {
@@ -105,13 +121,14 @@ struct MapView: View {
                                 proxy.scrollTo(allMines[mineIndex].name.rawValue, anchor: .center)
                             }
                         }
+                        .frame(minHeight: 0, maxHeight: geo.size.height * 0.4)
                     }
                 }
-                .frame(width: geo.size.width)
-                
+                .frame(minHeight: 0, maxHeight: geo.size.height * 0.4)
+                .background(Color.outerSpace)
+//                .border(allMines[mineIndex].primaryColor, width: 5)
                 Spacer()
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBarBackButtonHidden(true)
             .background(Color.outerSpace)
         }
@@ -119,14 +136,14 @@ struct MapView: View {
     
     private func gemProbabilitiesView(mine: Mine, geo: GeometryProxy) -> some View {
         let mineGemProbabilityList = mine.gemProbabilities.gemsProbabilityList
-        return VStack {
-            HStack {
-                Text("\(mine.description)")
-                    .adaptiveFontSize(customFontName: "Audiowide-Regular")
-                    .foregroundStyle(allMines[mineIndex].secondaryColor)
-            }
+        
+        return VStack(alignment: .leading) {
+            Text("\(mine.description)")
+                .foregroundStyle(allMines[mineIndex].secondaryColor)
+                .font(.custom("Audiowide-Regular", size: 20))
+                .padding(.top, 5)
             Text("Gem Probabilities:")
-                .adaptiveFontSize(customFontName: "Audiowide-Regular")
+                .font(.custom("Audiowide-Regular", size: 25))
                 .foregroundStyle(allMines[mineIndex].secondaryColor)
             LazyVGrid(columns: columns, spacing: 30) {
                 ForEach(Array(gemOrder), id: \.self) { gem in
@@ -135,24 +152,29 @@ struct MapView: View {
                             Image(GemHelpers.getGemIcon(for: gem))
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 60, height: 60)
+                                .frame(width: 40, height: 40)
                             
-                            Text(": \(mineGemProbabilityList[gem] ?? 0)")
+                            Text(": \(mineGemProbabilityList[gem] ?? 0, specifier: "%.2f")")
                                 .foregroundStyle(.white)
                         }
                     }
                 }
                 if (mine.gemProbabilities.noGemProbability > 0) {
-                    Text("Nothing: \(mine.gemProbabilities.noGemProbability)")
-                        .foregroundStyle(.white)
+                    HStack {
+                        Image(systemName: "slash.circle")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundStyle(.red)
+                        Text(": \(mine.gemProbabilities.noGemProbability, specifier: "%.2f")")
+                            .foregroundStyle(.white)
+                    }
                 }
             }
-            
             Spacer()
         }
         .padding()
-        .frame(width: geo.size.width)
-        .border(allMines[mineIndex].primaryColor, width: 5)
+        .frame(width: geo.size.width, height: geo.size.height * 0.4)
         .id(mine.name.rawValue)
     }
 }
