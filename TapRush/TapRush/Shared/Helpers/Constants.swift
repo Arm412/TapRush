@@ -41,4 +41,8 @@ class Strings {
     static let goldPayout = "Gold Payout: "
     static let sell = "Sell"
     static let youAreAboutToSell = "You are about to sell:"
+    
+    // Map
+    static let setAsActiveMine = "Set as active mine"
+    static let gemProbabilities = "Gem Probabilities:"
 }

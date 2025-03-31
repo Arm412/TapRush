@@ -22,7 +22,7 @@ struct MapView: View {
     var body: some View {
         GeometryReader { geo in
             VStack {
-                TopNavBarView(foregroundColor: .peachOrange, title: "Map")
+                TopNavBarView(foregroundColor: .peachOrange, title: Strings.map)
                 
                 HStack {
                     Image(systemName: "arrow.backward")
@@ -132,7 +132,7 @@ struct MapView: View {
 //                .border(allMines[mineIndex].primaryColor, width: 5)
                 Spacer()
                 Button(action: { menuVM.currentMine = allMines[mineIndex] }) {
-                    Text("Set as active mine")
+                    Text(Strings.setAsActiveMine)
                         .font(.custom("Audiowide-Regular", size: 22))
                         .padding()
                         .border(.peachOrange, width: 3)
@@ -153,7 +153,7 @@ struct MapView: View {
                 .foregroundStyle(.peachOrange)
                 .font(.custom("Audiowide-Regular", size: 20))
                 .padding(.top, 5)
-            Text("Gem Probabilities:")
+            Text(Strings.gemProbabilities)
                 .font(.custom("Audiowide-Regular", size: 25))
                 .foregroundStyle(.peachOrange)
             LazyVGrid(columns: columns, spacing: 30) {
