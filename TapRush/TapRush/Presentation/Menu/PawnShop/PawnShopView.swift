@@ -28,7 +28,7 @@ struct PawnShopView: View {
         GeometryReader { geo in
             ZStack {
                 VStack(alignment: HorizontalAlignment.center) {
-                    TopNavBarView(title: Strings.pawnShop)
+                    TopNavBarView(foregroundColor: .peachOrange, title: Strings.pawnShop)
                     
                     HStack {
                         Text(Strings.currentGold + "\(menuVM.gold.count)")

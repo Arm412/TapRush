@@ -18,6 +18,11 @@ class MenuViewModel: ObservableObject {
     @Published var gold: GoldCount
     @Published var navPath = NavigationPath()
     @Published var inventory = Inventory(gemList: [])
+    @Published var coordinates: [[Int]] = [[100, 100], [200, 200], [300, 300]]
+    @Published var currentMine: Mine = Mine(name: .dustveilQuarry,
+                                            gemProbabilities: MineHelpers.getGemProbabilities(name: .dustveilQuarry),
+                                            primaryColor: .gray, secondaryColor: .brown, rockSprites: [])
+    @Published var mineList: [Mine] = []
     
     var navPathBinding: Binding<NavigationPath> {
             Binding(
@@ -38,6 +43,11 @@ class MenuViewModel: ObservableObject {
         self.gems = CoreDataManager.shared.getGemCount()[0]
 //        CoreDataManager.shared.deleteGemCount(gemCount: gemCount)
         self.gold = CoreDataManager.shared.getGoldCount()[0]
+        
+        // Find out the last mine they were at from CoreData and set to currentmine
+        
+        self.mineList = MineHelpers.allMines
+        
         print(self.gold.count)
         print("self.gold.count")
         

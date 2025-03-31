@@ -10,7 +10,7 @@ import SwiftUI
 struct AwardsView: View {
     var body: some View {
         VStack(alignment: HorizontalAlignment.center) {
-            TopNavBarView(title: "Awards")
+            TopNavBarView(foregroundColor: .peachOrange, title: "Awards")
             Spacer()
             Text("View to display achievements")
                 .font(.custom("Audiowide-Regular", size: 40))

@@ -10,7 +10,7 @@ import SwiftUI
 struct OrdersView: View {
     var body: some View {
         VStack(alignment: HorizontalAlignment.center) {
-            TopNavBarView(title: "Orders")
+            TopNavBarView(foregroundColor: .peachOrange, title: "Orders")
             Spacer()
             Text("View to show gem orders")
                 .font(.custom("Audiowide-Regular", size: 40))

@@ -7,28 +7,35 @@
 
 import Foundation
 
-struct Gem: Hashable {
-    var count: Int = 0
-    let icon: String
-    let name: String
-    let type: GemType
-    let sprites: [String]
-    
-    init(type: GemType) {
-        self.type = type
-        
-        self.name = type.rawValue
-        self.sprites = self.gemNames[type] ?? []
-        self.icon = self.sprites.first ?? ""
-    }
-    
-    private let gemNames: [GemType: [String]] = [
+class GemHelpers {
+    static let gemSprites: [GemType: [String]] = [
         .common: ["purpEmerald1"],
         .uncommon: ["purpEmerald2"],
         .rare: ["sapphire"],
         .legendary: ["emerald"],
         .mythical: ["diamond"]
     ]
+    
+    static func getGemIcon(for gemType: GemType) -> String {
+        return gemSprites[gemType]?.first ?? ""
+    }
+}
+
+struct Gem: Hashable {
+    var count: Int = 0
+    let icon: String
+    let name: String
+    let type: GemType
+    let sprites: [String]
+    var probability: Double = 0.0
+    
+    init(type: GemType) {
+        self.type = type
+        
+        self.name = type.rawValue
+        self.sprites = GemHelpers.gemSprites[type] ?? []
+        self.icon = self.sprites.first ?? ""
+    }
 }
 
 struct SoldGemCounts {

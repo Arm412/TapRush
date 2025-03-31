@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @State var selectedMine: String = "Pebblebrook Quarry"
     @EnvironmentObject private var menuVM: MenuViewModel
     @EnvironmentObject private var navigationVM: NavigationViewModel
     
@@ -83,7 +82,7 @@ struct DashboardView: View {
                 Text(Strings.currentDestination)
                     .foregroundStyle(.peachOrange)
                     .font(.custom("Audiowide-Regular", size: 25))
-                Text(selectedMine)
+                Text("\(menuVM.currentMine.name.rawValue)")
                     .foregroundStyle(.peachOrange)
                     .font(.custom("Audiowide-Regular", size: 25))
             }
@@ -96,5 +95,7 @@ struct DashboardView: View {
 }
 
 #Preview {
+    let viewModel = MenuViewModel()
     DashboardView()
+        .environmentObject(viewModel)
 }

@@ -24,7 +24,7 @@ struct InventoryView: View {
     var body: some View {
         GeometryReader { geo in
             VStack(alignment: HorizontalAlignment.center) {
-                TopNavBarView(title: Strings.inventory)
+                TopNavBarView(foregroundColor: .peachOrange, title: Strings.inventory)
                 
                 HStack {
                     Spacer()
