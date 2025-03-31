@@ -62,6 +62,7 @@ struct MapView: View {
                         }
                     }
                     .frame(height: 40)
+                    .allowsHitTesting(false)
 
                     
                     Spacer()
@@ -101,6 +102,7 @@ struct MapView: View {
                         }
                     }
                 }
+                .allowsHitTesting(false)
                 .frame(height: 200)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -124,10 +126,19 @@ struct MapView: View {
                         .frame(minHeight: 0, maxHeight: geo.size.height * 0.4)
                     }
                 }
+                .allowsHitTesting(false)
                 .frame(minHeight: 0, maxHeight: geo.size.height * 0.4)
                 .background(Color.outerSpace)
 //                .border(allMines[mineIndex].primaryColor, width: 5)
                 Spacer()
+                Button(action: { menuVM.currentMine = allMines[mineIndex] }) {
+                    Text("Set as active mine")
+                        .font(.custom("Audiowide-Regular", size: 22))
+                        .padding()
+                        .border(.peachOrange, width: 3)
+                }
+                .foregroundStyle(.peachOrange)
+                .padding(.bottom, 30)
             }
             .navigationBarBackButtonHidden(true)
             .background(Color.outerSpace)
@@ -139,12 +150,12 @@ struct MapView: View {
         
         return VStack(alignment: .leading) {
             Text("\(mine.description)")
-                .foregroundStyle(allMines[mineIndex].secondaryColor)
+                .foregroundStyle(.peachOrange)
                 .font(.custom("Audiowide-Regular", size: 20))
                 .padding(.top, 5)
             Text("Gem Probabilities:")
                 .font(.custom("Audiowide-Regular", size: 25))
-                .foregroundStyle(allMines[mineIndex].secondaryColor)
+                .foregroundStyle(.peachOrange)
             LazyVGrid(columns: columns, spacing: 30) {
                 ForEach(Array(gemOrder), id: \.self) { gem in
                     if (mineGemProbabilityList[gem] ?? 0 > 0) {
@@ -161,7 +172,7 @@ struct MapView: View {
                 }
                 if (mine.gemProbabilities.noGemProbability > 0) {
                     HStack {
-                        Image(systemName: "slash.circle")
+                        Image("nothing")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 40, height: 40)
@@ -178,7 +189,6 @@ struct MapView: View {
         .id(mine.name.rawValue)
     }
 }
-
 
 #Preview {
     var viewModel: MenuViewModel = .init()

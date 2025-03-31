@@ -19,7 +19,9 @@ class MenuViewModel: ObservableObject {
     @Published var navPath = NavigationPath()
     @Published var inventory = Inventory(gemList: [])
     @Published var coordinates: [[Int]] = [[100, 100], [200, 200], [300, 300]]
-    @Published var currentMine: MineNames = .dustveilQuarry
+    @Published var currentMine: Mine = Mine(name: .dustveilQuarry,
+                                            gemProbabilities: MineHelpers.getGemProbabilities(name: .dustveilQuarry),
+                                            primaryColor: .gray, secondaryColor: .brown, rockSprites: [])
     @Published var mineList: [Mine] = []
     
     var navPathBinding: Binding<NavigationPath> {
