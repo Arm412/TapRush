@@ -129,7 +129,6 @@ struct MapView: View {
                 .allowsHitTesting(false)
                 .frame(minHeight: 0, maxHeight: geo.size.height * 0.4)
                 .background(Color.outerSpace)
-//                .border(allMines[mineIndex].primaryColor, width: 5)
                 Spacer()
                 Button(action: { menuVM.currentMine = allMines[mineIndex] }) {
                     Text(Strings.setAsActiveMine)
@@ -138,7 +137,7 @@ struct MapView: View {
                         .border(.peachOrange, width: 3)
                 }
                 .foregroundStyle(.peachOrange)
-                .padding(.bottom, 30)
+                .padding(.bottom, 10)
             }
             .navigationBarBackButtonHidden(true)
             .background(Color.outerSpace)
@@ -165,7 +164,7 @@ struct MapView: View {
                                 .scaledToFit()
                                 .frame(width: 40, height: 40)
                             
-                            Text(": \(mineGemProbabilityList[gem] ?? 0, specifier: "%.2f")")
+                            Text(": \((mineGemProbabilityList[gem] ?? 0) * 100, specifier: "%.1f")%")
                                 .foregroundStyle(.white)
                         }
                     }
@@ -177,7 +176,7 @@ struct MapView: View {
                             .scaledToFit()
                             .frame(width: 40, height: 40)
                             .foregroundStyle(.red)
-                        Text(": \(mine.gemProbabilities.noGemProbability, specifier: "%.2f")")
+                        Text(": \(mine.gemProbabilities.noGemProbability * 100, specifier: "%.1f")%")
                             .foregroundStyle(.white)
                     }
                 }
