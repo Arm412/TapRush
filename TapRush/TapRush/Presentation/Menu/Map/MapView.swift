@@ -130,7 +130,7 @@ struct MapView: View {
                 .frame(minHeight: 0, maxHeight: geo.size.height * 0.4)
                 .background(Color.outerSpace)
                 Spacer()
-                Button(action: { menuVM.currentMine = allMines[mineIndex] }) {
+                Button(action: { setCurrentMine() }) {
                     Text(Strings.setAsActiveMine)
                         .font(.custom("Audiowide-Regular", size: 22))
                         .padding()
@@ -186,6 +186,11 @@ struct MapView: View {
         .padding()
         .frame(width: geo.size.width, height: geo.size.height * 0.4)
         .id(mine.name.rawValue)
+    }
+    
+    private func setCurrentMine() {
+        menuVM.currentMine = allMines[mineIndex]
+        menuVM.saveCurrentMine()
     }
 }
 
