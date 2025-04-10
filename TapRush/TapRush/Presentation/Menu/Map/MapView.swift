@@ -9,9 +9,11 @@ import SwiftUI
 
 struct MapView: View {
     @EnvironmentObject var menuVM: MenuViewModel
-    @State var mineIndex: Int
     
-    var allMines = MineHelpers.allMines
+    @Binding var allMines: [Mine]
+    @Binding var activeMineIndex: Int // the active mine index
+    
+    @State var currentIndex: Int // current index on map screen
     
     let gemOrder: [GemType] = [.common, .uncommon, .rare, .legendary, .mythical]
     
@@ -33,10 +35,10 @@ struct MapView: View {
                         .foregroundStyle(.peachOrange)
                         .padding(.leading, 5)
                         .onTapGesture {
-                            if mineIndex == 0 {
-                                mineIndex = allMines.count - 1
+                            if currentIndex == 0 {
+                                currentIndex = allMines.count - 1
                             } else {
-                                mineIndex -= 1
+                                currentIndex -= 1
                             }
                         }
                     Spacer()
@@ -50,14 +52,15 @@ struct MapView: View {
                                         .multilineTextAlignment(.center)
                                         .frame(minWidth: geo.size.width - 90)
                                         .id(mine.name.rawValue)
+                                        .underline(mine.isActive)
                                 }
                             }
                             .onAppear {
-                                proxy.scrollTo(allMines[mineIndex].name.rawValue, anchor: .center)
+                                proxy.scrollTo(allMines[activeMineIndex].name.rawValue, anchor: .center)
                             }
-                            .onChange(of: mineIndex) { _, newValue in
+                            .onChange(of: currentIndex) { _, newValue in
                                 withAnimation {
-                                    proxy.scrollTo(allMines[mineIndex].name.rawValue, anchor: .center)
+                                    proxy.scrollTo(allMines[currentIndex].name.rawValue, anchor: .center)
                                 }
                             }
                         }
@@ -74,10 +77,10 @@ struct MapView: View {
                         .foregroundStyle(.peachOrange)
                         .padding(.trailing, 5)
                         .onTapGesture {
-                            if mineIndex < allMines.count - 1 {
-                                mineIndex += 1
+                            if currentIndex < allMines.count - 1 {
+                                currentIndex += 1
                             } else {
-                                mineIndex = 0
+                                currentIndex = 0
                             }
                         }
                 }
@@ -86,19 +89,19 @@ struct MapView: View {
                     ScrollViewReader { proxy in
                         LazyHStack {
                             ForEach(allMines) { mine in
-                                Text("\(allMines[mineIndex].name.rawValue)")
+                                Text("\(mine.name.rawValue)")
                                     .adaptiveFontSize(customFontName: "Audiowide-Regular")
-                                    .foregroundStyle(allMines[mineIndex].secondaryColor)
+                                    .foregroundStyle(mine.secondaryColor)
                                     .frame(width: geo.size.width)
                                     .id(mine.name.rawValue)
                             }
                         }
                         .onAppear {
-                            proxy.scrollTo(allMines[mineIndex].name.rawValue, anchor: .center)
+                            proxy.scrollTo(allMines[activeMineIndex].name.rawValue, anchor: .center)
                         }
-                        .onChange(of: mineIndex) { _, newValue in
+                        .onChange(of: currentIndex) { _, newValue in
                             withAnimation {
-                                proxy.scrollTo(allMines[mineIndex].name.rawValue, anchor: .center)
+                                proxy.scrollTo(allMines[currentIndex].name.rawValue, anchor: .center)
                             }
                         }
                     }
@@ -116,12 +119,12 @@ struct MapView: View {
                         }
                         .onAppear {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                proxy.scrollTo(allMines[mineIndex].name.rawValue, anchor: .center)
+                                proxy.scrollTo(allMines[activeMineIndex].name.rawValue, anchor: .center)
                             }
                         }
-                        .onChange(of: mineIndex) { _, newValue in
+                        .onChange(of: currentIndex) { _, newValue in
                             withAnimation {
-                                proxy.scrollTo(allMines[mineIndex].name.rawValue, anchor: .center)
+                                proxy.scrollTo(allMines[currentIndex].name.rawValue, anchor: .center)
                             }
                         }
                         .frame(minHeight: 0, maxHeight: geo.size.height * 0.4)
@@ -190,14 +193,21 @@ struct MapView: View {
     }
     
     private func setCurrentMine() {
-        menuVM.currentMine = allMines[mineIndex]
+        allMines[activeMineIndex].isActive = false
+        allMines[currentIndex].isActive = true
+        
+        activeMineIndex = currentIndex
+
         menuVM.saveCurrentMine()
     }
 }
 
 #Preview {
+    @Previewable @State var indx = 0
+    @Previewable @State var mineList: [Mine] = MineHelpers.allMines
+    
     var viewModel: MenuViewModel = .init()
     
-    MapView(mineIndex: 0)
+    MapView(allMines: $mineList, activeMineIndex: $indx, currentIndex: indx)
         .environmentObject(viewModel)
 }

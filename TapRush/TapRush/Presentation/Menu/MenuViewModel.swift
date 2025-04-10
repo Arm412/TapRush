@@ -20,12 +20,10 @@ class MenuViewModel: ObservableObject {
     @Published var navPath = NavigationPath()
     @Published var inventory = Inventory(gemList: [])
     @Published var coordinates: [[Int]] = [[100, 100], [200, 200], [300, 300]]
-    @Published var currentMine: Mine = Mine(name: .dustveilQuarry,
-                                            gemProbabilities: MineHelpers.getGemProbabilities(name: .dustveilQuarry),
-                                            primaryColor: .gray, secondaryColor: .brown, rockSprites: [])
-    @Published var currentMineIndex = 0
+    @Published var currentMine: Mine?
+    @Published var activeMineIndex = 0
     @Published var savedMine: Mine? = nil
-    @Published var mineList: [Mine] = []
+    @Published var mineList: [Mine] = MineHelpers.allMines
     
     var navPathBinding: Binding<NavigationPath> {
             Binding(
@@ -49,13 +47,18 @@ class MenuViewModel: ObservableObject {
         
         let savedMine = CoreDataManager.shared.getSavedCurrentMine()
         
-        self.mineList = MineHelpers.allMines
+//        self.mineList = MineHelpers.allMines
         
         if let savedMineIndex = mineList.firstIndex(where: { $0.name.rawValue == savedMine?.mineName }) {
             print("Found last visited mine: \(mineList[savedMineIndex].name)")
+            mineList[savedMineIndex].isActive = true
             currentMine = mineList[savedMineIndex]
-            currentMineIndex = savedMineIndex
+            activeMineIndex = savedMineIndex
         } else {
+            // Could not find mine in coredata, use the default mine and set it as active.
+            mineList[0].isActive = true
+            currentMine = mineList[0]
+            
             print("Could not find previous mine. Setting default mine.")
         }
         
@@ -98,14 +101,14 @@ class MenuViewModel: ObservableObject {
         do {
             let results = try context.fetch(request)
             
-            let currentMineToSave: CurrentMine
+            var currentMineToSave: CurrentMine
             if let existingMine = results.first {
                 currentMineToSave = existingMine
             } else {
                 currentMineToSave = CurrentMine(context: context)
             }
             
-            currentMineToSave.mineName = currentMine.name.rawValue
+            currentMineToSave.mineName = mineList[activeMineIndex].name.rawValue
             print("Saved current mine to CoreData: \(currentMineToSave.mineName ?? "")")
             
             CoreDataManager.shared.save()

@@ -3,7 +3,7 @@ import SwiftUI
 struct MiningMenuView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @Binding var selectedMine: Mine
+    @Binding var selectedMine: Mine?
     
     @EnvironmentObject private var menuVM: MenuViewModel
     @EnvironmentObject private var navigationVM: NavigationViewModel
@@ -49,7 +49,7 @@ struct MiningMenuView: View {
                 Text(Strings.currentDestination)
                     .foregroundStyle(.peachOrange)
                     .font(.custom("Audiowide-Regular", size: 25))
-                Text(selectedMine.name.rawValue)
+                Text(selectedMine!.name.rawValue)
                     .foregroundStyle(.peachOrange)
                     .font(.custom("Audiowide-Regular", size: 25))
                 HStack {
@@ -85,7 +85,7 @@ struct MiningMenuView: View {
     var navigationViewModel = NavigationViewModel()
     var menuViewModel = MenuViewModel()
     
-    @State var mine = menuViewModel.mineList[0]
+    @State var mine: Mine? = menuViewModel.mineList[0]
     
     MiningMenuView(selectedMine: $mine)
         .environmentObject(navigationViewModel)
