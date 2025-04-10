@@ -23,6 +23,7 @@ class MenuViewModel: ObservableObject {
     @Published var currentMine: Mine = Mine(name: .dustveilQuarry,
                                             gemProbabilities: MineHelpers.getGemProbabilities(name: .dustveilQuarry),
                                             primaryColor: .gray, secondaryColor: .brown, rockSprites: [])
+    @Published var currentMineIndex = 0
     @Published var savedMine: Mine? = nil
     @Published var mineList: [Mine] = []
     
@@ -50,9 +51,10 @@ class MenuViewModel: ObservableObject {
         
         self.mineList = MineHelpers.allMines
         
-        if let savedMineObject = mineList.first(where: { $0.name.rawValue == savedMine?.mineName }) {
-            print("Found last visited mine: \(savedMineObject.name)")
-            currentMine = savedMineObject
+        if let savedMineIndex = mineList.firstIndex(where: { $0.name.rawValue == savedMine?.mineName }) {
+            print("Found last visited mine: \(mineList[savedMineIndex].name)")
+            currentMine = mineList[savedMineIndex]
+            currentMineIndex = savedMineIndex
         } else {
             print("Could not find previous mine. Setting default mine.")
         }

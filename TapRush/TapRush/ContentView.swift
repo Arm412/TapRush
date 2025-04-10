@@ -36,7 +36,7 @@ struct ContentView: View {
                         InventoryView()
                             .environmentObject(menuVM)
                     case .map:
-                        MapView()
+                        MapView(mineIndex: menuVM.currentMineIndex)
                             .environmentObject(menuVM)
                     case .orders:
                         OrdersView()

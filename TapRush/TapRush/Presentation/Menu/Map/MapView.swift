@@ -9,8 +9,9 @@ import SwiftUI
 
 struct MapView: View {
     @EnvironmentObject var menuVM: MenuViewModel
+    @State var mineIndex: Int
+    
     var allMines = MineHelpers.allMines
-    @State var mineIndex = 0
     
     let gemOrder: [GemType] = [.common, .uncommon, .rare, .legendary, .mythical]
     
@@ -197,6 +198,6 @@ struct MapView: View {
 #Preview {
     var viewModel: MenuViewModel = .init()
     
-    MapView()
+    MapView(mineIndex: 0)
         .environmentObject(viewModel)
 }
