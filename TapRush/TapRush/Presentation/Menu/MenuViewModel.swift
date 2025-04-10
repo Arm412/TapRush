@@ -20,7 +20,6 @@ class MenuViewModel: ObservableObject {
     @Published var navPath = NavigationPath()
     @Published var inventory = Inventory(gemList: [])
     @Published var coordinates: [[Int]] = [[100, 100], [200, 200], [300, 300]]
-    @Published var currentMine: Mine?
     @Published var activeMineIndex = 0
     @Published var savedMine: Mine? = nil
     @Published var mineList: [Mine] = MineHelpers.allMines
@@ -47,17 +46,13 @@ class MenuViewModel: ObservableObject {
         
         let savedMine = CoreDataManager.shared.getSavedCurrentMine()
         
-//        self.mineList = MineHelpers.allMines
-        
         if let savedMineIndex = mineList.firstIndex(where: { $0.name.rawValue == savedMine?.mineName }) {
             print("Found last visited mine: \(mineList[savedMineIndex].name)")
             mineList[savedMineIndex].isActive = true
-            currentMine = mineList[savedMineIndex]
             activeMineIndex = savedMineIndex
         } else {
             // Could not find mine in coredata, use the default mine and set it as active.
             mineList[0].isActive = true
-            currentMine = mineList[0]
             
             print("Could not find previous mine. Setting default mine.")
         }
