@@ -197,7 +197,7 @@ struct MapView: View {
         allMines[currentIndex].isActive = true
         
         activeMineIndex = currentIndex
-
+        menuVM.activeMineName = allMines[activeMineIndex].name.rawValue
         menuVM.saveCurrentMine()
     }
 }

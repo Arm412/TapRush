@@ -82,7 +82,7 @@ struct DashboardView: View {
                 Text(Strings.currentDestination)
                     .foregroundStyle(.peachOrange)
                     .font(.custom("Audiowide-Regular", size: 25))
-                Text("\(menuVM.mineList[menuVM.activeMineIndex].name.rawValue)")
+                Text("\(menuVM.activeMineName ?? "")")
                     .foregroundStyle(.peachOrange)
                     .font(.custom("Audiowide-Regular", size: 25))
             }

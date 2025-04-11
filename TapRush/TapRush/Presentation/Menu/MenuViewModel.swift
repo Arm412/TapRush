@@ -20,6 +20,7 @@ class MenuViewModel: ObservableObject {
     @Published var navPath = NavigationPath()
     @Published var inventory = Inventory(gemList: [])
     @Published var coordinates: [[Int]] = [[100, 100], [200, 200], [300, 300]]
+    @Published var activeMineName: String?
     @Published var activeMineIndex = 0
     @Published var savedMine: Mine? = nil
     @Published var mineList: [Mine] = MineHelpers.allMines
@@ -44,9 +45,9 @@ class MenuViewModel: ObservableObject {
 //        CoreDataManager.shared.deleteGemCount(gemCount: gemCount)
         self.gold = CoreDataManager.shared.getGoldCount()[0]
         
-        let savedMine = CoreDataManager.shared.getSavedCurrentMine()
+        self.activeMineName = CoreDataManager.shared.getSavedCurrentMine()?.mineName
         
-        if let savedMineIndex = mineList.firstIndex(where: { $0.name.rawValue == savedMine?.mineName }) {
+        if let savedMineIndex = mineList.firstIndex(where: { $0.name.rawValue == activeMineName }) {
             print("Found last visited mine: \(mineList[savedMineIndex].name)")
             mineList[savedMineIndex].isActive = true
             activeMineIndex = savedMineIndex
