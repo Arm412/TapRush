@@ -47,6 +47,19 @@ class CoreDataManager {
         }
     }
     
+    func getSavedCurrentMine() -> CurrentMine? {
+        let request: NSFetchRequest<CurrentMine> = CurrentMine.fetchRequest()
+        
+        do {
+            let results = try viewContext.fetch(request)
+            return results.first
+        } catch {
+            print("Failed to fetch CurrentMine: \(error)")
+            return nil
+        }
+    }
+
+    
     func getGoldCount() -> [GoldCount] {
         let request: NSFetchRequest<GoldCount> = GoldCount.fetchRequest()
         

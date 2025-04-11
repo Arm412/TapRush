@@ -27,7 +27,7 @@ struct ContentView: View {
                             .environmentObject(menuVM)
                             .environmentObject(navigationVM)
                     case .miningMenu:
-                        MiningMenuView(selectedMine: $menuVM.currentMine)
+                        MiningMenuView(selectedMine: $menuVM.mineList[menuVM.activeMineIndex])
                             .environmentObject(menuVM)
                             .environmentObject(navigationVM)
                     case .awards:
@@ -36,7 +36,7 @@ struct ContentView: View {
                         InventoryView()
                             .environmentObject(menuVM)
                     case .map:
-                        MapView()
+                        MapView(allMines: $menuVM.mineList, activeMineIndex: $menuVM.activeMineIndex, currentIndex: menuVM.activeMineIndex)
                             .environmentObject(menuVM)
                     case .orders:
                         OrdersView()

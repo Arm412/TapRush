@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUICore
 import SwiftUI
+import CoreData
 
 @MainActor
 class MenuViewModel: ObservableObject {
@@ -19,10 +20,10 @@ class MenuViewModel: ObservableObject {
     @Published var navPath = NavigationPath()
     @Published var inventory = Inventory(gemList: [])
     @Published var coordinates: [[Int]] = [[100, 100], [200, 200], [300, 300]]
-    @Published var currentMine: Mine = Mine(name: .dustveilQuarry,
-                                            gemProbabilities: MineHelpers.getGemProbabilities(name: .dustveilQuarry),
-                                            primaryColor: .gray, secondaryColor: .brown, rockSprites: [])
-    @Published var mineList: [Mine] = []
+    @Published var activeMineName: String?
+    @Published var activeMineIndex = 0
+    @Published var savedMine: Mine? = nil
+    @Published var mineList: [Mine] = MineHelpers.allMines
     
     var navPathBinding: Binding<NavigationPath> {
             Binding(
@@ -44,9 +45,18 @@ class MenuViewModel: ObservableObject {
 //        CoreDataManager.shared.deleteGemCount(gemCount: gemCount)
         self.gold = CoreDataManager.shared.getGoldCount()[0]
         
-        // Find out the last mine they were at from CoreData and set to currentmine
+        self.activeMineName = CoreDataManager.shared.getSavedCurrentMine()?.mineName
         
-        self.mineList = MineHelpers.allMines
+        if let savedMineIndex = mineList.firstIndex(where: { $0.name.rawValue == activeMineName }) {
+            print("Found last visited mine: \(mineList[savedMineIndex].name)")
+            mineList[savedMineIndex].isActive = true
+            activeMineIndex = savedMineIndex
+        } else {
+            // Could not find mine in coredata, use the default mine and set it as active.
+            mineList[0].isActive = true
+            
+            print("Could not find previous mine. Setting default mine.")
+        }
         
         print(self.gold.count)
         print("self.gold.count")
@@ -63,7 +73,7 @@ class MenuViewModel: ObservableObject {
         }
     }
     
-    func save() {
+    func saveGems() {
         let gemCounts = GemCount(context: CoreDataManager.shared.viewContext)
         let goldCount = GoldCount(context: CoreDataManager.shared.viewContext)
         
@@ -80,6 +90,30 @@ class MenuViewModel: ObservableObject {
         CoreDataManager.shared.save()
     }
     
+    func saveCurrentMine() {
+        let context = CoreDataManager.shared.viewContext
+        let request: NSFetchRequest<CurrentMine> = CurrentMine.fetchRequest()
+        
+        do {
+            let results = try context.fetch(request)
+            
+            var currentMineToSave: CurrentMine
+            if let existingMine = results.first {
+                currentMineToSave = existingMine
+            } else {
+                currentMineToSave = CurrentMine(context: context)
+            }
+            
+            currentMineToSave.mineName = mineList[activeMineIndex].name.rawValue
+            print("Saved current mine to CoreData: \(currentMineToSave.mineName ?? "")")
+            
+            CoreDataManager.shared.save()
+            
+        } catch {
+            print("Failed to fetch CurrentMine: \(error)")
+        }
+    }
+    
     func sellGems(soldGems: SoldGemCounts, aqcuiredGold: Int) {
         gems.common -= soldGems.common.count
         gems.uncommon -= soldGems.uncommon.count
@@ -89,7 +123,7 @@ class MenuViewModel: ObservableObject {
         
         gold.count += aqcuiredGold
         
-        self.save()
+        self.saveGems()
     }
     
     func initRocks(geo: GeometryProxy) {

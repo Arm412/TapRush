@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F4DA093D2DA4B2F5005234D9 /* CurrentMine+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA093B2DA4B2F5005234D9 /* CurrentMine+CoreDataClass.swift */; };
+		F4DA093E2DA4B2F5005234D9 /* CurrentMine+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4DA093C2DA4B2F5005234D9 /* CurrentMine+CoreDataProperties.swift */; };
 		F4F250B42D4BF480008FDA03 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F250B32D4BF480008FDA03 /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F4DA093B2DA4B2F5005234D9 /* CurrentMine+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CurrentMine+CoreDataClass.swift"; path = "TapRush/Data/CoreData/CurrentMine/CurrentMine+CoreDataClass.swift"; sourceTree = "<group>"; };
+		F4DA093C2DA4B2F5005234D9 /* CurrentMine+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CurrentMine+CoreDataProperties.swift"; path = "TapRush/Data/CoreData/CurrentMine/CurrentMine+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F4F250B32D4BF480008FDA03 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.1.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		F4F8748F2D0D0E54000B1E12 /* TapRush.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapRush.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4F874A02D0D0E56000B1E12 /* TapRushTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TapRushTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,7 +51,7 @@
 		F4F875192D10CB95000B1E12 /* Exceptions for "TapRush" folder in "TapRush" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Domain/TapRushDataModel.xcdatamodeld,
+				Data/CoreData/TapRushDataModel.xcdatamodeld,
 				Info.plist,
 			);
 			target = F4F8748E2D0D0E54000B1E12 /* TapRush */;
@@ -59,7 +63,7 @@
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			buildPhase = F4F8748D2D0D0E54000B1E12 /* Resources */;
 			membershipExceptions = (
-				Domain/TapRushDataModel.xcdatamodeld,
+				Data/CoreData/TapRushDataModel.xcdatamodeld,
 			);
 		};
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
@@ -124,6 +128,8 @@
 		F4F874862D0D0E54000B1E12 = {
 			isa = PBXGroup;
 			children = (
+				F4DA093B2DA4B2F5005234D9 /* CurrentMine+CoreDataClass.swift */,
+				F4DA093C2DA4B2F5005234D9 /* CurrentMine+CoreDataProperties.swift */,
 				F4F874912D0D0E54000B1E12 /* TapRush */,
 				F4F874A32D0D0E56000B1E12 /* TapRushTests */,
 				F4F874AD2D0D0E56000B1E12 /* TapRushUITests */,
@@ -286,6 +292,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4DA093D2DA4B2F5005234D9 /* CurrentMine+CoreDataClass.swift in Sources */,
+				F4DA093E2DA4B2F5005234D9 /* CurrentMine+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -62,7 +62,7 @@ struct MineView: View {
                         menuVM.initRocks(geo: mineGeo)
                     }
                     .onDisappear {
-                        menuVM.save()
+                        menuVM.saveGems()
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

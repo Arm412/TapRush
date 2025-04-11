@@ -3,53 +3,41 @@ import SwiftUI
 
 class MineHelpers {
     static let allMines: [Mine] = [
-        Mine(name: .dustveilQuarry,
-             gemProbabilities: getGemProbabilities(name: .dustveilQuarry),
-             primaryColor: .gray, secondaryColor: .brown, rockSprites: []),
+        Mine(gemProbabilities: getGemProbabilities(name: .dustveilQuarry), name: .dustveilQuarry,
+             primaryColor: .gray, rockSprites: [], secondaryColor: .brown),
         
-        Mine(name: .amberHollow,
-             gemProbabilities: getGemProbabilities(name: .amberHollow),
-             primaryColor: .orange, secondaryColor: .yellow, rockSprites: []),
+        Mine(gemProbabilities: getGemProbabilities(name: .amberHollow), name: .amberHollow,
+             primaryColor: .orange, rockSprites: [], secondaryColor: .yellow),
         
-        Mine(name: .whisperingCaverns,
-             gemProbabilities: getGemProbabilities(name: .whisperingCaverns),
-             primaryColor: .blue, secondaryColor: .purple, rockSprites: []),
+        Mine(gemProbabilities: getGemProbabilities(name: .whisperingCaverns), name: .whisperingCaverns,
+             primaryColor: .blue, rockSprites: [], secondaryColor: .purple),
         
-        Mine(name: .shadewindPassage,
-             gemProbabilities: getGemProbabilities(name: .shadewindPassage),
-             primaryColor: .black, secondaryColor: .gray, rockSprites: []),
+        Mine(gemProbabilities: getGemProbabilities(name: .shadewindPassage), name: .shadewindPassage,
+             primaryColor: .black, rockSprites: [], secondaryColor: .gray),
         
-        Mine(name: .horizonRift,
-             gemProbabilities: getGemProbabilities(name: .horizonRift),
-             primaryColor: .red, secondaryColor: .white, rockSprites: []),
+        Mine(gemProbabilities: getGemProbabilities(name: .horizonRift), name: .horizonRift,
+             primaryColor: .red, rockSprites: [], secondaryColor: .white),
         
-        Mine(name: .silvercoreDepths,
-             gemProbabilities: getGemProbabilities(name: .silvercoreDepths),
-             primaryColor: .white, secondaryColor: .blue, rockSprites: []),
+        Mine(gemProbabilities: getGemProbabilities(name: .silvercoreDepths), name: .silvercoreDepths,
+             primaryColor: .white, rockSprites: [], secondaryColor: .blue),
         
-        Mine(name: .shadowmarrowMine,
-             gemProbabilities: getGemProbabilities(name: .shadowmarrowMine),
-             primaryColor: .purple, secondaryColor: .black, rockSprites: []),
+        Mine(gemProbabilities: getGemProbabilities(name: .shadowmarrowMine), name: .shadowmarrowMine,
+             primaryColor: .purple, rockSprites: [], secondaryColor: .black),
         
-        Mine(name: .blazewaterTunnels,
-             gemProbabilities: getGemProbabilities(name: .blazewaterTunnels),
-             primaryColor: .orange, secondaryColor: .red, rockSprites: []),
+        Mine(gemProbabilities: getGemProbabilities(name: .blazewaterTunnels), name: .blazewaterTunnels,
+             primaryColor: .orange, rockSprites: [], secondaryColor: .red),
         
-        Mine(name: .azurefangChasm,
-             gemProbabilities: getGemProbabilities(name: .azurefangChasm),
-             primaryColor: .cyan, secondaryColor: .blue, rockSprites: []),
+        Mine(gemProbabilities: getGemProbabilities(name: .azurefangChasm), name: .azurefangChasm,
+             primaryColor: .cyan, rockSprites: [], secondaryColor: .blue),
         
-        Mine(name: .celestiteExpanse,
-             gemProbabilities: getGemProbabilities(name: .celestiteExpanse),
-             primaryColor: .white, secondaryColor: .green, rockSprites: []),
+        Mine(gemProbabilities: getGemProbabilities(name: .celestiteExpanse), name: .celestiteExpanse,
+             primaryColor: .white, rockSprites: [], secondaryColor: .green),
         
-        Mine(name: .starstoneAbyss,
-             gemProbabilities: getGemProbabilities(name: .starstoneAbyss),
-             primaryColor: .white, secondaryColor: .black, rockSprites: []),
+        Mine(gemProbabilities: getGemProbabilities(name: .starstoneAbyss), name: .starstoneAbyss,
+             primaryColor: .white, rockSprites: [], secondaryColor: .black),
         
-        Mine(name: .astralcoreDepths,
-             gemProbabilities: getGemProbabilities(name: .astralcoreDepths),
-             primaryColor: .purple, secondaryColor: .white, rockSprites: [])
+        Mine(gemProbabilities: getGemProbabilities(name: .astralcoreDepths), name: .astralcoreDepths,
+             primaryColor: .purple, rockSprites: [], secondaryColor: .white)
     ]
     
     static func getMine(for name: MineNames) -> Mine? {
@@ -76,11 +64,12 @@ struct GemProbability {
 struct Mine: Identifiable {
     var id: UUID = UUID()
     var description: String = "Description"
-    var name: MineNames
     var gemProbabilities: GemProbability
+    var isActive: Bool = false
+    var name: MineNames
     var primaryColor: Color
-    var secondaryColor: Color
     var rockSprites: [String]
+    var secondaryColor: Color
 }
 
 enum MineNames: String, CaseIterable {
