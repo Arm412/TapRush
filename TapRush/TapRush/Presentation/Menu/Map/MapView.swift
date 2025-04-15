@@ -15,13 +15,6 @@ struct MapView: View {
     
     @State var currentIndex: Int // current index on map screen
     @State var showGemProbabilityOverlay: Bool = false
-    
-    let gemOrder: [GemType] = [.common, .uncommon, .rare, .legendary, .mythical]
-    
-    let columns: [GridItem] = [
-        GridItem(.flexible(maximum: UIScreen.main.bounds.width/2)),
-        GridItem(.flexible(maximum: UIScreen.main.bounds.width/2))
-    ]
 
     var body: some View {
         GeometryReader { geo in
@@ -178,7 +171,7 @@ struct MapView: View {
                         
                         VStack(alignment: .leading) {
                             Spacer()
-                            gemProbabilitiesView(mine: allMines[currentIndex], geo: geo)
+                            GemProbabilityOverlayView(geoHeight: geo.size.height, geoWidth: geo.size.width, mineGemProbabilityList: allMines[currentIndex].gemProbabilities.gemsProbabilityList, mineNoGemProbability: allMines[currentIndex].gemProbabilities.noGemProbability)
                             Spacer()
                         }
                         .frame(width: geo.size.width, height: geo.size.height)
@@ -195,46 +188,6 @@ struct MapView: View {
                 }
             }
         }
-    }
-    
-    private func gemProbabilitiesView(mine: Mine, geo: GeometryProxy) -> some View {
-        let mineGemProbabilityList = mine.gemProbabilities.gemsProbabilityList
-        
-        return VStack(alignment: .leading) {
-            Text(Strings.gemProbabilities)
-                .font(.custom("Audiowide-Regular", size: 25))
-                .foregroundStyle(.white)
-            LazyVGrid(columns: columns, spacing: 30) {
-                ForEach(Array(gemOrder), id: \.self) { gem in
-                    if (mineGemProbabilityList[gem] ?? 0 > 0) {
-                        HStack {
-                            Image(GemHelpers.getGemIcon(for: gem))
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
-                            
-                            Text(": \((mineGemProbabilityList[gem] ?? 0) * 100, specifier: "%.1f")%")
-                                .foregroundStyle(.white)
-                        }
-                    }
-                }
-                if (mine.gemProbabilities.noGemProbability > 0) {
-                    HStack {
-                        Image("nothing")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(.red)
-                        Text(": \(mine.gemProbabilities.noGemProbability * 100, specifier: "%.1f")%")
-                            .foregroundStyle(.white)
-                    }
-                }
-            }
-            Spacer()
-        }
-        .padding()
-        .frame(width: geo.size.width, height: geo.size.height * 0.4)
-        .id(mine.name.rawValue)
     }
     
     private func setCurrentMine() {
