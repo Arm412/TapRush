@@ -45,4 +45,5 @@ class Strings {
     // Map
     static let setAsActiveMine = "Set as active mine"
     static let gemProbabilities = "Gem Probabilities:"
+    static let showGemProbabilities = "Show Gem Probabilities"
 }

@@ -14,6 +14,7 @@ struct MapView: View {
     @Binding var activeMineIndex: Int // the active mine index
     
     @State var currentIndex: Int // current index on map screen
+    @State var showGemProbabilityModal: Bool = false
     
     let gemOrder: [GemType] = [.common, .uncommon, .rare, .legendary, .mythical]
     
@@ -24,35 +25,77 @@ struct MapView: View {
 
     var body: some View {
         GeometryReader { geo in
-            VStack {
-                TopNavBarView(foregroundColor: .peachOrange, title: Strings.map)
-                
-                HStack {
-                    Image(systemName: "arrow.backward")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                        .foregroundStyle(.peachOrange)
-                        .padding(.leading, 5)
-                        .onTapGesture {
-                            if currentIndex == 0 {
-                                currentIndex = allMines.count - 1
-                            } else {
-                                currentIndex -= 1
+            ZStack {
+                VStack {
+                    TopNavBarView(foregroundColor: .peachOrange, title: Strings.map)
+                    
+                    HStack {
+                        Image(systemName: "arrow.backward")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundStyle(.peachOrange)
+                            .padding(.leading, 5)
+                            .onTapGesture {
+                                if currentIndex == 0 {
+                                    currentIndex = allMines.count - 1
+                                } else {
+                                    currentIndex -= 1
+                                }
+                            }
+                        Spacer()
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            ScrollViewReader { proxy in
+                                LazyHStack {
+                                    ForEach(allMines) { mine in
+                                        Text("\(mine.name.rawValue)")
+                                            .font(.custom("Audiowide-Regular", size: 22))
+                                            .foregroundStyle(.peachOrange)
+                                            .multilineTextAlignment(.center)
+                                            .frame(minWidth: geo.size.width - 90)
+                                            .id(mine.name.rawValue)
+                                            .underline(mine.isActive)
+                                    }
+                                }
+                                .onAppear {
+                                    proxy.scrollTo(allMines[activeMineIndex].name.rawValue, anchor: .center)
+                                }
+                                .onChange(of: currentIndex) { _, newValue in
+                                    withAnimation {
+                                        proxy.scrollTo(allMines[currentIndex].name.rawValue, anchor: .center)
+                                    }
+                                }
                             }
                         }
-                    Spacer()
+                        .frame(height: 40)
+                        .allowsHitTesting(false)
+                        
+                        
+                        Spacer()
+                        Image(systemName: "arrow.forward")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundStyle(.peachOrange)
+                            .padding(.trailing, 5)
+                            .onTapGesture {
+                                if currentIndex < allMines.count - 1 {
+                                    currentIndex += 1
+                                } else {
+                                    currentIndex = 0
+                                }
+                            }
+                    }
+                    
                     ScrollView(.horizontal, showsIndicators: false) {
                         ScrollViewReader { proxy in
                             LazyHStack {
                                 ForEach(allMines) { mine in
                                     Text("\(mine.name.rawValue)")
-                                        .font(.custom("Audiowide-Regular", size: 22))
-                                        .foregroundStyle(.peachOrange)
-                                        .multilineTextAlignment(.center)
-                                        .frame(minWidth: geo.size.width - 90)
+                                        .adaptiveFontSize(customFontName: "Audiowide-Regular")
+                                        .foregroundStyle(mine.secondaryColor)
+                                        .frame(width: geo.size.width)
                                         .id(mine.name.rawValue)
-                                        .underline(mine.isActive)
                                 }
                             }
                             .onAppear {
@@ -65,86 +108,85 @@ struct MapView: View {
                             }
                         }
                     }
-                    .frame(height: 40)
                     .allowsHitTesting(false)
-
+                    .frame(height: 200)
                     
-                    Spacer()
-                    Image(systemName: "arrow.forward")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                        .foregroundStyle(.peachOrange)
-                        .padding(.trailing, 5)
-                        .onTapGesture {
-                            if currentIndex < allMines.count - 1 {
-                                currentIndex += 1
-                            } else {
-                                currentIndex = 0
-                            }
-                        }
-                }
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    ScrollViewReader { proxy in
-                        LazyHStack {
-                            ForEach(allMines) { mine in
-                                Text("\(mine.name.rawValue)")
-                                    .adaptiveFontSize(customFontName: "Audiowide-Regular")
-                                    .foregroundStyle(mine.secondaryColor)
-                                    .frame(width: geo.size.width)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        ScrollViewReader { proxy in
+                            LazyHStack {
+                                ForEach(allMines) { mine in
+                                    VStack {
+                                        HStack(alignment: .top) {
+                                            VStack(alignment: .leading) {
+                                                Text("\(mine.description)")
+                                                    .foregroundStyle(.peachOrange)
+                                                    .font(.custom("Audiowide-Regular", size: 20))
+                                                    .padding(.top, 5)
+                                            }
+                                            Spacer()
+                                        }
+                                        Spacer()
+                                    }
+                                    .padding()
+                                    .frame(width: geo.size.width, height: 200)
                                     .id(mine.name.rawValue)
+                                }
                             }
-                        }
-                        .onAppear {
-                            proxy.scrollTo(allMines[activeMineIndex].name.rawValue, anchor: .center)
-                        }
-                        .onChange(of: currentIndex) { _, newValue in
-                            withAnimation {
-                                proxy.scrollTo(allMines[currentIndex].name.rawValue, anchor: .center)
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    proxy.scrollTo(allMines[activeMineIndex].name.rawValue, anchor: .center)
+                                }
                             }
+                            .onChange(of: currentIndex) { _, newValue in
+                                withAnimation {
+                                    proxy.scrollTo(allMines[currentIndex].name.rawValue, anchor: .center)
+                                }
+                            }
+                            .frame(minHeight: 0, maxHeight: 200)
                         }
                     }
-                }
-                .allowsHitTesting(false)
-                .frame(height: 200)
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    ScrollViewReader { proxy in
-                        LazyHStack {
-                            ForEach(allMines) { mine in
-                                gemProbabilitiesView(mine: mine, geo: geo)
-                                    .frame(maxHeight: .none)
-                            }
-                        }
-                        .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                proxy.scrollTo(allMines[activeMineIndex].name.rawValue, anchor: .center)
-                            }
-                        }
-                        .onChange(of: currentIndex) { _, newValue in
-                            withAnimation {
-                                proxy.scrollTo(allMines[currentIndex].name.rawValue, anchor: .center)
-                            }
-                        }
-                        .frame(minHeight: 0, maxHeight: geo.size.height * 0.4)
+                    .allowsHitTesting(false)
+                    .frame(minHeight: 0, maxHeight: 200)
+                    .background(Color.outerSpace)
+                    
+                    Button(action: { showGemProbabilityModal.toggle() }) {
+                        Text(Strings.showGemProbabilities)
+                            .font(.custom("Audiowide-Regular", size: 15))
+                            .foregroundStyle(.white)
+                            .padding(.top, 10)
+                        
                     }
+                    .foregroundStyle(.peachOrange)
+                    .padding(.bottom, 10)
+                    Spacer()
+                    Button(action: { setCurrentMine() }) {
+                        Text(Strings.setAsActiveMine)
+                            .font(.custom("Audiowide-Regular", size: 22))
+                            .padding()
+                            .border(.peachOrange, width: 3)
+                    }
+                    .foregroundStyle(.peachOrange)
+                    .padding(.bottom, 10)
                 }
-                .allowsHitTesting(false)
-                .frame(minHeight: 0, maxHeight: geo.size.height * 0.4)
+                .navigationBarBackButtonHidden(true)
                 .background(Color.outerSpace)
-                Spacer()
-                Button(action: { setCurrentMine() }) {
-                    Text(Strings.setAsActiveMine)
-                        .font(.custom("Audiowide-Regular", size: 22))
-                        .padding()
-                        .border(.peachOrange, width: 3)
+                
+                if showGemProbabilityModal {
+                    ZStack {
+                        Color.black.opacity(0.8)
+                            .edgesIgnoringSafeArea(.all)
+                        
+                        VStack(alignment: .leading) {
+                            gemProbabilitiesView(mine: allMines[currentIndex], geo: geo)
+                            Spacer()
+                        }
+                        .frame(width: geo.size.width, height: 200)
+                    }
+                    .onTapGesture {
+                        showGemProbabilityModal.toggle()
+                    }
                 }
-                .foregroundStyle(.peachOrange)
-                .padding(.bottom, 10)
             }
-            .navigationBarBackButtonHidden(true)
-            .background(Color.outerSpace)
         }
     }
     
@@ -152,13 +194,9 @@ struct MapView: View {
         let mineGemProbabilityList = mine.gemProbabilities.gemsProbabilityList
         
         return VStack(alignment: .leading) {
-            Text("\(mine.description)")
-                .foregroundStyle(.peachOrange)
-                .font(.custom("Audiowide-Regular", size: 20))
-                .padding(.top, 5)
             Text(Strings.gemProbabilities)
                 .font(.custom("Audiowide-Regular", size: 25))
-                .foregroundStyle(.peachOrange)
+                .foregroundStyle(.white)
             LazyVGrid(columns: columns, spacing: 30) {
                 ForEach(Array(gemOrder), id: \.self) { gem in
                     if (mineGemProbabilityList[gem] ?? 0 > 0) {
