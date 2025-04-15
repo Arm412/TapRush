@@ -14,7 +14,7 @@ struct MapView: View {
     @Binding var activeMineIndex: Int // the active mine index
     
     @State var currentIndex: Int // current index on map screen
-    @State var showGemProbabilityModal: Bool = false
+    @State var showGemProbabilityOverlay: Bool = false
     
     let gemOrder: [GemType] = [.common, .uncommon, .rare, .legendary, .mythical]
     
@@ -149,7 +149,7 @@ struct MapView: View {
                     .frame(minHeight: 0, maxHeight: 200)
                     .background(Color.outerSpace)
                     
-                    Button(action: { showGemProbabilityModal.toggle() }) {
+                    Button(action: { showGemProbabilityOverlay.toggle() }) {
                         Text(Strings.showGemProbabilities)
                             .font(.custom("Audiowide-Regular", size: 15))
                             .foregroundStyle(.white)
@@ -171,19 +171,26 @@ struct MapView: View {
                 .navigationBarBackButtonHidden(true)
                 .background(Color.outerSpace)
                 
-                if showGemProbabilityModal {
-                    ZStack {
+                if showGemProbabilityOverlay {
+                    ZStack(alignment: .topTrailing) {
                         Color.black.opacity(0.8)
                             .edgesIgnoringSafeArea(.all)
                         
                         VStack(alignment: .leading) {
+                            Spacer()
                             gemProbabilitiesView(mine: allMines[currentIndex], geo: geo)
                             Spacer()
                         }
-                        .frame(width: geo.size.width, height: 200)
+                        .frame(width: geo.size.width, height: geo.size.height)
+                        Image(systemName: "xmark")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                            .foregroundStyle(.white)
+                            .padding()
                     }
                     .onTapGesture {
-                        showGemProbabilityModal.toggle()
+                        showGemProbabilityOverlay.toggle()
                     }
                 }
             }
