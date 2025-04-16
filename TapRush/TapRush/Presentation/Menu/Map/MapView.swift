@@ -22,64 +22,6 @@ struct MapView: View {
                 VStack {
                     TopNavBarView(foregroundColor: .peachOrange, title: Strings.map)
                     
-                    HStack {
-                        Image(systemName: "arrow.backward")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(.peachOrange)
-                            .padding(.leading, 5)
-                            .onTapGesture {
-                                if currentIndex == 0 {
-                                    currentIndex = allMines.count - 1
-                                } else {
-                                    currentIndex -= 1
-                                }
-                            }
-                        Spacer()
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            ScrollViewReader { proxy in
-                                LazyHStack {
-                                    ForEach(allMines) { mine in
-                                        Text("\(mine.name.rawValue)")
-                                            .font(.custom("Audiowide-Regular", size: 22))
-                                            .foregroundStyle(.peachOrange)
-                                            .multilineTextAlignment(.center)
-                                            .frame(minWidth: geo.size.width - 90)
-                                            .id(mine.name.rawValue)
-                                            .underline(mine.isActive)
-                                    }
-                                }
-                                .onAppear {
-                                    proxy.scrollTo(allMines[activeMineIndex].name.rawValue, anchor: .center)
-                                }
-                                .onChange(of: currentIndex) { _, newValue in
-                                    withAnimation {
-                                        proxy.scrollTo(allMines[currentIndex].name.rawValue, anchor: .center)
-                                    }
-                                }
-                            }
-                        }
-                        .frame(height: 40)
-                        .allowsHitTesting(false)
-                        
-                        
-                        Spacer()
-                        Image(systemName: "arrow.forward")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(.peachOrange)
-                            .padding(.trailing, 5)
-                            .onTapGesture {
-                                if currentIndex < allMines.count - 1 {
-                                    currentIndex += 1
-                                } else {
-                                    currentIndex = 0
-                                }
-                            }
-                    }
-                    
                     ScrollView(.horizontal, showsIndicators: false) {
                         ScrollViewReader { proxy in
                             LazyHStack {
@@ -121,7 +63,7 @@ struct MapView: View {
                                         Spacer()
                                     }
                                     .padding()
-                                    .frame(width: geo.size.width, height: 200)
+                                    .frame(width: geo.size.width)
                                     .id(mine.name.rawValue)
                                 }
                             }
@@ -135,31 +77,104 @@ struct MapView: View {
                                     proxy.scrollTo(allMines[currentIndex].name.rawValue, anchor: .center)
                                 }
                             }
-                            .frame(minHeight: 0, maxHeight: 200)
+                            .frame(minHeight: 0)
                         }
                     }
                     .allowsHitTesting(false)
                     .frame(minHeight: 0, maxHeight: 200)
                     .background(Color.outerSpace)
-                    
                     Button(action: { showGemProbabilityOverlay.toggle() }) {
+                        Image("diamond")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                            .padding(.top, 5)
                         Text(Strings.showGemProbabilities)
-                            .font(.custom("Audiowide-Regular", size: 15))
+                            .font(.custom("Audiowide-Regular", size: 17))
                             .foregroundStyle(.white)
                             .padding(.top, 10)
-                        
+                        Image("diamond")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                            .padding(.top, 5)
                     }
                     .foregroundStyle(.peachOrange)
                     .padding(.bottom, 10)
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Button(action: {
+                            if currentIndex == 0 {
+                                currentIndex = allMines.count - 1
+                            } else {
+                                currentIndex -= 1
+                            }
+                        }) {
+                            Image(systemName: "arrow.backward")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .foregroundStyle(.white)
+                                .padding(.leading, 8)
+                        }
+                        
+                        Spacer()
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            ScrollViewReader { proxy in
+                                LazyHStack {
+                                    ForEach(allMines) { mine in
+                                        Text("\(mine.name.rawValue)")
+                                            .font(.custom("Audiowide-Regular", size: 21))
+                                            .foregroundStyle(.peachOrange)
+                                            .multilineTextAlignment(.center)
+                                            .frame(minWidth: geo.size.width - 90)
+                                            .id(mine.name.rawValue)
+                                            .underline(mine.isActive)
+                                    }
+                                }
+                                .onAppear {
+                                    proxy.scrollTo(allMines[activeMineIndex].name.rawValue, anchor: .center)
+                                }
+                                .onChange(of: currentIndex) { _, newValue in
+                                    withAnimation {
+                                        proxy.scrollTo(allMines[currentIndex].name.rawValue, anchor: .center)
+                                    }
+                                }
+                            }
+                        }
+                        .frame(height: 40)
+                        .allowsHitTesting(false)
+                        
+                        
+                        Spacer()
+                        Button(action: {
+                            if currentIndex < allMines.count - 1 {
+                                currentIndex += 1
+                            } else {
+                                currentIndex = 0
+                            }
+                        }) {
+                            Image(systemName: "arrow.forward")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .foregroundStyle(.white)
+                                .padding(.trailing, 8)
+                        }
+                    }
+                    
                     Spacer()
                     Button(action: { setCurrentMine() }) {
                         Text(Strings.setAsActiveMine)
                             .font(.custom("Audiowide-Regular", size: 22))
                             .padding()
-                            .border(.peachOrange, width: 3)
+                            .border(.white, width: 3)
                     }
-                    .foregroundStyle(.peachOrange)
+                    .foregroundStyle(.white)
                     .padding(.bottom, 10)
+                    .padding(.top, 10)
                 }
                 .navigationBarBackButtonHidden(true)
                 .background(Color.outerSpace)
