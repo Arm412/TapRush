@@ -68,9 +68,7 @@ struct MapView: View {
                                 }
                             }
                             .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    proxy.scrollTo(allMines[activeMineIndex].name.rawValue, anchor: .center)
-                                }
+                                proxy.scrollTo(allMines[activeMineIndex].name.rawValue, anchor: .center)
                             }
                             .onChange(of: currentIndex) { _, newValue in
                                 withAnimation {
@@ -146,7 +144,6 @@ struct MapView: View {
                         }
                         .frame(height: 40)
                         .allowsHitTesting(false)
-                        
                         
                         Spacer()
                         Button(action: {
