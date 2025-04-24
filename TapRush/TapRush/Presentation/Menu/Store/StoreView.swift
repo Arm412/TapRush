@@ -26,50 +26,19 @@ struct StoreView: View {
                                 .foregroundStyle(.white)
                                 .padding(.leading, 15)
                         }
-                        VStack {
-                            HStack {
-                                Rectangle()
-                                    .fill(Color.white)
-                                    .frame(height: 2)
-                                    .frame(maxWidth: .infinity)
-                                Text("Upgrades")
-                                    .font(.custom("Audiowide-Regular", size: 17))
-                                    .foregroundStyle(.peachOrange)
-                                Rectangle()
-                                    .fill(Color.white)
-                                    .frame(height: 2)
-                                    .frame(maxWidth: .infinity)
+                        ScrollView {
+                            VStack {
+                                // Upgrades
+                                StoreHeaderView(headerName: "Upgrades")
+                                
+                                // Items
+                                StoreHeaderView(headerName: "Items")
+                                
+                                // Powerups
+                                StoreHeaderView(headerName: "Powerups")
                             }
-                            
-                            HStack {
-                                Rectangle()
-                                    .fill(Color.white)
-                                    .frame(height: 2)
-                                    .frame(maxWidth: .infinity)
-                                Text("Items")
-                                    .font(.custom("Audiowide-Regular", size: 17))
-                                    .foregroundStyle(.peachOrange)
-                                Rectangle()
-                                    .fill(Color.white)
-                                    .frame(height: 2)
-                                    .frame(maxWidth: .infinity)
-                            }
-                            
-                            HStack {
-                                Rectangle()
-                                    .fill(Color.white)
-                                    .frame(height: 2)
-                                    .frame(maxWidth: .infinity)
-                                Text("Powerups")
-                                    .font(.custom("Audiowide-Regular", size: 17))
-                                    .foregroundStyle(.peachOrange)
-                                Rectangle()
-                                    .fill(Color.white)
-                                    .frame(height: 2)
-                                    .frame(maxWidth: .infinity)
-                            }
+                            .padding(.horizontal, 10)
                         }
-                        .padding()
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -78,6 +47,27 @@ struct StoreView: View {
         .navigationBarBackButtonHidden(true)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.outerSpace)
+    }
+}
+
+struct StoreHeaderView: View {
+    let headerName: String
+    
+    var body: some View {
+        HStack {
+            Rectangle()
+                .fill(.peachOrange)
+                .frame(height: 2)
+                .frame(maxWidth: .infinity)
+            Text(headerName)
+                .font(.custom("Audiowide-Regular", size: 17))
+                .foregroundStyle(.peachOrange)
+            Rectangle()
+                .fill(.peachOrange)
+                .frame(height: 2)
+                .frame(maxWidth: .infinity)
+        }
+        .padding(.top, 15)
     }
 }
 
