@@ -45,6 +45,7 @@ struct ContentView: View {
                             .environmentObject(menuVM)
                     case .store:
                         StoreView()
+                            .environmentObject(menuVM)
                     case .mining:
                         MineView(navPath: menuVM.navPathBinding).environmentObject(menuVM)
                             .environmentObject(navigationVM)
