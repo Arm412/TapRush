@@ -25,13 +25,6 @@ class MenuViewModel: ObservableObject {
     @Published var savedMine: Mine? = nil
     @Published var mineList: [Mine] = MineHelpers.allMines
     
-    var navPathBinding: Binding<NavigationPath> {
-            Binding(
-                get: { self.navPath },
-                set: { self.navPath = $0 }
-            )
-        }
-    
     let miningMenuNavButtons: [MenuScreens] = [
         MenuScreens(name: Strings.map, destination: .map, icon: "map.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
         MenuScreens(name: Strings.inventory, destination: .inventory, icon: "shippingbox.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
@@ -39,6 +32,15 @@ class MenuViewModel: ObservableObject {
         MenuScreens(name: Strings.pawnShop, destination: .pawnShop, icon: "dollarsign.circle.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
         MenuScreens(name: Strings.orders, destination: .orders, icon: "list.clipboard.fill", primaryColor: .outerSpace, secondaryColor: .roseGold),
         MenuScreens(name: Strings.awards, destination: .awards, icon: "trophy.fill", primaryColor: .outerSpace, secondaryColor: .roseGold)]
+    
+    var navPathBinding: Binding<NavigationPath> {
+            Binding(
+                get: { self.navPath },
+                set: { self.navPath = $0 }
+            )
+        }
+    
+//    let powerupList
     
     init() {
         self.gems = CoreDataManager.shared.getGemCount()[0]
