@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PowerupModalView: View {
+    var powerupList: [any Powerup]
+    
     var body: some View {
         ZStack {
             VStack {
@@ -17,9 +19,29 @@ struct PowerupModalView: View {
                         .font(.custom("Audiowide-Regular", size: 20))
                         .foregroundStyle(Color.black)
                         .frame(maxWidth: .infinity)
-                    HStack {
-                        
+                        .padding(.bottom, 15)
+                    ForEach(powerupList.indices, id: \.self) { index in
+                        let powerup = powerupList[index]
+                        HStack {
+                            Spacer()
+                            HStack {
+                                Image(systemName: "questionmark")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundStyle(.white)
+                                    .frame(width: 45, height: 45)
+                                    .padding()
+                                    .border(.gray, width: 2)
+                                Text(powerup.name)
+                                    .font(.custom("Audiowide-Regular", size: 15))
+                                    .foregroundStyle(Color.black)
+                                    .padding(.bottom, 5)
+                                    .frame(width: 90)
+                            }
+                            Spacer()
+                        }
                     }
+
                 }
                 Spacer()
             }
@@ -29,5 +51,7 @@ struct PowerupModalView: View {
 }
 
 #Preview {
-    PowerupModalView()
+    let powerupList: [Powerup] = [AutoCollect(), BlastStrike(), PowerStrike()]
+    
+    PowerupModalView(powerupList: powerupList)
 }
