@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PowerupModalView: View {
-    var powerupList: [any Powerup]
+    @EnvironmentObject private var menuVM: MenuViewModel
     
     var body: some View {
         ZStack {
@@ -20,8 +20,8 @@ struct PowerupModalView: View {
                         .foregroundStyle(Color.black)
                         .frame(maxWidth: .infinity)
                         .padding(.bottom, 15)
-                    ForEach(powerupList.indices, id: \.self) { index in
-                        let powerup = powerupList[index]
+                    ForEach($menuVM.powerupList.indices, id: \.self) { index in
+                        let powerup = $menuVM.powerupList[index]
                         HStack {
                             Spacer()
                             HStack {
@@ -32,16 +32,29 @@ struct PowerupModalView: View {
                                     .frame(width: 45, height: 45)
                                     .padding()
                                     .border(.gray, width: 2)
-                                Text(powerup.name)
+                                Text(menuVM.powerupList[index].name)
                                     .font(.custom("Audiowide-Regular", size: 15))
                                     .foregroundStyle(Color.black)
-                                    .padding(.bottom, 5)
-                                    .frame(width: 90)
+                                    .frame(width: 70)
+                                Text("x\(menuVM.powerupList[index].count)")
+                                    .font(.custom("Audiowide-Regular", size: 15))
+                                    .foregroundStyle(Color.black)
+                                    .padding(.top, 20)
+                                Button(action: {
+                                    powerup.isActive.wrappedValue.toggle()
+                                }) {
+                                    Image(systemName: powerup.isActive.wrappedValue ? "checkmark.square" : "x.square")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .foregroundStyle(powerup.isActive.wrappedValue ? .green : .red)
+                                        .frame(width: 45, height: 45)
+                                        .padding()
+                                }
                             }
                             Spacer()
                         }
                     }
-
+                    
                 }
                 Spacer()
             }
@@ -51,7 +64,7 @@ struct PowerupModalView: View {
 }
 
 #Preview {
-    let powerupList: [Powerup] = [AutoCollect(), BlastStrike(), PowerStrike()]
+    let viewModel = MenuViewModel()
     
-    PowerupModalView(powerupList: powerupList)
+    PowerupModalView().environmentObject(viewModel)
 }

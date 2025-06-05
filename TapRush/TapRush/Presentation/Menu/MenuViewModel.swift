@@ -40,7 +40,7 @@ class MenuViewModel: ObservableObject {
             )
         }
     
-    let powerupList: [Powerup] = [AutoCollect(), BlastStrike(), PowerStrike()]
+    @Published var powerupList: [Powerup] = [AutoCollect(), BlastStrike(), PowerStrike()]
     
     init() {
         self.gems = CoreDataManager.shared.getGemCount()[0]
