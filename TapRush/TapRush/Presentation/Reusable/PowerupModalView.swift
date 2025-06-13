@@ -9,15 +9,31 @@ import SwiftUI
 
 struct PowerupModalView: View {
     @EnvironmentObject private var menuVM: MenuViewModel
+    @EnvironmentObject private var navigationVM: NavigationViewModel
+    
+    let closeAction: () -> Void
     
     var body: some View {
         ZStack {
             VStack {
+                HStack {
+                    Button(action: {
+                        closeAction()
+                    }) {
+                        Image(systemName: "xmark")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundStyle(Color.peachOrange)
+                    }
+                    .padding()
+                    Spacer()
+                }
                 Spacer()
                 VStack {
                     Text("Choose which powerups to activate:")
                         .font(.custom("Audiowide-Regular", size: 20))
-                        .foregroundStyle(Color.black)
+                        .foregroundStyle(Color.peachOrange)
                         .frame(maxWidth: .infinity)
                         .padding(.bottom, 15)
                     ForEach($menuVM.powerupList.indices, id: \.self) { index in
@@ -34,11 +50,11 @@ struct PowerupModalView: View {
                                     .border(.gray, width: 2)
                                 Text(menuVM.powerupList[index].name)
                                     .font(.custom("Audiowide-Regular", size: 15))
-                                    .foregroundStyle(Color.black)
+                                    .foregroundStyle(Color.peachOrange)
                                     .frame(width: 70)
                                 Text("x\(menuVM.powerupList[index].count)")
                                     .font(.custom("Audiowide-Regular", size: 15))
-                                    .foregroundStyle(Color.black)
+                                    .foregroundStyle(Color.peachOrange)
                                     .padding(.top, 20)
                                 Button(action: {
                                     powerup.isActive.wrappedValue.toggle()
@@ -57,14 +73,22 @@ struct PowerupModalView: View {
                     
                 }
                 Spacer()
+                Button(action: {
+                    navigationVM.navigateTo(screen: .mining)
+                }) {
+                    Text("Start")
+                        .font(.custom("Audiowide-Regular", size: 65))
+                        .foregroundStyle(Color.peachOrange)
+                        .frame(maxWidth: .infinity)
+                }
             }
         }
-        .background(Color.black.opacity(0.2))
+        .background(Color.black.opacity(0.9))
     }
 }
 
 #Preview {
     let viewModel = MenuViewModel()
     
-    PowerupModalView().environmentObject(viewModel)
+    PowerupModalView(closeAction: {}).environmentObject(viewModel)
 }
