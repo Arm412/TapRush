@@ -31,7 +31,7 @@ struct PowerupModalView: View {
                 }
                 Spacer()
                 VStack {
-                    Text("Choose which powerups to activate:")
+                    Text(Strings.choosePowerup)
                         .font(.custom("Audiowide-Regular", size: 20))
                         .foregroundStyle(Color.peachOrange)
                         .frame(maxWidth: .infinity)
@@ -50,7 +50,7 @@ struct PowerupModalView: View {
                 Button(action: {
                     navigationVM.navigateTo(screen: .mining)
                 }) {
-                    Text("Start")
+                    Text(Strings.start)
                         .font(.custom("Audiowide-Regular", size: 65))
                         .foregroundStyle(Color.peachOrange)
                         .frame(maxWidth: .infinity)
